@@ -81,18 +81,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </li>
           </ul>
 
-          <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-            <img src="/stickers/more_mobile.svg" alt="More Menu" class="nav__hamburger-img" width="44" height="44" />
+          <!-- The Pudding style MORE Sticker Button -->
+          <button class="nav__more-badge" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="more-badge__text">MORE</span>
+            <span class="more-badge__bars" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
           </button>
         </div>
       </nav>
 
-      <!-- Mobile menu overlay -->
+      <!-- Mobile menu overlay (Sleek Dark Theme like The Pudding) -->
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
         <div class="mobile-menu__backdrop" id="mobile-menu-backdrop"></div>
         <div class="mobile-menu__panel">
           <button class="mobile-menu__close" id="mobile-menu-close" aria-label="Close menu">
-            <img src="/stickers/lesx_mobile.svg" alt="Close Menu" class="mobile-menu__close-img" width="44" height="44" />
+            <span class="close-circle">✕</span>
           </button>
           <ul class="mobile-menu__links" role="list">
             <li>
@@ -279,20 +285,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   }
 
   .nav__logo-img {
-    height: clamp(80px, 15vw, 130px);
+    height: clamp(90px, 18vw, 140px);
     width: auto;
-    max-width: clamp(180px, 45vw, 300px);
+    max-width: clamp(240px, 60vw, 380px);
     object-fit: contain;
-    margin-top: -15px;
-    margin-bottom: -15px;
-    margin-left: -10px;
+    transform: scale(1.65);
+    transform-origin: left center;
     filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12));
     transition: transform var(--transition-fast);
   }
 
   @media (max-width: 768px) {
     .nav__logo-img {
-      margin-left: 0;
+      transform: scale(1.7);
+      margin-left: 6px;
     }
   }
 
@@ -368,38 +374,51 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     font-size: 1.1rem;
   }
 
-  /* Hamburger & Close Sticker Buttons */
-  .nav__hamburger {
-    display: flex;
+  /* The Pudding Style MORE Sticker Badge */
+  .nav__more-badge {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 0;
+    gap: 7px;
+    padding: 6px 14px;
+    background: #ffffff;
+    color: #1a1a2e;
+    border: 2px solid #1a1a2e;
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 12px rgba(26, 26, 46, 0.14);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
     cursor: pointer;
-    background: none;
-    border: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
   @media (min-width: 768px) {
-    .nav__hamburger {
+    .nav__more-badge {
       display: none;
     }
   }
 
-  .nav__hamburger-img, .mobile-menu__close-img {
-    width: 46px;
-    height: 46px;
-    aspect-ratio: 1/1;
-    object-fit: contain;
-    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12));
-    transition: transform var(--transition-fast);
+  .nav__more-badge:hover {
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 6px 18px rgba(26, 26, 46, 0.2);
   }
 
-  .nav__hamburger:hover .nav__hamburger-img,
-  .mobile-menu__close:hover .mobile-menu__close-img {
-    transform: scale(1.1) rotate(-4deg);
+  .more-badge__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
   }
 
-  /* ===== Mobile Menu ===== */
+  .more-badge__bars span {
+    display: block;
+    width: 13px;
+    height: 2px;
+    background: #1a1a2e;
+    border-radius: 1px;
+  }
+
+  /* ===== Mobile Menu (Dark Theme like The Pudding) ===== */
   .mobile-menu {
     position: fixed;
     inset: 0;
@@ -417,7 +436,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   .mobile-menu__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(26, 26, 46, 0.4);
+    background: rgba(26, 26, 46, 0.6);
   }
 
   .mobile-menu__panel {
@@ -425,12 +444,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     right: 0;
     top: 0;
     bottom: 0;
-    width: min(320px, 85vw);
-    background: var(--bg-cream);
-    padding: var(--space-2xl);
+    width: min(340px, 85vw);
+    background: #1a1a2e;
+    color: #ffffff;
+    padding: var(--space-2xl) var(--space-xl);
     transform: translateX(100%);
     transition: transform var(--transition-base);
     overflow-y: auto;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
   }
 
   .mobile-menu.is-open .mobile-menu__panel {
@@ -445,6 +466,35 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  .close-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+
+  .mobile-menu__close:hover .close-circle {
+    transform: scale(1.1) rotate(90deg);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .nav__item-link--mobile .nav__item-text {
+    color: #ffffff;
+    font-size: 1.15rem;
+  }
+
+  .nav__item-link--mobile .nav-sticker-icon {
+    border-color: #ffffff;
   }
 
   .mobile-menu__links {
