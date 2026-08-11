@@ -49,7 +49,7 @@ import '../styles/global.css';
       <h2 class="chapter__title fade-in">The Road Accident & The Pivot</h2>
       <div class="chapter__body fade-in">
         <div class="chapter__float-badge">
-          <img src="/stickers/badge_surat_approved.svg" alt="Surat Approved" width="120" height="120" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+          <img src="/stickers/road_accident.svg" alt="Road Accident & Pivot" width="130" height="130" class="sticker-accident-wiggle" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
         </div>
         <p>In <strong>February 2025</strong>, a severe road accident completely disrupted my trajectory.</p>
         <p>Following months of medical recovery, I attempted to return to my role at C-DAC. However, the ongoing physical and operational demands post-accident made it impossible to sustain the job. In <strong>August 2025</strong>, I made the tough decision to step down from my government position.</p>
@@ -357,6 +357,27 @@ import '../styles/global.css';
   .chapter__float-badge {
     float: right;
     margin: 0 0 var(--space-md) var(--space-lg);
+  }
+
+  /* Road Accident Sticker Wiggle Turn Hover */
+  .sticker-accident-wiggle {
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center center;
+    cursor: pointer;
+  }
+
+  .sticker-accident-wiggle:hover {
+    animation: accidentWiggleTurn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes accidentWiggleTurn {
+    0% { transform: rotate(0deg) scale(1); }
+    15% { transform: rotate(-14deg) scale(1.06); }
+    30% { transform: rotate(20deg) scale(1.1); }
+    50% { transform: rotate(45deg) scale(1.12); }
+    70% { transform: rotate(102deg) scale(1.06); }
+    85% { transform: rotate(84deg) scale(1.04); }
+    100% { transform: rotate(90deg) scale(1.05); }
   }
 
   @media (max-width: 640px) {
