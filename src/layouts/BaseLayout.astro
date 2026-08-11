@@ -82,9 +82,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           </ul>
 
           <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-            <span class="nav__hamburger-line"></span>
-            <span class="nav__hamburger-line"></span>
-            <span class="nav__hamburger-line"></span>
+            <img src="/stickers/more_mobile.svg" alt="More Menu" class="nav__hamburger-img" width="44" height="44" />
           </button>
         </div>
       </nav>
@@ -93,7 +91,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
         <div class="mobile-menu__backdrop" id="mobile-menu-backdrop"></div>
         <div class="mobile-menu__panel">
-          <button class="mobile-menu__close" id="mobile-menu-close" aria-label="Close menu">✕</button>
+          <button class="mobile-menu__close" id="mobile-menu-close" aria-label="Close menu">
+            <img src="/stickers/lesx_mobile.svg" alt="Close Menu" class="mobile-menu__close-img" width="44" height="44" />
+          </button>
           <ul class="mobile-menu__links" role="list">
             <li>
               <a href="/story" class="nav__item-link nav__item-link--mobile">
@@ -290,6 +290,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     transition: transform var(--transition-fast);
   }
 
+  @media (max-width: 768px) {
+    .nav__logo-img {
+      margin-left: 0;
+    }
+  }
+
   .nav__logo:hover .nav__logo-img {
     transform: rotate(-3deg) scale(1.05);
   }
@@ -362,13 +368,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     font-size: 1.1rem;
   }
 
-  /* Hamburger */
+  /* Hamburger & Close Sticker Buttons */
   .nav__hamburger {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: var(--space-sm);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     cursor: pointer;
+    background: none;
+    border: none;
   }
 
   @media (min-width: 768px) {
@@ -377,13 +385,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     }
   }
 
-  .nav__hamburger-line {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--text-primary);
-    border-radius: 2px;
-    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  .nav__hamburger-img, .mobile-menu__close-img {
+    width: 46px;
+    height: 46px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.12));
+    transition: transform var(--transition-fast);
+  }
+
+  .nav__hamburger:hover .nav__hamburger-img,
+  .mobile-menu__close:hover .mobile-menu__close-img {
+    transform: scale(1.1) rotate(-4deg);
   }
 
   /* ===== Mobile Menu ===== */
@@ -428,9 +441,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     position: absolute;
     top: var(--space-lg);
     right: var(--space-lg);
-    font-size: var(--text-xl);
-    color: var(--text-muted);
-    padding: var(--space-sm);
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
   .mobile-menu__links {
