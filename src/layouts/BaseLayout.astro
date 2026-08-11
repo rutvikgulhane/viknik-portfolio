@@ -81,25 +81,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </li>
           </ul>
 
-          <!-- The Pudding style MORE Sticker Button -->
-          <button class="nav__more-badge" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-            <span class="more-badge__text">MORE</span>
-            <span class="more-badge__bars" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
+          <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="nav__hamburger-line"></span>
+            <span class="nav__hamburger-line"></span>
+            <span class="nav__hamburger-line"></span>
           </button>
         </div>
       </nav>
 
-      <!-- Mobile menu overlay (Sleek Dark Theme like The Pudding) -->
+      <!-- Mobile menu overlay -->
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
         <div class="mobile-menu__backdrop" id="mobile-menu-backdrop"></div>
         <div class="mobile-menu__panel">
-          <button class="mobile-menu__close" id="mobile-menu-close" aria-label="Close menu">
-            <span class="close-circle">✕</span>
-          </button>
+          <button class="mobile-menu__close" id="mobile-menu-close" aria-label="Close menu">✕</button>
           <ul class="mobile-menu__links" role="list">
             <li>
               <a href="/story" class="nav__item-link nav__item-link--mobile">
@@ -168,10 +162,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       const hamburger = document.getElementById('nav-hamburger');
       const mobileMenu = document.getElementById('mobile-menu');
       const backdrop = document.getElementById('mobile-menu-backdrop');
-      const closeBtn = document.getElementById('mobile-menu-close');
+
+      function toggleMenu() {
+        const isOpen = mobileMenu?.classList.contains('is-open');
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      }
 
       function openMenu() {
         mobileMenu?.classList.add('is-open');
+        hamburger?.classList.add('is-active');
         hamburger?.setAttribute('aria-expanded', 'true');
         mobileMenu?.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -179,14 +182,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       function closeMenu() {
         mobileMenu?.classList.remove('is-open');
+        hamburger?.classList.remove('is-active');
         hamburger?.setAttribute('aria-expanded', 'false');
         mobileMenu?.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
       }
 
-      hamburger?.addEventListener('click', openMenu);
-      closeBtn?.addEventListener('click', closeMenu);
+      hamburger?.addEventListener('click', toggleMenu);
       backdrop?.addEventListener('click', closeMenu);
+      document.querySelectorAll('.nav__item-link--mobile').forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
       // --- Scroll Animations (Intersection Observer) ---
@@ -285,20 +291,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   }
 
   .nav__logo-img {
-    height: clamp(90px, 18vw, 140px);
+    height: clamp(100px, 24vw, 140px);
     width: auto;
-    max-width: clamp(240px, 60vw, 380px);
+    max-width: clamp(210px, 60vw, 320px);
     object-fit: contain;
-    transform: scale(1.65);
-    transform-origin: left center;
+    margin-top: -18px;
+    margin-bottom: -18px;
+    margin-left: -4px;
     filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12));
     transition: transform var(--transition-fast);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .nav__logo-img {
-      transform: scale(1.7);
-      margin-left: 6px;
+      height: 110px;
+      max-width: 240px;
+      margin-left: 0;
+      margin-top: -12px;
+      margin-bottom: -12px;
     }
   }
 
@@ -318,7 +328,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     }
   }
 
-  /* ===== Sticker Icon Only Nav Items (No Outer Rectangle Pill) ===== */
+  /* ===== Sticker Icon Only Nav Items ===== */
   .nav__item-link {
     display: inline-flex;
     align-items: center;
@@ -374,51 +384,54 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     font-size: 1.1rem;
   }
 
-  /* The Pudding Style MORE Sticker Badge */
-  .nav__more-badge {
-    display: inline-flex;
+  /* Hamburger & In-Place Morphing Animation */
+  .nav__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 7px;
-    padding: 6px 14px;
-    background: #ffffff;
-    color: #1a1a2e;
-    border: 2px solid #1a1a2e;
-    border-radius: var(--radius-full);
-    box-shadow: 0 4px 12px rgba(26, 26, 46, 0.14);
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    font-weight: 900;
-    letter-spacing: 0.08em;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
     cursor: pointer;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    z-index: calc(var(--z-modal) + 10);
+    position: relative;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
   }
 
   @media (min-width: 768px) {
-    .nav__more-badge {
+    .nav__hamburger {
       display: none;
     }
   }
 
-  .nav__more-badge:hover {
-    transform: scale(1.08) rotate(-2deg);
-    box-shadow: 0 6px 18px rgba(26, 26, 46, 0.2);
-  }
-
-  .more-badge__bars {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .more-badge__bars span {
+  .nav__hamburger-line {
     display: block;
-    width: 13px;
+    width: 24px;
     height: 2px;
-    background: #1a1a2e;
-    border-radius: 1px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: transform var(--transition-base), opacity var(--transition-base);
+    transform-origin: center;
   }
 
-  /* ===== Mobile Menu (Dark Theme like The Pudding) ===== */
+  /* Morph 3 lines into X in exact same header spot */
+  .nav__hamburger.is-active .nav__hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav__hamburger.is-active .nav__hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .nav__hamburger.is-active .nav__hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ===== Mobile Menu ===== */
   .mobile-menu {
     position: fixed;
     inset: 0;
@@ -436,7 +449,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   .mobile-menu__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(26, 26, 46, 0.4);
   }
 
   .mobile-menu__panel {
@@ -444,61 +457,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     right: 0;
     top: 0;
     bottom: 0;
-    width: min(340px, 85vw);
-    background: #1a1a2e;
-    color: #ffffff;
-    padding: var(--space-2xl) var(--space-xl);
+    width: min(300px, 80vw);
+    background: var(--bg-cream);
+    padding: calc(75px + var(--space-md)) var(--space-xl) var(--space-2xl);
     transform: translateX(100%);
     transition: transform var(--transition-base);
     overflow-y: auto;
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
   }
 
   .mobile-menu.is-open .mobile-menu__panel {
     transform: translateX(0);
   }
 
-  .mobile-menu__close {
-    position: absolute;
-    top: var(--space-lg);
-    right: var(--space-lg);
-    padding: 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .close-circle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    font-size: 1.1rem;
-    font-weight: 700;
-    transition: transform var(--transition-fast), background var(--transition-fast);
-  }
-
-  .mobile-menu__close:hover .close-circle {
-    transform: scale(1.1) rotate(90deg);
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .nav__item-link--mobile .nav__item-text {
-    color: #ffffff;
-    font-size: 1.15rem;
-  }
-
-  .nav__item-link--mobile .nav-sticker-icon {
-    border-color: #ffffff;
-  }
-
   .mobile-menu__links {
-    margin-top: var(--space-3xl);
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
