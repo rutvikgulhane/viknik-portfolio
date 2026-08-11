@@ -1,0 +1,390 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="My Story — Rutvik Gulhane | viknik.tech" description="From CDAC/EPFO to road accident recovery, freelance software development in Surat, and building a production app in 15 days handling ₹9 Crore. The full journey.">
+
+  <div class="story-hero">
+    <div class="hero__gradient" aria-hidden="true"></div>
+    <div class="story-hero__content container">
+      <div style="display: flex; justify-content: center; margin-bottom: var(--space-md);">
+        <img src="/stickers/the_full_story.svg" alt="The Full Story" class="hero-story-badge" />
+      </div>
+      <p class="story-hero__subtitle">CDAC → Accident & Recovery → Surat Freelance → 15-Day Build → ₹9 Crore → SaaS Architecture → Lessons</p>
+    </div>
+  </div>
+
+  <!-- Ch.01 -->
+  <section class="chapter" id="chapter-1">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-teal); border-color: var(--accent-teal);">Ch.01</span>
+        <span class="chapter__date">Apr 2023 – Aug 2025</span>
+      </div>
+      <h2 class="chapter__title fade-in">The Foundation Nobody Sees</h2>
+      <div class="chapter__body fade-in">
+        <p>Two years building backend systems for one of India's largest government digital platforms.</p>
+        <p>EPFO's UAN portal. Millions of citizens. Real PF withdrawals. <strong>10M+ transactions every month.</strong> The kind of system where a slow query doesn't cause a spinner — it causes a helpline to light up.</p>
+        <div class="stat-callout" style="--callout-color: var(--accent-teal);">
+          <span class="stat-callout__value">10M+</span>
+          <span class="stat-callout__label">transactions / month at EPFO</span>
+        </div>
+        <p>I built and optimized REST APIs for claim workflows at national scale. Implemented concurrent-safe transaction management — when 100k+ people hit the same endpoint, "it works on my machine" is a joke nobody laughs at.</p>
+        <p>What it built inside me: strong SQL, multithreading, and query optimization instincts. The kind you can't learn from a tutorial — they come from environments where a bad index costs you an SLA breach, not a code review comment.</p>
+        <blockquote class="chapter__quote">
+          "Two years of solid, high-concurrency government engineering. Building systems at national scale laid the technical foundation for everything that came next."
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.02 -->
+  <section class="chapter chapter--alt" id="chapter-2">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-coral); border-color: var(--accent-coral);">Ch.02</span>
+        <span class="chapter__date">Feb 2025 – Aug 2025</span>
+      </div>
+      <h2 class="chapter__title fade-in">The Road Accident & The Pivot</h2>
+      <div class="chapter__body fade-in">
+        <div class="chapter__float-badge">
+          <img src="/stickers/badge_surat_approved.svg" alt="Surat Approved" width="120" height="120" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+        </div>
+        <p>In <strong>February 2025</strong>, a severe road accident completely disrupted my trajectory.</p>
+        <p>Following months of medical recovery, I attempted to return to my role at C-DAC. However, the ongoing physical and operational demands post-accident made it impossible to sustain the job. In <strong>August 2025</strong>, I made the tough decision to step down from my government position.</p>
+
+        <h4>Turning Recovery into Real Engineering</h4>
+        <p>Instead of letting a medical gap stall my growth, I used software development as my path forward. I took on <strong>freelance software development & technical consulting</strong> to keep my skills razor-sharp and tackle real-world business challenges.</p>
+        <p>I targeted Surat — India's textile and garment capital. Businesses doing crores in annual revenue were still running on paper slips, WhatsApp forwards, and Excel sheets held together by one guy who "knows the system."</p>
+        <blockquote class="chapter__quote">"I took on freelance engineering not just to stay sharp post-recovery, but to prove I could build production software that directly impacts business revenue."</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.03 -->
+  <section class="chapter" id="chapter-3">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-violet); border-color: var(--accent-violet);">Ch.03</span>
+        <span class="chapter__date">25 Aug – ~8 Sep 2025</span>
+      </div>
+      <h2 class="chapter__title fade-in">The 15-Day Build</h2>
+      <div class="chapter__body fade-in">
+        <div style="display: flex; gap: var(--space-md); align-items: center; margin-bottom: var(--space-lg);">
+          <img src="/stickers/badge_15day_build.svg" alt="15-Day Build" width="90" height="90" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+          <p style="margin-bottom: 0;">24 August 2025 — a major jeans manufacturer hired me as a freelance developer. Their annual trade expo was 15 days away. Every year, same chaos:</p>
+        </div>
+        <ul class="chapter__list">
+          <li>200+ Retailers from multiple cities invited</li>
+          <li>Salespeople writing orders by hand on paper slips</li>
+          <li>Reconciliation took days — tallying hundreds of slips manually</li>
+          <li>Two salespeople could book the same product simultaneously — overbooking disputes everywhere</li>
+          <li>Admin had zero real-time visibility</li>
+        </ul>
+        <p>The business was scaling. The process wasn't. They brought me in to digitize it from scratch.</p>
+        <div class="stat-callout" style="--callout-color: var(--accent-violet);">
+          <span class="stat-callout__value">15 days</span>
+          <span class="stat-callout__label">from first line of code to production</span>
+        </div>
+        <p>25 August — I started building. 15 days later, ExpoApp was live. A full-stack, mobile-first, production-ready order management web app. Three user roles. Real-time inventory. Automated WhatsApp receipts.</p>
+        <div style="text-align: center; margin-top: var(--space-xl);">
+          <a href="/projects/expoapp" class="btn btn--primary">Full Technical Breakdown →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.04 -->
+  <section class="chapter chapter--alt" id="chapter-4">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-rose); border-color: var(--accent-rose);">Ch.04</span>
+        <span class="chapter__date">September 2025</span>
+      </div>
+      <h2 class="chapter__title fade-in">The Expo Floor</h2>
+      <div class="chapter__body fade-in">
+        <div class="stats__grid stagger-children" style="margin-bottom: var(--space-xl);">
+          <div class="stats__card glass"><span class="stats__value">₹5 Cr</span><span class="stats__label">Goods Booked</span></div>
+          <div class="stats__card glass"><span class="stats__value">99%</span><span class="stats__label">Uptime</span></div>
+          <div class="stats__card glass"><span class="stats__value">100%</span><span class="stats__label">Paperless</span></div>
+          <div class="stats__card glass"><span class="stats__value">3×</span><span class="stats__label">Faster</span></div>
+        </div>
+
+        <h4>The Day 1 Incident — "Rutvik Bhai, Locha Ho Gaya"</h4>
+        <p>Just imagine sitting on a plastic chair in the middle of a noisy trade show floor, staring at a terminal on your lap, trying to figure out why a <strong>₹3.76 lakh order just vanished.</strong></p>
+        <p>Two sales agents tried to book the last remaining piece of a low-stock product at the exact same millisecond. One transaction went through. The second one failed — and wiped the agent's 60-product draft from the screen.</p>
+        <p>Agent panicked. Business owner shouted across the floor: <em>"Rutvik bhai, locha ho gaya."</em></p>
+        <p>I pulled up a chair right there on the expo floor, checked logs over my phone hotspot. Then stayed up till 3 AM:</p>
+        <ul class="chapter__list">
+          <li>Added versioning and stock checks to prevent concurrency crashes</li>
+          <li>Built frontend and backend draft persistence — so if one item fails, the rest of a 60-item draft stays safe</li>
+        </ul>
+        <blockquote class="chapter__quote">"Localhost never teaches you what happens when two people fight for the last unit of stock in a crowded expo hall. But an angry client on the expo floor does."</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.05 -->
+  <section class="chapter" id="chapter-5">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-emerald); border-color: var(--accent-emerald);">Ch.05</span>
+        <span class="chapter__date">May 2026</span>
+      </div>
+      <h2 class="chapter__title fade-in">Season 2 — Validation</h2>
+      <div class="chapter__body fade-in">
+        <div class="chapter__float-badge">
+          <img src="/stickers/badge_9cr_booked.svg" alt="₹9 Cr Booked" width="110" height="110" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+        </div>
+        <p>Same app. Second season. <strong>~₹4 Crore booked. Zero errors. Zero complaints. Peace of mind.</strong></p>
+        <p>No 3 AM fixes. No panicked phone calls. No DNS debugging on the expo floor. The system worked. The fixes from Season 1 held. The architecture was right.</p>
+        <blockquote class="chapter__quote">"This was the real validation — not that the app could survive a crisis, but that the engineering was solid enough that there was no crisis to survive."</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.06 -->
+  <section class="chapter chapter--alt" id="chapter-6">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-sky); border-color: var(--accent-sky);">Ch.06</span>
+        <span class="chapter__date">Sep 2025 – Jun 2026</span>
+      </div>
+      <h2 class="chapter__title fade-in">SaaS Architecture — SpotBook</h2>
+      <div class="chapter__body fade-in">
+        <p>During those 15 days of building ExpoApp, I consulted with other manufacturers at the expo. Fabric wholesalers, garment makers, different segments. Every conversation revealed the same pattern: <strong>they all had similar operational pain points.</strong></p>
+        <p>I architected SpotBook as a prototype multi-tenant Modular Monolith (Spring Boot 3 + Java 21) designed specifically for wholesale apparel size matrices, prepacks, and inventory locks.</p>
+        <p>I worked closely with <strong>team members</strong> on the floor — salespeople, inventory managers, and dispatch leads. Business owners describe what they want. Team members describe what they actually need.</p>
+        <div style="text-align: center; margin-top: var(--space-xl);">
+          <a href="/projects/spotbook" class="btn btn--outline">SpotBook Architecture →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.07 -->
+  <section class="chapter" id="chapter-7">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-rose); border-color: var(--accent-rose);">Ch.07</span>
+        <span class="chapter__date">Mid-2026</span>
+      </div>
+      <h2 class="chapter__title fade-in">The Honest Part</h2>
+      <div class="chapter__body fade-in">
+        <p>Building software as an independent developer taught me a vital lesson about distribution.</p>
+        <p><strong>The GTM Realization:</strong> Running digital ad campaigns (Facebook lead ads) without an in-house sales team proved ineffective for traditional wholesalers who rely on personal trust and relationship-based selling.</p>
+        <p>The code was rock-solid and the architecture was proven in production. But <strong>a software system without a dedicated sales engine cannot scale into a full business</strong>, and that realization shaped my desire to return to a high-impact engineering team.</p>
+        <blockquote class="chapter__quote">"AI is a force multiplier, not a replacement for engineering judgment. But engineering judgment isn't a replacement for aligned sales and distribution."</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ch.08 -->
+  <section class="chapter chapter--alt" id="chapter-8">
+    <div class="container container--narrow">
+      <div class="chapter__header fade-in">
+        <span class="chapter-badge" style="color: var(--accent-amber); border-color: var(--accent-amber);">Ch.08</span>
+        <span class="chapter__date">Now</span>
+      </div>
+      <h2 class="chapter__title fade-in">The One-Liner</h2>
+      <div class="chapter__body fade-in">
+        <p class="chapter__oneliner">I went from building government-scale systems at EPFO, to overcoming a serious road accident by delivering a production app in 15 days that handled <strong>₹9 Crore</strong> in wholesale bookings as a freelance developer — and I'm ready to bring that battle-tested engineering background to a Software Product Engineer role.</p>
+
+        <div style="display: flex; justify-content: center; margin-top: var(--space-xl);">
+          <img src="/stickers/no_corporate_filter.svg" alt="No Corporate Filter" width="130" height="130" style="aspect-ratio: 1/1; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.1));" />
+        </div>
+
+        <div style="text-align: center; margin-top: var(--space-2xl);">
+          <a href="/contact" class="btn btn--primary" style="font-size: var(--text-lg);">Let's Build Something Real →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .story-hero {
+    position: relative;
+    padding: calc(80px + var(--space-4xl)) 0 var(--space-3xl);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .story-hero .hero__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 58, 237, 0.2), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(236, 72, 153, 0.15), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 60% 70%, rgba(249, 115, 22, 0.15), transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes gradientShift {
+    0% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(15deg); }
+    100% { filter: hue-rotate(-10deg); }
+  }
+
+  .story-hero__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .story-hero__subtitle {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    margin-top: var(--space-sm);
+  }
+
+  /* ===== Chapters ===== */
+  .chapter {
+    padding-block: var(--space-4xl);
+    border-bottom: 1px solid var(--bg-cream-darker);
+  }
+
+  .chapter--alt {
+    background: var(--bg-cream-dark);
+  }
+
+  .chapter__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .chapter__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .chapter__title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-xl);
+  }
+
+  .chapter__body p {
+    margin-bottom: var(--space-lg);
+    font-size: var(--text-base);
+    line-height: 1.8;
+  }
+
+  .chapter__list {
+    padding-left: var(--space-xl);
+    margin-bottom: var(--space-lg);
+  }
+
+  .chapter__list li {
+    position: relative;
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .chapter__list li::before {
+    content: '→';
+    position: absolute;
+    left: calc(-1 * var(--space-md));
+    color: var(--accent-coral);
+    font-weight: 700;
+  }
+
+  .chapter__quote {
+    border-left: 4px solid var(--accent-coral);
+    padding: var(--space-lg);
+    margin: var(--space-xl) 0;
+    background: var(--bg-cream-dark);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .chapter--alt .chapter__quote {
+    background: var(--bg-cream);
+  }
+
+  .chapter__oneliner {
+    font-size: var(--text-xl) !important;
+    font-family: var(--font-display);
+    line-height: 1.5 !important;
+    color: var(--text-primary);
+  }
+
+  /* Stat callout (inline in story) */
+  .stat-callout {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--bg-cream-dark);
+    border-left: 4px solid var(--callout-color, var(--accent-coral));
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--space-xl) 0;
+  }
+
+  .chapter--alt .stat-callout {
+    background: var(--bg-cream);
+  }
+
+  .stat-callout__value {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 900;
+    color: var(--callout-color, var(--accent-coral));
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .hero-story-badge {
+    max-width: clamp(180px, 50vw, 320px);
+    height: auto;
+    aspect-ratio: 1/1;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+  }
+
+  .chapter__float-badge {
+    float: right;
+    margin: 0 0 var(--space-md) var(--space-lg);
+  }
+
+  @media (max-width: 640px) {
+    .story-hero {
+      padding: calc(75px + var(--space-2xl)) 0 var(--space-xl);
+    }
+    .chapter {
+      padding-block: var(--space-2xl);
+    }
+    .chapter__header {
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .chapter__float-badge {
+      float: none;
+      margin: 0 auto var(--space-md);
+      display: flex;
+      justify-content: center;
+    }
+    .chapter__quote {
+      padding: var(--space-md);
+      margin: var(--space-lg) 0;
+      font-size: var(--text-base);
+    }
+    .stat-callout {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--space-md);
+    }
+  }
+</style>

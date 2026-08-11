@@ -1,0 +1,368 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="Engineering Challenges — Rutvik Gulhane | viknik.tech" description="10 production problems I solved building ExpoApp and SpotBook. Concurrency, locking, stock validation, HEIC fallbacks, and more.">
+
+  <div class="eng-hero">
+    <div class="hero__gradient" aria-hidden="true"></div>
+    <div class="eng-hero__content container">
+      <h1 class="eng-hero__title fade-in">10 production problems I solved building ExpoApp and SpotBook.</h1>
+      <p class="eng-hero__subtitle fade-in">Real bugs. Real stakes. Real fixes. No theoretical LeetCode — every problem here happened on a live system processing real money.</p>
+    </div>
+  </div>
+
+  <section class="problems section">
+    <div class="container container--narrow">
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-coral);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">01</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">The Vanishing Cart</h3>
+            <p class="problem-card__scene">Two salespeople booked the last piece simultaneously. One order vanished entirely.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>Root Cause</h4>
+          <p>No concurrency control on stock checks. Classic race condition — both transactions read "1 available," both tried to decrement, second one hit a constraint violation and the entire multi-item order was rolled back.</p>
+          <h4>The Fix</h4>
+          <p>Implemented <code>SELECT ... FOR UPDATE</code> (pessimistic locking) in the OrderRepository. Added version-based optimistic locking on the Product entity as a second layer. If a single item in a draft fails, only that item is rejected — the rest of the draft persists.</p>
+          <h4>Impact</h4>
+          <p>Zero order loss incidents from Season 2 onwards. Staff trust in the app went from cautious to complete.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-violet);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">02</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">Identity-Based Diffing for Order Edits</h3>
+            <p class="problem-card__scene">Editing a 60-item order meant replacing the entire thing. Dangerous and slow.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>Root Cause</h4>
+          <p>Initial implementation used "delete all items + re-insert" strategy. This broke stock accounting and was fragile under concurrent edits.</p>
+          <h4>The Fix</h4>
+          <p>Built a surgical editing system using identity-based diffing. Frontend computes the delta (items added, removed, quantity-changed) by comparing old vs. new item lists by product ID. Backend validates only the delta's stock impact — not the full order — using <code>deltaQuantity = new - old</code>.</p>
+          <h4>Impact</h4>
+          <p>Order edits became atomic, safe, and fast. No more phantom stock leaks from replace-all operations.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-teal);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">03</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">The Composite Loading Gate</h3>
+            <p class="problem-card__scene">React pages flickered between loading → empty → loaded. Users thought data was missing.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>Root Cause</h4>
+          <p>RTK Query's <code>isLoading</code> only fires on first fetch. Subsequent navigations use <code>isFetching</code> but the component was only checking <code>isLoading</code>, so cached-but-stale states showed empty data briefly.</p>
+          <h4>The Fix</h4>
+          <p>Created a composite loading check: <code>isUninitialized || (isFetching && !data)</code>. Wrapped it in a reusable <code>LoadingGate</code> component. Added skeleton screens instead of spinners for perceived performance.</p>
+          <h4>Impact</h4>
+          <p>No more flash-of-empty-state. Staff stopped refreshing pages thinking "the app is broken."</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-rose);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">04</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">iPhone HEIC Image Bomb</h3>
+            <p class="problem-card__scene">Product images from iPhones wouldn't display. 70% of uploaded photos were broken.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>Root Cause</h4>
+          <p>iPhones save photos in HEIC format by default. Browser <code>&lt;img&gt;</code> tags and <code>createImageBitmap</code> don't support HEIC on most platforms. 70% of uploaded images were silently broken.</p>
+          <h4>The Fix</h4>
+          <p>Built a two-path image processor: try native <code>createImageBitmap</code> first (fast, works for JPEG/PNG/WebP). If it throws, fall back to <code>heic2any</code> library for client-side HEIC→JPEG conversion before upload. Compressed to 80% quality + resized to max 1200px.</p>
+          <h4>Impact</h4>
+          <p>100% image compatibility across all devices. Upload size reduced by ~60%. Zero broken thumbnails.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-sky);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">05</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">DNS Debugging on the Expo Floor</h3>
+            <p class="problem-card__scene">App worked on WiFi, failed on mobile data. Expo starts in 2 hours.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>Root Cause</h4>
+          <p>Custom domain DNS records hadn't fully propagated. WiFi DNS resolved (cached), but mobile carrier DNS hadn't picked up the new records yet. The SSL certificate was also mis-configured for the bare domain vs. www subdomain.</p>
+          <h4>The Fix</h4>
+          <p>Switched to a verified domain with pre-configured SSL. Added both A and CNAME records. Tested with <code>dig</code> across multiple DNS resolvers. Set low TTL for the cutover period.</p>
+          <h4>Impact</h4>
+          <p>App was accessible from any network 30 minutes before expo doors opened.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-amber);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">06</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">WhatsApp Receipt Automation</h3>
+            <p class="problem-card__scene">Retailers & Distributors wanted instant order confirmation. Manual sending was impossible at scale.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Challenge</h4>
+          <p>After each order, the distributor expected a receipt. With 50+ orders per day across multiple salespeople, manual WhatsApp messages were not feasible.</p>
+          <h4>The Fix</h4>
+          <p>Integrated WhatsApp Business API for automated order receipts. Each confirmed order triggers a formatted message with order number, item list, quantities, and total amount — sent directly to the distributor's registered WhatsApp number.</p>
+          <h4>Impact</h4>
+          <p>Instant confirmation. Zero manual effort. Retailers/Distributors started trusting the digital system over paper because they had immediate proof.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-indigo);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">07</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">Multi-Tenant Data Isolation</h3>
+            <p class="problem-card__scene">Moving from single-tenant ExpoApp to multi-tenant SpotBook without data leaks.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Challenge</h4>
+          <p>SpotBook serves multiple manufacturers. Every query, every API call, every report must be scoped to the authenticated tenant. One leaked row = catastrophic trust violation.</p>
+          <h4>The Fix</h4>
+          <p>Implemented tenant context at the Spring Security filter level. Every request extracts tenant ID from the JWT. Hibernate filters automatically append <code>WHERE tenant_id = ?</code> to all queries. Added integration tests that specifically try to access cross-tenant data and assert 403/empty results.</p>
+          <h4>Impact</h4>
+          <p>Airtight data isolation. Zero cross-tenant leaks in testing. Backoffice (Zone 0) is the only module that bypasses tenant filters — by explicit design.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-emerald);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">08</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">Size Matrix Complexity</h3>
+            <p class="problem-card__scene">Clothing products have size × color variants. Managing inventory per-variant at expo scale.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Challenge</h4>
+          <p>A single jeans style can have 8 sizes × 4 washes = 32 SKU variants. Inventory and ordering need to work at the variant level, but catalog browsing needs to work at the product level. Two different mental models in one system.</p>
+          <h4>The Fix</h4>
+          <p>Designed a two-layer product model: Product (catalog-level) contains ProductVariants (inventory-level). Orders reference variants. Catalog UI shows products with a size/wash matrix selector. Stock checks aggregate at the variant level. Prepacks bundle multiple variants into a single orderable unit.</p>
+          <h4>Impact</h4>
+          <p>Salespeople can browse products naturally but order at the granularity the warehouse needs. Inventory accuracy went from "roughly right" to exact.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-pink);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">09</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">PWA Offline Resilience</h3>
+            <p class="problem-card__scene">Expo venues have terrible WiFi. App needed to not die when signal dropped.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Challenge</h4>
+          <p>Trade expo venues in India are large halls with spotty WiFi coverage. Sales agents walking between booths regularly lost connectivity. A hard crash or blank screen during an order = lost sale.</p>
+          <h4>The Fix</h4>
+          <p>Built as a PWA with service worker for static asset caching. Cart state persists to localStorage. Network requests use a retry-with-exponential-backoff pattern. Visual indicator shows online/offline status. Critical actions (order submission) queue and retry when connection returns.</p>
+          <h4>Impact</h4>
+          <p>App remained usable during brief connectivity drops. No lost carts. No blank screens. Agents stopped complaining about "the app crashing."</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-coral);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">10</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">Facebook Ads: The Marketing Failure</h3>
+            <p class="problem-card__scene">Not a code problem — a business one. But it taught me more than any bug.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Problem</h4>
+          <p>SpotBook needed customers. I ran Facebook lead-gen ads targeting clothing wholesalers. Got form submissions. Called them. Most had no idea what they'd signed up for, had no budget, or thought it was a government scheme.</p>
+          <h4>What I Learned</h4>
+          <p>Facebook ads optimize for form fills, not qualified leads. The algorithm finds people who click buttons, not people who have a problem to solve. For B2B SaaS in a traditional industry, the right GTM is relationship-based sales — expo visits, referrals from existing users, WhatsApp group word-of-mouth.</p>
+          <h4>Impact</h4>
+          <p>Burned the marketing budget. But gained clarity: <strong>engineering solves the product problem, distribution solves the business problem</strong>, and they require completely different skills.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .eng-hero {
+    position: relative;
+    padding: calc(80px + var(--space-4xl)) 0 var(--space-3xl);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .eng-hero .hero__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 58, 237, 0.2), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(236, 72, 153, 0.15), transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes gradientShift {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(-10deg); }
+  }
+
+  .eng-hero__title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-lg);
+  }
+
+  .eng-hero__subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .eng-hero__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Problem Cards */
+  .problem-card {
+    border: 2px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .problem-card[open] {
+    border-color: var(--problem-color);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .problem-card__summary {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    cursor: pointer;
+    list-style: none;
+    transition: background var(--transition-fast);
+  }
+
+  .problem-card__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .problem-card__summary:hover {
+    background: var(--bg-cream-dark);
+  }
+
+  .problem-card__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--problem-color);
+    background: color-mix(in srgb, var(--problem-color) 10%, transparent);
+    padding: 0.3em 0.6em;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    line-height: 1;
+    min-width: 2.5em;
+    text-align: center;
+  }
+
+  .problem-card__header-text {
+    flex: 1;
+  }
+
+  .problem-card__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-xs);
+    font-family: var(--font-display);
+  }
+
+  .problem-card__scene {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+
+  .problem-card__chevron {
+    font-family: var(--font-mono);
+    font-size: var(--text-xl);
+    color: var(--text-light);
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+    line-height: 1;
+  }
+
+  .problem-card[open] .problem-card__chevron {
+    transform: rotate(45deg);
+  }
+
+  .problem-card__content {
+    padding: 0 var(--space-xl) var(--space-xl);
+    padding-left: calc(var(--space-xl) + 2.5em + var(--space-md));
+    border-top: 1px solid var(--bg-cream-darker);
+  }
+
+  .problem-card__content h4 {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--problem-color);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  .problem-card__content h4:first-child {
+    margin-top: var(--space-md);
+  }
+
+  .problem-card__content p {
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .eng-hero {
+      padding: calc(75px + var(--space-2xl)) 0 var(--space-xl);
+    }
+    .problem-card__summary {
+      padding: var(--space-md);
+      gap: var(--space-sm);
+    }
+    .problem-card__content {
+      padding: var(--space-md);
+      padding-top: var(--space-sm);
+    }
+  }
+</style>

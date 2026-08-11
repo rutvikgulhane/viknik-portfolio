@@ -1,0 +1,501 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="Rutvik Gulhane — Product Engineer | viknik.tech">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero__gradient" aria-hidden="true"></div>
+    <div class="hero__content container">
+      <div class="hero__text">
+        <div class="hero__badge-row fade-in">
+          <img src="/stickers/badge_surat_approved.svg" alt="Surat Expo Approved" class="sticker-badge sticker-badge--hero" width="90" height="90" />
+          <img src="/stickers/badge_15day_build.svg" alt="15-Day Build" class="sticker-badge sticker-badge--hero" width="90" height="90" />
+        </div>
+
+        <h1 class="hero__headline fade-in">
+          After a serious road accident forced me to step down from my government job, I took on freelance engineering in Surat — building an app in 15 days that handled
+          <span class="gradient-text"> ₹9 Crore</span> at a jeans expo.
+        </h1>
+        <p class="hero__subtitle fade-in">Freelance Software Developer · Lead Product Engineer · AI-Assisted Builder</p>
+
+        <div class="hero__cta fade-in">
+          <a href="/story" class="btn btn--primary">Read My Story →</a>
+          <a href="/projects/expoapp" class="btn btn--outline">See What I Built →</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span>scroll</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 4v16M2 14l6 6 6-6"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="stats section" id="stats">
+    <div class="container">
+      <div class="stats__grid stagger-children">
+        <div class="stats__card glass">
+          <span class="stats__value" data-counter data-target="9" data-prefix="₹" data-suffix=" Cr+">₹0</span>
+          <span class="stats__label">Wholesale Goods Booked</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value" data-counter data-target="15" data-suffix=" days">0</span>
+          <span class="stats__label">ExpoApp Build Time</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value stats__value--zero">0</span>
+          <span class="stats__label">Errors in Season 2</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value" data-counter data-target="10" data-suffix="M+">0</span>
+          <span class="stats__label">EPFO Transactions / Month</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECTS ===== -->
+  <section class="projects section" id="projects">
+    <div class="container">
+      <h2 class="projects__title fade-in">What I Built</h2>
+      <div class="projects__grid grid grid--3 fade-in">
+
+        <a href="/projects/expoapp" class="project-card" style="--card-bg: var(--accent-coral);">
+          <div class="project-card__header">
+            <span class="chapter-badge" style="color: white; border-color: rgba(255,255,255,0.5);">01</span>
+            <span class="project-card__date">2025</span>
+          </div>
+          <h3 class="project-card__title">ExpoApp</h3>
+          <p class="project-card__desc">Production order management for a jeans manufacturer. Built in 15 days. ₹9 Cr booked across two expo seasons.</p>
+          <div class="project-card__tech-icons">
+            <img src="/stickers/tech_react.svg" alt="React" width="30" height="30" title="React" />
+            <img src="/stickers/tech_spring.svg" alt="Spring Boot" width="30" height="30" title="Spring Boot" />
+            <img src="/stickers/tech_postgres.svg" alt="PostgreSQL" width="30" height="30" title="PostgreSQL" />
+            <img src="/stickers/tech_whatsapp.svg" alt="WhatsApp" width="30" height="30" title="WhatsApp" />
+          </div>
+          <span class="project-card__link">View Project →</span>
+        </a>
+
+        <a href="/projects/spotbook" class="project-card" style="--card-bg: var(--accent-violet);">
+          <div class="project-card__header">
+            <span class="chapter-badge" style="color: white; border-color: rgba(255,255,255,0.5);">02</span>
+            <span class="project-card__date">2025–26</span>
+          </div>
+          <h3 class="project-card__title">SpotBook</h3>
+          <p class="project-card__desc">Multi-tenant SaaS for apparel wholesalers. Modular monolith. Size matrices, prepacks, expo management.</p>
+          <div class="project-card__tech-icons">
+            <img src="/stickers/tech_spring.svg" alt="Spring Boot" width="30" height="30" title="Spring Boot" />
+            <img src="/stickers/tech_postgres.svg" alt="PostgreSQL" width="30" height="30" title="PostgreSQL" />
+            <img src="/stickers/tech_react.svg" alt="React" width="30" height="30" title="React" />
+          </div>
+          <span class="project-card__link">View Project →</span>
+        </a>
+
+        <a href="/story#chapter-1" class="project-card" style="--card-bg: var(--accent-teal);">
+          <div class="project-card__header">
+            <span class="chapter-badge" style="color: white; border-color: rgba(255,255,255,0.5);">00</span>
+            <span class="project-card__date">2023–25</span>
+          </div>
+          <h3 class="project-card__title">CDAC / EPFO</h3>
+          <p class="project-card__desc">Backend engineer on India's EPFO UAN portal. 10M+ transactions/month. Government-scale concurrency and reliability.</p>
+          <span class="project-card__link">Read the Story →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT I DO ===== -->
+  <section class="what-i-do section section--alt" id="what-i-do">
+    <div class="container">
+      <h2 class="what-i-do__title fade-in">What I Do</h2>
+      <div class="what-i-do__grid grid grid--4 fade-in">
+
+        <div class="wid-card">
+          <span class="wid-card__icon">🔨</span>
+          <h3 class="wid-card__title">Build Products, Not Just Features</h3>
+          <p class="wid-card__desc">I go from user problem → architecture → shipped feature → production support. I've sat across the table from the manufacturer, watched their staff use my software at an expo, and fixed what broke overnight.</p>
+        </div>
+
+        <div class="wid-card">
+          <span class="wid-card__icon">⚡</span>
+          <h3 class="wid-card__title">Engineer at Depth</h3>
+          <p class="wid-card__desc">Pessimistic locking under concurrent load. Delta-based stock validation. Triple race condition debugging. Modular monolith with strict inter-module contracts. Not tutorial-level work.</p>
+        </div>
+
+        <div class="wid-card">
+          <span class="wid-card__icon">🤝</span>
+          <h3 class="wid-card__title">Team-First & Maintainable</h3>
+          <p class="wid-card__desc">High autonomy when building 0-to-1, but deeply collaborative in team settings. I write modular code, clear PRs, and strict API contracts so teammates can build on top without friction.</p>
+        </div>
+
+        <div class="wid-card">
+          <span class="wid-card__icon">🤖</span>
+          <h3 class="wid-card__title">Ship with AI</h3>
+          <p class="wid-card__desc">AI is my co-pilot, not my replacement. Boilerplate, debugging, test scaffolding — AI handles those. Architecture, domain logic, and judgment calls — those are mine.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HERO IMAGE SECTION ===== -->
+  <section class="expo-photo section">
+    <div class="container">
+      <div class="expo-photo__wrapper fade-in">
+        <img
+          src="/media/hero_expo_scanning.png"
+          alt="Staff at a jeans expo scanning QR codes using the ExpoApp on their phones, with racks of jeans in the background"
+          class="expo-photo__img"
+          loading="lazy"
+        />
+        <p class="expo-photo__caption">Staff scanning QR codes at the expo floor — ExpoApp in action, September 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CLOSING CTA ===== -->
+  <section class="cta section">
+    <div class="container container--narrow" style="text-align: center;">
+      <div style="display: flex; justify-content: center; margin-bottom: var(--space-md);">
+        <img src="/stickers/the_full_story.svg" alt="The Full Story" width="160" height="160" style="aspect-ratio: 1/1; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.1));" />
+      </div>
+      <h2 class="fade-in" style="margin-bottom: var(--space-lg);">Curious about the full story?</h2>
+      <p class="fade-in" style="font-size: var(--text-lg); color: var(--text-muted); margin-bottom: var(--space-xl);">
+        From CDAC to Surat to ₹9 Crore in bookings — and the honest failure that taught me more than any success.
+      </p>
+      <div class="fade-in">
+        <a href="/story" class="btn btn--primary" style="font-size: var(--text-lg);">Read the Full Journey →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 85vh;
+    min-height: 85dvh;
+    padding-top: calc(100px + var(--space-2xl));
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      min-height: auto;
+      padding-top: calc(75px + var(--space-lg));
+      padding-bottom: var(--space-2xl);
+    }
+  }
+
+  .hero__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 58, 237, 0.25), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(236, 72, 153, 0.2), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 60% 70%, rgba(249, 115, 22, 0.2), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 30% 80%, rgba(245, 158, 11, 0.15), transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 0%, 100% 0%, 50% 100%, 0% 100%;
+      filter: hue-rotate(0deg);
+    }
+    50% {
+      filter: hue-rotate(15deg);
+    }
+    100% {
+      background-position: 100% 100%, 0% 100%, 50% 0%, 100% 0%;
+      filter: hue-rotate(-10deg);
+    }
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: var(--z-base);
+    width: 100%;
+    padding-bottom: var(--space-xl);
+  }
+
+  .hero__badge-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .sticker-badge {
+    max-width: clamp(65px, 18vw, 90px);
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
+    transition: transform var(--transition-fast);
+  }
+
+  .sticker-badge:hover {
+    transform: scale(1.08) rotate(-3deg);
+  }
+
+  .hero__text {
+    max-width: 840px;
+  }
+
+  .hero__headline {
+    font-size: clamp(1.4rem, 1.05rem + 1.4vw, 2.35rem);
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.01em;
+  }
+
+  .hero__subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  @media (max-width: 480px) {
+    .hero__cta {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+
+  .hero__scroll-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--text-light);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    animation: bobDown 2s ease-in-out infinite;
+    z-index: var(--z-base);
+  }
+
+  @media (max-width: 640px) {
+    .hero__scroll-hint {
+      display: none;
+    }
+  }
+
+  @keyframes bobDown {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ===== STATS ===== */
+  .stats {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+    position: relative;
+    z-index: 2;
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 768px) {
+    .stats__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .stats__card {
+    padding: var(--space-xl);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .stats__value {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .stats__value--zero {
+    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stats__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== PROJECTS ===== */
+  .projects__title, .what-i-do__title {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    color: white;
+    text-decoration: none;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    min-height: 280px;
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px) rotate(-0.5deg);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .project-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .project-card__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    opacity: 0.8;
+  }
+
+  .project-card__title {
+    font-size: var(--text-2xl);
+    color: white;
+    margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+  }
+
+  .project-card__desc {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.85);
+    flex: 1;
+    margin-bottom: var(--space-md);
+  }
+
+  .project-card__tech-icons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--space-md);
+  }
+
+  .project-card__tech-icons img {
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(4px);
+  }
+
+  .project-card__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+  }
+
+  .project-card:hover .project-card__link {
+    opacity: 1;
+  }
+
+  /* ===== WHAT I DO ===== */
+  .wid-card {
+    background: var(--bg-cream);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--bg-cream-darker);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .wid-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .wid-card__icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--space-md);
+  }
+
+  .wid-card__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+  }
+
+  .wid-card__desc {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+
+  /* ===== EXPO PHOTO ===== */
+  .expo-photo__wrapper {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .expo-photo__img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .expo-photo__caption {
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-cream-dark);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 0;
+  }
+</style>

@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/global.css';
+---
+
+<BaseLayout title="SpotBook SaaS — Modular Monolith | viknik.tech" description="Architecture breakdown of SpotBook: A multi-tenant Modular Monolith Enterprise SaaS built with Spring Boot 3 & Java 21 for apparel wholesalers.">
+
+  <div class="project-hero">
+    <div class="hero__gradient" aria-hidden="true"></div>
+    <div class="project-hero__content container">
+      <div class="project-hero__badge-wrap">
+        <span class="chapter-badge" style="color: var(--accent-violet); border-color: var(--accent-violet);">PROJECT 02</span>
+        <span class="project-hero__date">Sep 2025 – Jun 2026</span>
+      </div>
+      <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: var(--space-md);">
+        <img src="/stickers/tech_spring.svg" alt="Spring Boot" width="60" height="60" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+        <img src="/stickers/tech_postgres.svg" alt="PostgreSQL" width="60" height="60" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+        <img src="/stickers/tech_react.svg" alt="React" width="60" height="60" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
+      </div>
+      <h1 class="project-hero__title fade-in">SpotBook: Multi-Tenant SaaS</h1>
+      <p class="project-hero__subtitle fade-in">Modular Monolith Enterprise SaaS built with Spring Boot 3, Java 21, and PostgreSQL 16 for apparel manufacturers & wholesalers.</p>
+    </div>
+  </div>
+
+  <!-- Architecture Overview -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="fade-in">
+        <h2 class="section-heading">Architectural Philosophy</h2>
+        <p class="lead-text">
+          SpotBook was designed to solve the complexity of apparel wholesale operations — multi-role staff, size-color variant matrices, distributor booking portals, and season expo management.
+        </p>
+        <p>
+          Instead of jump-starting with microservices overhead, SpotBook was constructed as a <strong>Modular Monolith</strong> with strict zone boundaries (Zones 0 to 7). Cross-module imports are restricted exclusively to explicit <code>api/</code> packages, leaving internal logic encapsulated.
+        </p>
+
+        <div class="arch-box glass">
+          <h3>Zone Boundaries (0 – 7)</h3>
+          <ul class="zone-list">
+            <li><strong>Zone 0: Control Plane (<code>backoffice</code>)</strong> — The <em>only</em> module that bypasses tenant filters.</li>
+            <li><strong>Zone 1: Identity (<code>iam</code>)</strong> — Multi-role authentication & tenant context management.</li>
+            <li><strong>Zone 2: Catalog (<code>catalog</code>)</strong> — Products, size matrices, prepacks, and pricing.</li>
+            <li><strong>Zone 3: Inventory (<code>inventory</code>)</strong> — Virtual stock calculation, warehouse locks, and reservations.</li>
+            <li><strong>Zone 4: Expo (<code>expo</code>)</strong> — Event sessions, booth QR allocations, and fast-order intake.</li>
+            <li><strong>Zone 5: Sales (<code>sales</code>)</strong> — Order processing, draft persistence, and fulfillment triggers.</li>
+            <li><strong>Zone 6: Fulfillment (<code>fulfillment</code>)</strong> — Packing, dispatch, and distributor receipts.</li>
+            <li><strong>Zone 7: Platform (<code>platform</code>)</strong> — Shared event bus, auditing, and notifications.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features Grid -->
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="section-heading fade-in" style="text-align: center; margin-bottom: var(--space-2xl);">Core Capabilities</h2>
+      
+      <div class="grid grid--2 fade-in">
+        <div class="capability-card">
+          <span class="capability-icon">🔒</span>
+          <h3>Multi-Tenant Data Isolation</h3>
+          <p>Tenant filters enforced at the database and security filter levels. Automatic query scoping guarantees complete data separation between competing manufacturers.</p>
+        </div>
+
+        <div class="capability-card">
+          <span class="capability-icon">📊</span>
+          <h3>Matrix Variant Ordering</h3>
+          <p>Seamlessly handles 2D matrix orders (e.g. Waist Size 28-36 × 4 Denim Washes) with real-time stock validation and prepack bundle calculations.</p>
+        </div>
+
+        <div class="capability-card">
+          <span class="capability-icon">🔄</span>
+          <h3>Surgical Order Editing</h3>
+          <p>Identity-based diffing engine computes order deltas on edits, ensuring atomic inventory adjustments without full order teardown.</p>
+        </div>
+
+        <div class="capability-card">
+          <span class="capability-icon">⚡</span>
+          <h3>Event-Driven Decoupling</h3>
+          <p>Modules communicate asynchronously through an internal Spring Event Bus, avoiding direct cross-domain database coupling.</p>
+        </div>
+
+        <div class="capability-card">
+          <span class="capability-icon">👥</span>
+          <h3>Architected for Multi-Dev Teams</h3>
+          <p>Strict Zone boundaries (API vs. Internal packages) ensure multiple developers can own separate business domains in parallel without code collisions or merge friction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Business Reality / Honest Reflection -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="fade-in">
+        <h2 class="section-heading">The Business Reality</h2>
+        <div class="honest-callout">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <h3>The GTM Lesson</h3>
+            <img src="/stickers/no_corporate_filter.svg" alt="No Corporate Filter" width="80" height="80" style="aspect-ratio: 1/1;" />
+          </div>
+          <p>
+            While SpotBook's technical foundation was rock-solid and verified in live expo testing, the product faced distribution hurdles. Relying on paid digital marketing (Facebook lead ads) proved inefficient for a high-touch traditional industry.
+          </p>
+          <p>
+            Building SpotBook provided invaluable experience in architecting multi-tenant SaaS systems, managing complex domain models, and understanding the vital importance of aligned sales channels in B2B software.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Footer -->
+  <section class="section section--alt" style="text-align: center;">
+    <div class="container container--narrow">
+      <h3 style="margin-bottom: var(--space-md);">Next Steps</h3>
+      <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;">
+        <a href="/engineering" class="btn btn--primary">10 Engineering Problems →</a>
+        <a href="/story" class="btn btn--outline">Read The Full Story →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .project-hero {
+    position: relative;
+    padding: calc(80px + var(--space-4xl)) 0 var(--space-3xl);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .project-hero .hero__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 58, 237, 0.25), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(59, 130, 246, 0.15), transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+  }
+
+  .project-hero__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .project-hero__badge-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .project-hero__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .project-hero__title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .project-hero__subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .section-heading {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-lg);
+  }
+
+  .lead-text {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .arch-box {
+    padding: var(--space-2xl);
+    margin-top: var(--space-2xl);
+    border-radius: var(--radius-lg);
+    background: var(--bg-cream-dark);
+    border: 1px solid var(--bg-cream-darker);
+  }
+
+  .arch-box h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-lg);
+  }
+
+  .zone-list {
+    list-style: none;
+  }
+
+  .zone-list li {
+    margin-bottom: var(--space-md);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .capability-card {
+    background: var(--bg-cream);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--bg-cream-darker);
+  }
+
+  .capability-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .capability-card h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-xs);
+  }
+
+  .capability-card p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+
+  .honest-callout {
+    background: color-mix(in srgb, var(--accent-coral) 8%, var(--bg-cream));
+    border-left: 4px solid var(--accent-coral);
+    padding: var(--space-xl);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  }
+
+  .honest-callout h3 {
+    font-size: var(--text-xl);
+    color: var(--accent-coral);
+    margin-bottom: var(--space-sm);
+  }
+
+  .honest-callout p {
+    font-size: var(--text-base);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+  }
+</style>

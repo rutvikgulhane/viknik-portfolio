@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="Contact — Rutvik Gulhane | viknik.tech" description="Get in touch with Rutvik Gulhane — Senior / Lead Product Engineer specializing in Spring Boot, React, and system architecture.">
+
+  <div class="contact-hero">
+    <div class="hero__gradient" aria-hidden="true"></div>
+    <div class="contact-hero__content container container--narrow">
+      <h1 class="contact-hero__title fade-in">Let's Build Something Real</h1>
+      <p class="contact-hero__subtitle fade-in">
+        Whether you're looking for a Software Product Engineer, want to talk system design, or discuss building for traditional industries — my inbox is open.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="contact-cards fade-in">
+
+        <a href="mailto:rutvikgulhanex@gmail.com" class="contact-card glass">
+          <div class="contact-card__icon">📬</div>
+          <div class="contact-card__info">
+            <span class="contact-card__label">Email</span>
+            <span class="contact-card__value">rutvikgulhanex@gmail.com</span>
+          </div>
+        </a>
+
+        <a href="https://linkedin.com/in/rutvikgulhane" target="_blank" rel="noopener noreferrer" class="contact-card glass">
+          <div class="contact-card__icon">💼</div>
+          <div class="contact-card__info">
+            <span class="contact-card__label">LinkedIn</span>
+            <span class="contact-card__value">linkedin.com/in/rutvikgulhane</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/rutvikgulhane" target="_blank" rel="noopener noreferrer" class="contact-card glass">
+          <div class="contact-card__icon">💻</div>
+          <div class="contact-card__info">
+            <span class="contact-card__label">GitHub</span>
+            <span class="contact-card__value">github.com/rutvikgulhane</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="statement-box glass fade-in" style="margin-top: var(--space-3xl); text-align: center;">
+        <h3 style="margin-bottom: var(--space-sm);">Core Principle & Mindset</h3>
+        <p class="statement-quote" style="margin-bottom: var(--space-md);">
+          "I'll always choose honesty, directness over petty politics, strong ethic no matter how long it takes me to get the opportunity."
+        </p>
+        <p style="font-size: var(--text-sm); color: var(--text-muted); margin-bottom: 0;">
+          While I have the autonomy to ship 0-to-1 solutions independently, I thrive most in high-trust, collaborative engineering teams where we review code, debate architecture, and ship together.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    position: relative;
+    padding: calc(80px + var(--space-4xl)) 0 var(--space-2xl);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .contact-hero .hero__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(249, 115, 22, 0.2), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(124, 58, 237, 0.15), transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+  }
+
+  .contact-hero__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-hero__title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-hero__subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .contact-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-xl);
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .contact-card__icon {
+    font-size: 2rem;
+  }
+
+  .contact-card__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-card__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .contact-card__value {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .statement-box {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+  }
+
+  .statement-quote {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--text-primary);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .contact-hero {
+      padding: calc(75px + var(--space-2xl)) 0 var(--space-xl);
+    }
+    .contact-card {
+      padding: var(--space-md);
+      gap: var(--space-md);
+    }
+    .contact-card__value {
+      font-size: var(--text-base);
+    }
+    .statement-box {
+      padding: var(--space-lg);
+    }
+  }
+</style>
