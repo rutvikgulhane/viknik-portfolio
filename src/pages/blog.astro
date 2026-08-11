@@ -4,79 +4,87 @@ import '../styles/global.css';
 
 const posts = [
   {
-    title: "Leaving EPFO to Build in Surat: The Origin Story",
-    teaser: "Why I gave up government job stability to solve inventory chaos for jeans manufacturers.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-coral)"
+    title: "How SELECT ... FOR UPDATE Saved ₹9 Crore (~$1.1M) in Expo Orders",
+    teaser: "When two salespeople fight for the last unit of stock in a crowded expo hall, optimistic locking fails. Here's how pessimistic locking and idempotent order creation eliminated all concurrency failures under 50+ simultaneous sessions.",
+    date: "Aug 2026",
+    tag: "Backend · Concurrency",
+    slug: "#concurrency",
+    color: "var(--accent-coral)",
+    isLive: true
   },
   {
-    title: "15-Day Architecture: Building for ₹5 Crore in Sales",
-    teaser: "How to structure a mobile-first app when failure means ruined trade show orders.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-violet)"
+    title: "The Triple Race Condition That Showed Zero Stock (When We Had Plenty)",
+    teaser: "RTK Query reporting isLoading: false before query dispatch, stale product data persisting across product switches, and component rendering before data fetch. Three async bugs. One false-zero inventory display. Three sequential fix iterations.",
+    date: "Aug 2026",
+    tag: "Frontend · React",
+    slug: "#race-condition",
+    color: "var(--accent-violet)",
+    isLive: true
   },
   {
-    title: "The Overbooking Problem & Pessimistic Locks in Spring Boot",
-    teaser: "Deep dive into SELECT ... FOR UPDATE when two agents hit buy on the last item.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-teal)"
+    title: "30+ Commits to Get Nginx + Docker + Railway Working",
+    teaser: "The combinatorial explosion of PaaS quirks × SPA routing × reverse proxy × CORS × TLS × private networking × dynamic ports. There is no 'one-shot' guide that covers all of these simultaneously.",
+    date: "Aug 2026",
+    tag: "DevOps · Deployment",
+    slug: "#deployment",
+    color: "var(--accent-teal)",
+    isLive: true
   },
   {
-    title: "Surgical Order Edits: Identity-Based Diffing",
-    teaser: "Why replacing whole order arrays breaks stock math, and how delta diffing fixes it.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-rose)"
+    title: "Surgical Order Editing with Delta-Based Stock Validation",
+    teaser: "Why replacing whole order arrays breaks stock math. How identity-based diffing (SKU ID for loose, prepackId + colorLabel for sets) + EDITING_RESERVED transitional status preserves order identity during in-place edits.",
+    date: "Aug 2026",
+    tag: "System Design · Inventory",
+    slug: "#delta-validation",
+    color: "var(--accent-rose)",
+    isLive: true
   },
   {
-    title: "Taming iPhone HEIC Photos on Mobile Web",
-    teaser: "Client-side image processing with createImageBitmap fallback to heic2any.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-sky)"
+    title: "From JSONB to Normalised Schema: A Catalog Migration Story",
+    teaser: "The initial JSONB-based catalog became unmanageable as the apparel domain model matured. How we migrated products → variants → SKUs → sku_prices with Flyway, replacing brittle jsonb_path_query() with efficient SQL joins.",
+    date: "Coming soon",
+    tag: "Database · PostgreSQL",
+    slug: "#",
+    color: "var(--accent-amber)",
+    isLive: false
   },
   {
-    title: "Modular Monoliths: Zone 0 to Zone 7 Boundaries",
-    teaser: "Structuring Spring Boot 3 applications for high cohesion without microservice pain.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-amber)"
+    title: "Spring Modulith: Making Module Boundaries Actually Enforceable",
+    teaser: "Modulith verification tests failing as the codebase grew. Cross-module violations, shared exceptions, package drift — and how a kernel module with @NamedInterface fixed everything.",
+    date: "Coming soon",
+    tag: "Architecture · Spring",
+    slug: "#",
+    color: "var(--accent-sky)",
+    isLive: false
   },
   {
-    title: "Automating WhatsApp Receipts with Webhooks",
-    teaser: "Replacing paper slips with instant WhatsApp message confirmations.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-indigo)"
+    title: "Ghost Drafts, Orphaned Records, and the Order State Machine",
+    teaser: "When users abandon order entry mid-flow, draft orders accumulate and pollute dashboards. 6 reverts across the order service lifecycle — each teaching a different constraint about state transitions.",
+    date: "Coming soon",
+    tag: "Data Integrity",
+    slug: "#",
+    color: "var(--accent-indigo)",
+    isLive: false
   },
   {
-    title: "The Hardest Part of SaaS Isn't Code: GTM Retrospective",
-    teaser: "What Facebook ads taught me about traditional industry distribution.",
-    date: "Jul 2026",
-    platform: "LinkedIn",
-    url: "https://linkedin.com/in/rutvikgulhane",
-    color: "var(--accent-pink)"
+    title: "The GTM Retrospective: Why Great Code Doesn't Guarantee Product Success",
+    teaser: "Facebook ads collected garbage leads. Traditional wholesalers trust relationships, not forms. What freelance software development taught me about distribution in non-tech industries.",
+    date: "Coming soon",
+    tag: "Product · Lessons",
+    slug: "#",
+    color: "var(--accent-pink)",
+    isLive: false
   }
 ];
 ---
 
-<BaseLayout title="Blog & Essays — Rutvik Gulhane | viknik.tech" description="Articles and posts on system design, real-world engineering bugs, building in public, and GTM lessons.">
+<BaseLayout title="Blog — Engineering Deep Dives | viknik.tech" description="Technical deep dives into real production problems: concurrency bugs, race conditions, deployment gauntlets, and system design decisions from building ExpoApp and SpotBook.">
 
   <div class="blog-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
     <div class="blog-hero__content container">
-      <h1 class="blog-hero__title fade-in">Writing & Insights</h1>
-      <p class="blog-hero__subtitle fade-in">Thoughts on building production software, system architecture, and lessons from the ground up.</p>
+      <h1 class="blog-hero__title fade-in">Engineering Deep Dives</h1>
+      <p class="blog-hero__subtitle fade-in">Real production problems. Real fixes. No theoretical LeetCode — every post here comes from a system processing real money.</p>
     </div>
   </div>
 
@@ -84,18 +92,27 @@ const posts = [
     <div class="container">
       <div class="grid grid--2 fade-in">
         {posts.map((post, idx) => (
-          <a href={post.url} target="_blank" rel="noopener noreferrer" class="blog-card" style={`--card-accent: ${post.color}`}>
+          <div class={`blog-card ${!post.isLive ? 'blog-card--upcoming' : ''}`} style={`--card-accent: ${post.color}`}>
             <div class="blog-card__header">
               <span class="chapter-badge" style={`color: ${post.color}; border-color: ${post.color}`}>
                 #{String(idx + 1).padStart(2, '0')}
               </span>
-              <span class="blog-card__platform">{post.platform} · {post.date}</span>
+              <span class="blog-card__platform">{post.tag} · {post.date}</span>
             </div>
             <h3 class="blog-card__title">{post.title}</h3>
             <p class="blog-card__teaser">{post.teaser}</p>
-            <span class="blog-card__link">Read Article →</span>
-          </a>
+            {post.isLive ? (
+              <a href={`/engineering${post.slug}`} class="blog-card__link">Read Deep Dive →</a>
+            ) : (
+              <span class="blog-card__link blog-card__link--upcoming">Coming Soon</span>
+            )}
+          </div>
         ))}
+      </div>
+
+      <div class="blog-note fade-in">
+        <p>These deep dives are extracted from production engineering on <a href="/projects/expoapp">ExpoApp</a> and <a href="/projects/spotbook">SpotBook</a>. Each one represents a real problem solved under real business pressure — not a side project exercise.</p>
+        <p>For the condensed version, see <a href="/engineering">10 Production Problems I Solved →</a></p>
       </div>
     </div>
   </section>
@@ -143,7 +160,6 @@ const posts = [
     border: 1px solid var(--bg-cream-darker);
     display: flex;
     flex-direction: column;
-    text-decoration: none;
     transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   }
 
@@ -151,6 +167,16 @@ const posts = [
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
     border-color: var(--card-accent);
+  }
+
+  .blog-card--upcoming {
+    opacity: 0.6;
+  }
+
+  .blog-card--upcoming:hover {
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
   }
 
   .blog-card__header {
@@ -177,6 +203,7 @@ const posts = [
     color: var(--text-muted);
     flex: 1;
     margin-bottom: var(--space-lg);
+    line-height: 1.6;
   }
 
   .blog-card__link {
@@ -186,5 +213,44 @@ const posts = [
     color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .blog-card__link:hover {
+    color: var(--card-accent, var(--accent-coral));
+  }
+
+  .blog-card__link--upcoming {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .blog-note {
+    margin-top: var(--space-3xl);
+    padding: var(--space-xl);
+    background: var(--bg-cream-dark);
+    border-radius: var(--radius-lg);
+    border-left: 3px solid var(--accent-teal);
+    text-align: center;
+  }
+
+  .blog-note p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+  }
+
+  .blog-note p:last-child {
+    margin-bottom: 0;
+  }
+
+  .blog-note a {
+    color: var(--accent-coral);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .blog-note a:hover {
+    text-decoration: underline;
   }
 </style>

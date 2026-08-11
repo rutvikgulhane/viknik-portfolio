@@ -3,12 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
 ---
 
-<BaseLayout title="Engineering Challenges — Rutvik Gulhane | viknik.tech" description="10 production problems I solved building ExpoApp and SpotBook. Concurrency, locking, stock validation, HEIC fallbacks, and more.">
+<BaseLayout title="Engineering Challenges — Rutvik Gulhane | viknik.tech" description="12 production problems I solved across EPFO, ExpoApp, and SpotBook. Concurrency, locking, stock validation, government-scale APIs, and more.">
 
   <div class="eng-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
     <div class="eng-hero__content container">
-      <h1 class="eng-hero__title fade-in">10 production problems I solved building ExpoApp and SpotBook.</h1>
+      <h1 class="eng-hero__title fade-in">12 production problems I solved across EPFO, ExpoApp, and SpotBook.</h1>
       <p class="eng-hero__subtitle fade-in">Real bugs. Real stakes. Real fixes. No theoretical LeetCode — every problem here happened on a live system processing real money.</p>
     </div>
   </div>
@@ -16,7 +16,7 @@ import '../styles/global.css';
   <section class="problems section">
     <div class="container container--narrow">
 
-      <details class="problem-card fade-in" style="--problem-color: var(--accent-coral);">
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-coral);" open>
         <summary class="problem-card__summary">
           <span class="problem-card__number">01</span>
           <div class="problem-card__header-text">
@@ -35,7 +35,7 @@ import '../styles/global.css';
         </div>
       </details>
 
-      <details class="problem-card fade-in" style="--problem-color: var(--accent-violet);">
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-violet);" open>
         <summary class="problem-card__summary">
           <span class="problem-card__number">02</span>
           <div class="problem-card__header-text">
@@ -203,6 +203,44 @@ import '../styles/global.css';
           <p>Facebook ads optimize for form fills, not qualified leads. The algorithm finds people who click buttons, not people who have a problem to solve. For B2B SaaS in a traditional industry, the right GTM is relationship-based sales — expo visits, referrals from existing users, WhatsApp group word-of-mouth.</p>
           <h4>Impact</h4>
           <p>Burned the marketing budget. But gained clarity: <strong>engineering solves the product problem, distribution solves the business problem</strong>, and they require completely different skills.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-sky);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">11</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">Aadhaar eSign at Government Scale</h3>
+            <p class="problem-card__scene">EPFO — Integrating India's national biometric identity into a claim pipeline processing millions.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Challenge</h4>
+          <p>EPFO claim processing required legally valid signatures. Physical signature verification took 7–10 days per claim. With 30.6 lakh (3M+) claims per month, the manual bottleneck was the single biggest source of delay.</p>
+          <h4>The Fix</h4>
+          <p>Integrated Aadhaar-based eSign via Protean's API into the claim pipeline. Built retry logic for OTP failures, handled Aadhaar service downtime gracefully with queue-and-retry, and ensured compliance with government security standards for financial data.</p>
+          <h4>Impact</h4>
+          <p>70% of advance claims (Form 31) processed within 3 days of filing — down from 7–10 days. Eliminated physical signature dependency for the majority of claims.</p>
+        </div>
+      </details>
+
+      <details class="problem-card fade-in" style="--problem-color: var(--accent-teal);">
+        <summary class="problem-card__summary">
+          <span class="problem-card__number">12</span>
+          <div class="problem-card__header-text">
+            <h3 class="problem-card__title">API Performance at 10M+ Transactions/Month</h3>
+            <p class="problem-card__scene">EPFO — When a slow query doesn't cause a spinner, it causes a helpline to light up.</p>
+          </div>
+          <span class="problem-card__chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="problem-card__content">
+          <h4>The Challenge</h4>
+          <p>EPFO's UAN Portal dashboards serve millions of monthly users checking claim status, transaction records, and PF balances. Query performance degraded as audit log tables grew. Index scans became full table scans on claims tables with 100M+ rows.</p>
+          <h4>The Fix</h4>
+          <p>Redesigned database schemas with optimised indexing for claims, audit logs, and transaction history tables. Added composite indexes on high-cardinality query patterns. Restructured heavy join queries to use indexed lookup paths. Maintained compliance-grade audit trails throughout — government financial data has strict immutability requirements.</p>
+          <h4>Impact</h4>
+          <p>35% query performance improvement. 99.9% API uptime maintained across 3M+ monthly transactions. Zero SLA breaches on the dashboard endpoints.</p>
         </div>
       </details>
 

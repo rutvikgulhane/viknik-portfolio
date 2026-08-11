@@ -17,9 +17,9 @@ import '../styles/global.css';
 
         <h1 class="hero__headline fade-in">
           After a serious road accident forced me to step down from my government job, I took on freelance engineering in Surat — building an app in 15 days that handled
-          <span class="gradient-text"> ₹9 Crore</span> at a jeans expo.
+          <span class="gradient-text"> ₹9 Crore (~$1.1M)</span> at a jeans expo.
         </h1>
-        <p class="hero__subtitle fade-in">Freelance Software Developer · Lead Product Engineer · AI-Assisted Builder</p>
+        <p class="hero__subtitle fade-in">Full-Stack Freelance Software Developer · Product Engineer · AI-Assisted Builder</p>
 
         <div class="hero__cta fade-in">
           <a href="/story" class="btn btn--primary">Read My Story →</a>
@@ -41,7 +41,7 @@ import '../styles/global.css';
       <div class="stats__grid stagger-children">
         <div class="stats__card glass">
           <span class="stats__value" data-counter data-target="9" data-prefix="₹" data-suffix=" Cr+">₹0</span>
-          <span class="stats__label">Wholesale Goods Booked</span>
+          <span class="stats__label">Wholesale Goods Booked (~$1.1M)</span>
         </div>
         <div class="stats__card glass">
           <span class="stats__value" data-counter data-target="15" data-suffix=" days">0</span>
@@ -63,7 +63,7 @@ import '../styles/global.css';
   <section class="projects section" id="projects">
     <div class="container">
       <h2 class="projects__title fade-in">What I Built</h2>
-      <div class="projects__grid grid grid--3 fade-in">
+      <div class="projects__grid grid grid--2 fade-in">
 
         <a href="/projects/expoapp" class="project-card" style="--card-bg: var(--accent-coral);">
           <div class="project-card__header">
@@ -71,7 +71,7 @@ import '../styles/global.css';
             <span class="project-card__date">2025</span>
           </div>
           <h3 class="project-card__title">ExpoApp</h3>
-          <p class="project-card__desc">Production order management for a jeans manufacturer. Built in 15 days. ₹9 Cr booked across two expo seasons.</p>
+          <p class="project-card__desc">Production order management for a jeans manufacturer. Built in 15 days. ₹9 Cr (~$1.1M) booked across two expo seasons.</p>
           <div class="project-card__tech-icons">
             <img src="/stickers/tech_react.svg" alt="React" width="30" height="30" title="React" />
             <img src="/stickers/tech_spring.svg" alt="Spring Boot" width="30" height="30" title="Spring Boot" />
@@ -102,8 +102,18 @@ import '../styles/global.css';
             <span class="project-card__date">2023–25</span>
           </div>
           <h3 class="project-card__title">CDAC / EPFO</h3>
-          <p class="project-card__desc">Backend engineer on India's EPFO UAN portal. 10M+ transactions/month. Government-scale concurrency and reliability.</p>
+          <p class="project-card__desc">Backend engineer on India's EPFO UAN portal (national social security). 10M+ transactions/month. Government-scale concurrency and reliability.</p>
           <span class="project-card__link">Read the Story →</span>
+        </a>
+
+        <a href="https://findrr-frontend-production.up.railway.app" target="_blank" rel="noopener noreferrer" class="project-card" style="--card-bg: var(--accent-amber);">
+          <div class="project-card__header">
+            <span class="chapter-badge" style="color: white; border-color: rgba(255,255,255,0.5);">03</span>
+            <span class="project-card__date">2026</span>
+          </div>
+          <h3 class="project-card__title">Findrr</h3>
+          <p class="project-card__desc">B2B recommendation engine using CognoDB (graph database). Property graph model replacing 5-table JOINs with O(k) traversals. Deployed.</p>
+          <span class="project-card__link">View Live App →</span>
         </a>
 
       </div>
@@ -159,18 +169,18 @@ import '../styles/global.css';
     </div>
   </section>
 
-  <!-- ===== CLOSING CTA ===== -->
-  <section class="cta section">
+  <!-- ===== WHY TEAM NOW ===== -->
+  <section class="why-team section section--alt">
     <div class="container container--narrow" style="text-align: center;">
-      <div style="display: flex; justify-content: center; margin-bottom: var(--space-md);">
-        <img src="/stickers/the_full_story.svg" alt="The Full Story" width="160" height="160" style="aspect-ratio: 1/1; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.1));" />
-      </div>
-      <h2 class="fade-in" style="margin-bottom: var(--space-lg);">Curious about the full story?</h2>
-      <p class="fade-in" style="font-size: var(--text-lg); color: var(--text-muted); margin-bottom: var(--space-xl);">
-        From CDAC to Surat to ₹9 Crore in bookings — and the honest failure that taught me more than any success.
+      <h2 class="fade-in" style="margin-bottom: var(--space-md);">Why I'm Looking for a Team</h2>
+      <p class="fade-in" style="font-size: var(--text-lg); color: var(--text-muted); margin-bottom: var(--space-lg); line-height: 1.7;">
+        After proving I can architect, build, and ship production software end-to-end as a freelance developer,
+        I'm ready to bring that ownership mindset into a collaborative engineering team — where code reviews,
+        architecture debates, and shared accountability make the product better than any one person could alone.
       </p>
-      <div class="fade-in">
-        <a href="/story" class="btn btn--primary" style="font-size: var(--text-lg);">Read the Full Journey →</a>
+      <div class="fade-in" style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;">
+        <a href="/contact" class="btn btn--primary">Get in Touch →</a>
+        <a href="/story" class="btn btn--outline">Read the Full Journey →</a>
       </div>
     </div>
   </section>

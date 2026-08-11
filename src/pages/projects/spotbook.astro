@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import '../../styles/global.css';
 ---
 
-<BaseLayout title="SpotBook SaaS — Modular Monolith | viknik.tech" description="Architecture breakdown of SpotBook: A multi-tenant Modular Monolith Enterprise SaaS built with Spring Boot 3 & Java 21 for apparel wholesalers.">
+<BaseLayout title="SpotBook SaaS — Modular Monolith | viknik.tech" description="Architecture breakdown of SpotBook: A multi-tenant Modular Monolith SaaS built with Spring Boot 3, Java 21, and PostgreSQL for apparel wholesalers. 2-person engineering team, 463 commits.">
 
   <div class="project-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
@@ -18,27 +18,69 @@ import '../../styles/global.css';
         <img src="/stickers/tech_react.svg" alt="React" width="60" height="60" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
       </div>
       <h1 class="project-hero__title fade-in">SpotBook: Multi-Tenant SaaS</h1>
-      <p class="project-hero__subtitle fade-in">Modular Monolith Enterprise SaaS built with Spring Boot 3, Java 21, and PostgreSQL 16 for apparel manufacturers & wholesalers.</p>
+      <p class="project-hero__subtitle fade-in">Modular Monolith SaaS built with Spring Boot 3, Java 21, and PostgreSQL 16 for apparel manufacturers & wholesalers.</p>
     </div>
   </div>
 
-  <!-- Architecture Overview -->
+  <!-- Key Stats Banner -->
+  <section class="metrics-banner section section--alt">
+    <div class="container">
+      <div class="stats__grid stagger-children">
+        <div class="stats__card glass">
+          <span class="stats__value">463</span>
+          <span class="stats__label">Commits</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value">6</span>
+          <span class="stats__label">Domain Modules</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value">8</span>
+          <span class="stats__label">Zone Boundaries</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value">2</span>
+          <span class="stats__label">Engineers</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Human Story Behind the Architecture -->
   <section class="section">
+    <div class="container container--narrow">
+      <div class="fade-in">
+        <h2 class="section-heading">Why SpotBook Exists</h2>
+        <p class="lead-text">
+          Before writing a line of SpotBook code, I'd already shipped ExpoApp for a single manufacturer. But during those 15 days at the expo, I sat across the table from 5 other manufacturers — and every conversation revealed the same pattern.
+        </p>
+        <blockquote class="spotbook-quote">
+          "Business owners described what they <em>wanted</em>. Their salespeople and inventory managers described what they <em>actually needed</em>. Those were two very different products."
+        </blockquote>
+        <p>
+          Warehouse staff didn't care about dashboards — they needed to know <strong>exactly how many pieces of Waist 32 × Dark Blue were left</strong> before promising them to a retailer. Salespeople didn't want a CRM — they wanted a POS that worked on a 5-inch phone in a noisy hall. Distributors didn't want login credentials — they wanted to browse a catalog via QR code without downloading anything.
+        </p>
+        <p>
+          That's what shaped the zone architecture below. Every boundary exists because a real person on the expo floor had a different mental model of the same data.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Overview -->
+  <section class="section section--alt">
     <div class="container container--narrow">
       <div class="fade-in">
         <h2 class="section-heading">Architectural Philosophy</h2>
         <p class="lead-text">
-          SpotBook was designed to solve the complexity of apparel wholesale operations — multi-role staff, size-color variant matrices, distributor booking portals, and season expo management.
-        </p>
-        <p>
-          Instead of jump-starting with microservices overhead, SpotBook was constructed as a <strong>Modular Monolith</strong> with strict zone boundaries (Zones 0 to 7). Cross-module imports are restricted exclusively to explicit <code>api/</code> packages, leaving internal logic encapsulated.
+          Instead of jumping to microservices overhead for a 2-person team, SpotBook was built as a <strong>Modular Monolith</strong> with strict zone boundaries (Zones 0–7). Cross-module imports are restricted to explicit <code>api/</code> packages, keeping internals encapsulated — while preserving a clean future microservices migration path.
         </p>
 
         <div class="arch-box glass">
           <h3>Zone Boundaries (0 – 7)</h3>
           <ul class="zone-list">
             <li><strong>Zone 0: Control Plane (<code>backoffice</code>)</strong> — The <em>only</em> module that bypasses tenant filters.</li>
-            <li><strong>Zone 1: Identity (<code>iam</code>)</strong> — Multi-role authentication & tenant context management.</li>
+            <li><strong>Zone 1: Identity (<code>iam</code>)</strong> — Multi-role authentication (5 roles) & tenant context management.</li>
             <li><strong>Zone 2: Catalog (<code>catalog</code>)</strong> — Products, size matrices, prepacks, and pricing.</li>
             <li><strong>Zone 3: Inventory (<code>inventory</code>)</strong> — Virtual stock calculation, warehouse locks, and reservations.</li>
             <li><strong>Zone 4: Expo (<code>expo</code>)</strong> — Event sessions, booth QR allocations, and fast-order intake.</li>
@@ -47,12 +89,17 @@ import '../../styles/global.css';
             <li><strong>Zone 7: Platform (<code>platform</code>)</strong> — Shared event bus, auditing, and notifications.</li>
           </ul>
         </div>
+
+        <div class="arch-detail glass" style="margin-top: var(--space-lg);">
+          <h3>Multi-Tenant Isolation</h3>
+          <p>Tenant filters are enforced at the Hibernate <code>@Filter</code> level — every query is automatically scoped to the authenticated manufacturer's <code>tenant_id</code>. Cross-tenant data access is structurally impossible outside Zone 0 (Backoffice). This was <strong>verified with integration tests</strong> that specifically attempt cross-tenant reads and assert 403/empty responses.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Core Features Grid -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <h2 class="section-heading fade-in" style="text-align: center; margin-bottom: var(--space-2xl);">Core Capabilities</h2>
       
@@ -60,7 +107,7 @@ import '../../styles/global.css';
         <div class="capability-card">
           <span class="capability-icon">🔒</span>
           <h3>Multi-Tenant Data Isolation</h3>
-          <p>Tenant filters enforced at the database and security filter levels. Automatic query scoping guarantees complete data separation between competing manufacturers.</p>
+          <p>Hibernate <code>@Filter</code>-based tenant scoping at the query level. Automatic isolation across all 6 domain modules — verified with integration tests that assert zero cross-tenant leakage.</p>
         </div>
 
         <div class="capability-card">
@@ -72,19 +119,49 @@ import '../../styles/global.css';
         <div class="capability-card">
           <span class="capability-icon">🔄</span>
           <h3>Surgical Order Editing</h3>
-          <p>Identity-based diffing engine computes order deltas on edits, ensuring atomic inventory adjustments without full order teardown.</p>
+          <p>Identity-based diffing engine computes order deltas on edits. Backend uses <code>EDITING_RESERVED</code> transitional status with pessimistic inventory locking — preserving order identity without full teardown.</p>
         </div>
 
         <div class="capability-card">
           <span class="capability-icon">⚡</span>
           <h3>Event-Driven Decoupling</h3>
-          <p>Modules communicate asynchronously through an internal Spring Event Bus, avoiding direct cross-domain database coupling.</p>
+          <p>Modules communicate asynchronously through Spring's internal event bus, avoiding direct cross-domain database coupling.</p>
+        </div>
+
+        <div class="capability-card">
+          <span class="capability-icon">🧪</span>
+          <h3>TDD for Critical Paths</h3>
+          <p>JUnit 5 + Mockito unit tests across all modules. Integration and regression tests on concurrency paths, stock delta validation, and tenant isolation — run before every expo deployment.</p>
         </div>
 
         <div class="capability-card">
           <span class="capability-icon">👥</span>
           <h3>Architected for Multi-Dev Teams</h3>
-          <p>Strict Zone boundaries (API vs. Internal packages) ensure multiple developers can own separate business domains in parallel without code collisions or merge friction.</p>
+          <p>Strict Zone boundaries (API vs. Internal packages) with Spring Modulith verification tests. Multiple developers can own separate domains without merge friction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What I Learned -->
+  <section class="section section--alt">
+    <div class="container container--narrow">
+      <div class="fade-in">
+        <h2 class="section-heading">What I Learned</h2>
+        
+        <div class="lesson-grid">
+          <div class="lesson-card">
+            <h4>Architecture ≠ Diagrams</h4>
+            <p>Zone boundaries aren't pretty lines on a whiteboard — they're enforced by <code>ApplicationModulesTest</code> failing your CI pipeline when someone sneaks a cross-module import. I learned that architecture only matters if it's testable.</p>
+          </div>
+          <div class="lesson-card">
+            <h4>Pragmatism > Purity</h4>
+            <p>Modular monolith over microservices for a 2-person team wasn't compromise — it was the correct architecture for the team size, velocity constraints, and deployment complexity we had. The migration path to microservices is preserved in the zone contracts.</p>
+          </div>
+          <div class="lesson-card">
+            <h4>Engineering ≠ Product</h4>
+            <p>SpotBook's code was production-proven. The GTM strategy wasn't. Facebook ads collected garbage leads. Traditional wholesalers trust relationships, not forms. <strong>A software system without a dedicated sales engine cannot scale into a full business.</strong></p>
+          </div>
         </div>
       </div>
     </div>
@@ -98,13 +175,13 @@ import '../../styles/global.css';
         <div class="honest-callout">
           <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <h3>The GTM Lesson</h3>
-            <img src="/stickers/no_corporate_filter.svg" alt="No Corporate Filter" width="80" height="80" style="aspect-ratio: 1/1;" />
+            <img src="/stickers/no_corporate_filter.svg" alt="No Corporate Filter — Direct, honest communication and high engineering integrity" title="No Corporate Filter — Direct, honest communication and high engineering integrity" width="80" height="80" style="aspect-ratio: 1/1;" />
           </div>
           <p>
-            While SpotBook's technical foundation was rock-solid and verified in live expo testing, the product faced distribution hurdles. Relying on paid digital marketing (Facebook lead ads) proved inefficient for a high-touch traditional industry.
+            While SpotBook's technical foundation was rock-solid and verified across 2 live expo deployments, the product faced distribution hurdles. Relying on paid digital marketing (Facebook lead ads) proved inefficient for a high-touch traditional industry.
           </p>
           <p>
-            Building SpotBook provided invaluable experience in architecting multi-tenant SaaS systems, managing complex domain models, and understanding the vital importance of aligned sales channels in B2B software.
+            <strong>Status:</strong> Paused — the product works, the engineering is proven. What stalled was go-to-market, not code quality. That distinction is important: this is an <em>engineering success</em> and a <em>distribution lesson</em>.
           </p>
         </div>
       </div>
@@ -114,9 +191,12 @@ import '../../styles/global.css';
   <!-- Navigation Footer -->
   <section class="section section--alt" style="text-align: center;">
     <div class="container container--narrow">
-      <h3 style="margin-bottom: var(--space-md);">Next Steps</h3>
+      <h3 style="margin-bottom: var(--space-md);">Explore the Engineering</h3>
+      <p style="font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-lg);">
+        See the real production problems solved building SpotBook — concurrency bugs, race conditions, schema migrations, and deployment gauntlets.
+      </p>
       <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;">
-        <a href="/engineering" class="btn btn--primary">10 Engineering Problems →</a>
+        <a href="/engineering" class="btn btn--primary">Read Engineering Challenges →</a>
         <a href="/story" class="btn btn--outline">Read The Full Story →</a>
       </div>
     </div>
@@ -172,6 +252,44 @@ import '../../styles/global.css';
     margin: 0 auto;
   }
 
+  /* Stats */
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 768px) {
+    .stats__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .stats__card {
+    padding: var(--space-lg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .stats__value {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .stats__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Sections */
   .section-heading {
     font-size: var(--text-2xl);
     margin-bottom: var(--space-lg);
@@ -184,7 +302,19 @@ import '../../styles/global.css';
     font-weight: 500;
   }
 
-  .arch-box {
+  .spotbook-quote {
+    border-left: 3px solid var(--accent-violet);
+    padding: var(--space-md) var(--space-lg);
+    margin: var(--space-xl) 0;
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent-violet) 5%, var(--bg-cream));
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  /* Architecture */
+  .arch-box, .arch-detail {
     padding: var(--space-2xl);
     margin-top: var(--space-2xl);
     border-radius: var(--radius-lg);
@@ -192,9 +322,16 @@ import '../../styles/global.css';
     border: 1px solid var(--bg-cream-darker);
   }
 
-  .arch-box h3 {
+  .arch-box h3, .arch-detail h3 {
     font-size: var(--text-xl);
     margin-bottom: var(--space-lg);
+  }
+
+  .arch-detail p {
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 0;
   }
 
   .zone-list {
@@ -207,11 +344,18 @@ import '../../styles/global.css';
     line-height: 1.6;
   }
 
+  /* Capabilities */
   .capability-card {
     background: var(--bg-cream);
     padding: var(--space-xl);
     border-radius: var(--radius-lg);
     border: 1px solid var(--bg-cream-darker);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .capability-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
   }
 
   .capability-icon {
@@ -231,6 +375,40 @@ import '../../styles/global.css';
     margin-bottom: 0;
   }
 
+  /* Lessons */
+  .lesson-grid {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 768px) {
+    .lesson-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .lesson-card {
+    background: var(--bg-cream);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--bg-cream-darker);
+  }
+
+  .lesson-card h4 {
+    font-size: var(--text-base);
+    font-family: var(--font-display);
+    margin-bottom: var(--space-sm);
+    color: var(--accent-violet);
+  }
+
+  .lesson-card p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* Honest callout */
   .honest-callout {
     background: color-mix(in srgb, var(--accent-coral) 8%, var(--bg-cream));
     border-left: 4px solid var(--accent-coral);
@@ -248,5 +426,9 @@ import '../../styles/global.css';
     font-size: var(--text-base);
     line-height: 1.7;
     margin-bottom: var(--space-sm);
+  }
+
+  .honest-callout p:last-child {
+    margin-bottom: 0;
   }
 </style>
