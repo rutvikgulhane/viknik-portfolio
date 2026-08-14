@@ -8,7 +8,7 @@ import '../styles/global.css';
   <div class="story-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
     <div class="story-hero__content container">
-      <div style="display: flex; justify-content: center; margin-bottom: var(--space-md);">
+      <div style="display: flex; justify-content: center; margin-bottom: var(--space-xs);">
         <img src="/stickers/the_full_story.svg" alt="The Full Story" class="hero-story-badge" />
       </div>
       <p class="story-hero__subtitle">CDAC → Accident & Recovery → Surat Freelance → 15-Day Build → ₹9 Crore (~$1.1M) → SaaS Architecture → Lessons</p>
@@ -207,7 +207,7 @@ import '../styles/global.css';
 <style>
   .story-hero {
     position: relative;
-    padding: calc(80px + var(--space-4xl)) 0 var(--space-3xl);
+    padding: calc(55px + var(--space-lg)) 0 var(--space-md);
     overflow: hidden;
     text-align: center;
   }
@@ -238,12 +238,12 @@ import '../styles/global.css';
     font-size: var(--text-sm);
     color: var(--text-muted);
     letter-spacing: 0.02em;
-    margin-top: var(--space-sm);
+    margin-top: var(--space-xs);
   }
 
   /* ===== Chapters ===== */
   .chapter {
-    padding-block: var(--space-4xl);
+    padding-block: var(--space-2xl);
     border-bottom: 1px solid var(--bg-cream-darker);
   }
 
@@ -348,10 +348,10 @@ import '../styles/global.css';
   }
 
   .hero-story-badge {
-    max-width: clamp(180px, 50vw, 320px);
+    max-width: clamp(100px, 18vw, 150px);
     height: auto;
     aspect-ratio: 1/1;
-    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.1));
   }
 
   .chapter__float-badge {
@@ -382,10 +382,10 @@ import '../styles/global.css';
 
   @media (max-width: 640px) {
     .story-hero {
-      padding: calc(75px + var(--space-2xl)) 0 var(--space-xl);
+      padding: calc(48px + var(--space-md)) 0 var(--space-xs);
     }
     .chapter {
-      padding-block: var(--space-2xl);
+      padding-block: var(--space-xl);
     }
     .chapter__header {
       flex-wrap: wrap;

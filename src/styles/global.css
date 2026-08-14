@@ -519,3 +519,40 @@ code {
   white-space: nowrap;
   border: 0;
 }
+
+/* ===== Rutvik Selfie Sticker ===== */
+.rutvik-selfie-sticker {
+  display: inline-block;
+  height: auto;
+  max-height: clamp(210px, 32vw, 320px);
+  width: auto;
+  object-fit: contain;
+  filter: 
+    drop-shadow(2px 0 0 #ffffff)
+    drop-shadow(-2px 0 0 #ffffff)
+    drop-shadow(0 2px 0 #ffffff)
+    drop-shadow(0 -2px 0 #ffffff)
+    drop-shadow(1.5px 1.5px 0 #ffffff)
+    drop-shadow(-1.5px -1.5px 0 #ffffff)
+    drop-shadow(1.5px -1.5px 0 #ffffff)
+    drop-shadow(-1.5px 1.5px 0 #ffffff)
+    drop-shadow(0 10px 25px rgba(26, 26, 46, 0.18));
+  transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
+  transform: rotate(-2deg);
+  cursor: pointer;
+}
+
+.rutvik-selfie-sticker:hover {
+  transform: rotate(-4deg) scale(1.04);
+  filter: 
+    drop-shadow(3px 0 0 #ffffff)
+    drop-shadow(-3px 0 0 #ffffff)
+    drop-shadow(0 3px 0 #ffffff)
+    drop-shadow(0 -3px 0 #ffffff)
+    drop-shadow(2px 2px 0 #ffffff)
+    drop-shadow(-2px -2px 0 #ffffff)
+    drop-shadow(2px -2px 0 #ffffff)
+    drop-shadow(-2px 2px 0 #ffffff)
+    drop-shadow(0 14px 32px rgba(26, 26, 46, 0.25));
+}
+

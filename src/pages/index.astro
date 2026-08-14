@@ -9,21 +9,30 @@ import '../styles/global.css';
   <section class="hero" id="hero">
     <div class="hero__gradient" aria-hidden="true"></div>
     <div class="hero__content container">
-      <div class="hero__text">
-        <div class="hero__badge-row fade-in">
-          <img src="/stickers/badge_surat_approved.svg" alt="Surat Expo Approved" class="sticker-badge sticker-badge--hero" width="90" height="90" />
-          <img src="/stickers/badge_15day_build.svg" alt="15-Day Build" class="sticker-badge sticker-badge--hero" width="90" height="90" />
+      <div class="hero__grid">
+        <div class="hero__text">
+          <div class="hero__badge-row fade-in">
+            <img src="/stickers/badge_surat_approved.svg" alt="Surat Expo Approved" class="sticker-badge sticker-badge--hero" width="90" height="90" />
+            <img src="/stickers/badge_15day_build.svg" alt="15-Day Build" class="sticker-badge sticker-badge--hero" width="90" height="90" />
+          </div>
+
+          <h1 class="hero__headline fade-in">
+            After a serious road accident forced me to step down from my government job, I took on freelance engineering in Surat — building an app in 15 days that handled
+            <span class="gradient-text"> ₹9 Crore (~$1.1M)</span> at a jeans expo.
+          </h1>
+          <p class="hero__subtitle fade-in">Full-Stack Freelance Software Developer · Product Engineer · AI-Assisted Builder</p>
+
+          <div class="hero__cta fade-in">
+            <a href="/story" class="btn btn--primary">Read My Story →</a>
+            <a href="/projects/expoapp" class="btn btn--outline">See What I Built →</a>
+          </div>
         </div>
 
-        <h1 class="hero__headline fade-in">
-          After a serious road accident forced me to step down from my government job, I took on freelance engineering in Surat — building an app in 15 days that handled
-          <span class="gradient-text"> ₹9 Crore (~$1.1M)</span> at a jeans expo.
-        </h1>
-        <p class="hero__subtitle fade-in">Full-Stack Freelance Software Developer · Product Engineer · AI-Assisted Builder</p>
-
-        <div class="hero__cta fade-in">
-          <a href="/story" class="btn btn--primary">Read My Story →</a>
-          <a href="/projects/expoapp" class="btn btn--outline">See What I Built →</a>
+        <div class="hero__photo-card fade-in">
+          <div class="photo-sticker-frame">
+            <img src="/media/rutvik_selfie.svg" alt="Rutvik Gulhane — Software Product Engineer" class="rutvik-selfie-sticker" />
+            <span class="photo-sticker-tag">Rutvik Gulhane</span>
+          </div>
         </div>
       </div>
     </div>
@@ -193,8 +202,8 @@ import '../styles/global.css';
     position: relative;
     min-height: 85vh;
     min-height: 85dvh;
-    padding-top: calc(100px + var(--space-2xl));
-    padding-bottom: 100px;
+    padding-top: calc(65px + var(--space-xl));
+    padding-bottom: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -205,8 +214,8 @@ import '../styles/global.css';
   @media (max-width: 640px) {
     .hero {
       min-height: auto;
-      padding-top: calc(75px + var(--space-lg));
-      padding-bottom: var(--space-2xl);
+      padding-top: calc(52px + var(--space-md));
+      padding-bottom: var(--space-xl);
     }
   }
 
@@ -265,6 +274,52 @@ import '../styles/global.css';
 
   .hero__text {
     max-width: 840px;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 992px) {
+    .hero__grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: var(--space-2xl);
+    }
+  }
+
+  .hero__photo-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .photo-sticker-frame {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform var(--transition-base);
+  }
+
+  .photo-sticker-frame:hover {
+    transform: translateY(-4px);
+  }
+
+  .photo-sticker-tag {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    background: #ffffff;
+    color: var(--text-primary);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--text-primary);
+    box-shadow: 0 4px 12px rgba(26, 26, 46, 0.12);
   }
 
   .hero__headline {
