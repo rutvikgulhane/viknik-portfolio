@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="Page Not Found — Rutvik Gulhane | viknik.tech" description="That page does not exist. Return to Rutvik Gulhane's Java / Spring backend and product engineering portfolio.">
+  <section class="not-found">
+    <div class="not-found__gradient" aria-hidden="true"></div>
+    <div class="not-found__content container container--narrow fade-in">
+      <span class="not-found__sticker" aria-hidden="true">🧭</span>
+      <p class="not-found__eyebrow">404 · WRONG TURN</p>
+      <h1>This page wandered off.</h1>
+      <p class="not-found__copy">The link may be old, but the portfolio is still right here.</p>
+      <div class="not-found__actions">
+        <a href="/" class="btn btn--primary">Back to Home →</a>
+        <button type="button" class="btn btn--outline" onclick="history.back()">← Go Back</button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    position: relative;
+    min-height: 78vh;
+    min-height: 78dvh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    padding: calc(65px + var(--space-3xl)) var(--space-md) var(--space-3xl);
+    text-align: center;
+  }
+
+  .not-found__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 50% at 25% 30%, rgba(124, 58, 237, 0.2), transparent 70%),
+      radial-gradient(ellipse 55% 50% at 75% 60%, rgba(249, 115, 22, 0.18), transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+  }
+
+  .not-found__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .not-found__sticker {
+    display: inline-grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    margin-bottom: var(--space-md);
+    border: 3px solid var(--text-primary);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: var(--shadow-lg);
+    font-size: 2.6rem;
+    transform: rotate(-8deg);
+  }
+
+  .not-found__eyebrow {
+    margin-bottom: var(--space-sm);
+    color: var(--accent-coral);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .not-found h1 {
+    margin-bottom: var(--space-sm);
+    font-size: clamp(2.4rem, 7vw, 4.8rem);
+  }
+
+  .not-found__copy {
+    max-width: 440px;
+    margin: 0 auto var(--space-xl);
+    color: var(--text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .not-found__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .not-found__actions button {
+    font: inherit;
+    cursor: pointer;
+  }
+</style>

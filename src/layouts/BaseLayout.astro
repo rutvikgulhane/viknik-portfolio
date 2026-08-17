@@ -6,7 +6,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Freelance Software Developer & Product Engineer who built a production system in 15 days handling ₹9 Crore across two expo seasons. Spring Boot, React, PostgreSQL." } = Astro.props;
+const { title, description = "Rutvik Gulhane is a Java / Spring Backend & Product Engineer with production ownership across EPFO and SpotBook. Spring Boot, Java, React, PostgreSQL." } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const currentPath = Astro.url.pathname;
 ---
@@ -29,6 +29,16 @@ const currentPath = Astro.url.pathname;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Rutvik Gulhane',
+      url: canonicalURL.origin,
+      jobTitle: 'Java / Spring Backend & Product Engineer',
+      description,
+      knowsAbout: ['Java', 'Spring Boot', 'Backend Engineering', 'Product Engineering', 'PostgreSQL', 'System Design', 'Applied AI']
+    })} />
 
     <link rel="canonical" href={canonicalURL} />
 
@@ -63,7 +73,7 @@ const currentPath = Astro.url.pathname;
               </a>
             </li>
             <li>
-              <a href="/projects/expoapp" class={`nav__item-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
+              <a href="/projects/spotbook" class={`nav__item-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
                 <span class="nav-sticker-icon" style="--icon-accent: var(--accent-violet);">🚀</span>
                 <span class="nav__item-text">PROJECTS</span>
               </a>
@@ -96,7 +106,7 @@ const currentPath = Astro.url.pathname;
           <span class="dock-icon" style="--dock-accent: var(--accent-coral);">📖</span>
           <span class="dock-label">STORY</span>
         </a>
-        <a href="/projects/expoapp" class={`mobile-dock-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
+        <a href="/projects/spotbook" class={`mobile-dock-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
           <span class="dock-icon" style="--dock-accent: var(--accent-violet);">🚀</span>
           <span class="dock-label">PROJECTS</span>
         </a>

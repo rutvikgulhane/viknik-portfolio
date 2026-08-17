@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import '../../styles/global.css';
 ---
 
-<BaseLayout title="SpotBook SaaS — Modular Monolith | viknik.tech" description="Architecture breakdown of SpotBook: A multi-tenant Modular Monolith SaaS built with Spring Boot 3, Java 21, and PostgreSQL for apparel wholesalers. 2-person engineering team, 463 commits.">
+<BaseLayout title="SpotBook — B2B Wholesale Platform | viknik.tech" description="SpotBook is a B2B wholesale platform co-built by Rutvik Gulhane: from a first production deployment for P10 Denim / MG Sales built in 15 days to a modular Spring Boot platform for apparel wholesalers.">
 
   <div class="project-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
@@ -17,8 +17,8 @@ import '../../styles/global.css';
         <img src="/stickers/tech_postgres.svg" alt="PostgreSQL" width="60" height="60" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
         <img src="/stickers/tech_react.svg" alt="React" width="60" height="60" style="aspect-ratio: 1/1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));" />
       </div>
-      <h1 class="project-hero__title fade-in">SpotBook: Multi-Tenant SaaS</h1>
-      <p class="project-hero__subtitle fade-in">Modular Monolith SaaS built with Spring Boot 3, Java 21, and PostgreSQL 16 for apparel manufacturers & wholesalers.</p>
+      <h1 class="project-hero__title fade-in">SpotBook: B2B Wholesale Platform</h1>
+      <p class="project-hero__subtitle fade-in">Co-Founder & Full-Stack Developer · From a first production deployment for P10 Denim / MG Sales to a modular Spring Boot platform for apparel manufacturers and wholesalers.</p>
     </div>
   </div>
 
@@ -46,13 +46,28 @@ import '../../styles/global.css';
     </div>
   </section>
 
+  <!-- Product Evolution -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="fade-in">
+        <h2 class="section-heading">From Production Deployment to Platform</h2>
+        <p class="lead-text">SpotBook began with a real client deployment: a mobile-first production order-management system built in approximately 15 days for P10 Denim / MG Sales ahead of a trade expo.</p>
+        <p>That deployment handled QR/product workflows, real-time inventory and order operations, and expo-floor support. Across two expo seasons it supported more than ₹9 Cr in wholesale bookings. Later SpotBook work extended the product into the multi-tenant architecture and domain capabilities documented below.</p>
+        <p>This distinction matters: the first deployment proved the production workflow; the later platform engineering added the broader modular architecture, tenant isolation, and wholesale-domain depth.</p>
+        <div style="margin-top: var(--space-xl);">
+          <a href="/projects/expoapp" class="btn btn--outline">View the Initial Deployment →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- The Human Story Behind the Architecture -->
   <section class="section">
     <div class="container container--narrow">
       <div class="fade-in">
         <h2 class="section-heading">Why SpotBook Exists</h2>
         <p class="lead-text">
-          Before writing a line of SpotBook code, I'd already shipped ExpoApp for a single manufacturer. But during those 15 days at the expo, I sat across the table from 5 other manufacturers — and every conversation revealed the same pattern.
+          The initial SpotBook deployment proved the workflow for one manufacturer. During those 15 days at the expo, I sat across the table from 5 other manufacturers — and every conversation revealed the same pattern.
         </p>
         <blockquote class="spotbook-quote">
           "Business owners described what they <em>wanted</em>. Their salespeople and inventory managers described what they <em>actually needed</em>. Those were two very different products."
