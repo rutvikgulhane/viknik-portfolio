@@ -9,7 +9,7 @@ import '../../styles/global.css';
     <div class="hero__gradient" aria-hidden="true"></div>
     <div class="project-hero__content container">
       <div class="project-hero__badge-wrap">
-        <span class="chapter-badge" style="color: var(--accent-violet); border-color: var(--accent-violet);">PROJECT 02</span>
+        <span class="chapter-badge" style="color: var(--accent-violet); border-color: var(--accent-violet);">PROJECT 01</span>
         <span class="project-hero__date">Sep 2025 – Jun 2026</span>
       </div>
       <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: var(--space-md);">
@@ -27,20 +27,20 @@ import '../../styles/global.css';
     <div class="container">
       <div class="stats__grid stagger-children">
         <div class="stats__card glass">
-          <span class="stats__value">463</span>
-          <span class="stats__label">Commits</span>
+          <span class="stats__value">₹9 Cr+</span>
+          <span class="stats__label">Wholesale Bookings (~$1.1M)</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value">15 Days</span>
+          <span class="stats__label">Initial Production Build</span>
+        </div>
+        <div class="stats__card glass">
+          <span class="stats__value">2 Seasons</span>
+          <span class="stats__label">Live Expo Operations</span>
         </div>
         <div class="stats__card glass">
           <span class="stats__value">6</span>
           <span class="stats__label">Domain Modules</span>
-        </div>
-        <div class="stats__card glass">
-          <span class="stats__value">8</span>
-          <span class="stats__label">Zone Boundaries</span>
-        </div>
-        <div class="stats__card glass">
-          <span class="stats__value">2</span>
-          <span class="stats__label">Engineers</span>
         </div>
       </div>
     </div>
@@ -55,7 +55,69 @@ import '../../styles/global.css';
         <p>That deployment handled QR/product workflows, real-time inventory and order operations, and expo-floor support. Across two expo seasons it supported more than ₹9 Cr in wholesale bookings. Later SpotBook work extended the product into the multi-tenant architecture and domain capabilities documented below.</p>
         <p>This distinction matters: the first deployment proved the production workflow; the later platform engineering added the broader modular architecture, tenant isolation, and wholesale-domain depth.</p>
         <div style="margin-top: var(--space-xl);">
-          <a href="/projects/expoapp" class="btn btn--outline">View the Initial Deployment →</a>
+          <a href="#initial-deployment" class="btn btn--outline">See the Initial Deployment Details →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Initial Deployment Details -->
+  <section class="section section--alt" id="initial-deployment">
+    <div class="container container--narrow">
+      <div class="fade-in">
+        <h2 class="section-heading">Initial Deployment: P10 Denim / MG Sales</h2>
+        <p class="lead-text">
+          The first SpotBook deployment was built for a real wholesale expo environment, where sales teams had to capture bulk orders quickly while stock was moving across booths, distributors, and visiting retailers.
+        </p>
+        <p>
+          Before the system, sales reps wrote order items manually on paper slips. During peak hours, two reps could unknowingly sell the same limited stock to different retailers, creating post-expo cancellations, distributor disputes, and no reliable real-time reporting for the manufacturer.
+        </p>
+        <p>
+          The 15-day build turned that workflow into a mobile-first PWA designed for noisy expo floors and 5-inch phone screens.
+        </p>
+        <ul class="feature-list">
+          <li><strong>Role-based access:</strong> admin dashboard, sales-agent interface, distributor/customer flows, and manufacturer-level controls.</li>
+          <li><strong>QR-led product lookup:</strong> staff could scan sample tags and immediately view product variants, stock levels, and order options.</li>
+          <li><strong>Concurrency-safe checkout:</strong> DB-level pessimistic locking and stock validation prevented overbooking during simultaneous live orders.</li>
+          <li><strong>Automated receipts:</strong> PDF/text receipts were generated and delivered through WhatsApp after order placement.</li>
+          <li><strong>Live reporting:</strong> dashboards exposed revenue, order volume, inventory movement, and top-selling designs during expo days.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Initial Deployment Screenshots -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading fade-in" style="text-align: center; margin-bottom: var(--space-2xl);">Initial Deployment Interfaces</h2>
+
+      <div class="gallery-grid grid grid--2 fade-in">
+        <div class="gallery-item">
+          <div class="phone-frame">
+            <img src="/media/dashboard.jpg" alt="SpotBook initial deployment admin dashboard" loading="lazy" />
+          </div>
+          <p class="gallery-caption">Admin dashboard: real-time revenue and order tracking</p>
+        </div>
+
+        <div class="gallery-item">
+          <div class="phone-frame">
+            <img src="/media/Product_catalog.jpg" alt="SpotBook initial deployment product catalog" loading="lazy" />
+          </div>
+          <p class="gallery-caption">Product catalog: stock filtering and size-variant ordering</p>
+        </div>
+
+        <div class="gallery-item">
+          <div class="phone-frame">
+            <img src="/media/BI_1.jpg" alt="SpotBook initial deployment inventory overview" loading="lazy" />
+          </div>
+          <p class="gallery-caption">Inventory overview: top-selling designs and stock valuation</p>
+        </div>
+
+        <div class="gallery-item">
+          <div class="phone-frame">
+            <img src="/media/BI_chart_1.jpg" alt="SpotBook initial deployment analytics chart" loading="lazy" />
+          </div>
+          <p class="gallery-caption">Analytics: revenue trends during live expo operations</p>
         </div>
       </div>
     </div>
@@ -315,6 +377,60 @@ import '../../styles/global.css';
     line-height: 1.7;
     color: var(--text-primary);
     font-weight: 500;
+  }
+
+  .feature-list {
+    list-style: none;
+    margin-top: var(--space-lg);
+  }
+
+  .feature-list li {
+    position: relative;
+    padding-left: var(--space-xl);
+    margin-bottom: var(--space-md);
+    line-height: 1.7;
+  }
+
+  .feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-violet);
+    font-weight: 900;
+  }
+
+  .gallery-grid {
+    gap: var(--space-2xl);
+  }
+
+  .gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .phone-frame {
+    width: 100%;
+    max-width: 320px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 8px solid #1a1a2e;
+    background: #1a1a2e;
+  }
+
+  .phone-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .gallery-caption {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: var(--space-md);
+    text-align: center;
   }
 
   .spotbook-quote {
