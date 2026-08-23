@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/global.css';
+---
+
+<BaseLayout title="IECSA — Spring AI Enterprise Agent Prototype | viknik.tech" description="IECSA is a production-oriented Spring AI enterprise customer-success agent prototype built with Java, Spring Boot, Google Gemini, MCP, RAG, memory, guardrails, and evaluation.">
+  <div class="project-hero">
+    <div class="project-hero__gradient" aria-hidden="true"></div>
+    <div class="project-hero__content container container--narrow">
+      <div class="project-hero__badge-wrap">
+        <span class="chapter-badge" style="color: var(--accent-violet); border-color: var(--accent-violet);">PROJECT 04</span>
+        <span class="project-hero__date">2026 · Prototype</span>
+      </div>
+      <h1 class="project-hero__title fade-in">IECSA: Enterprise AI Agent</h1>
+      <p class="project-hero__subtitle fade-in">A production-oriented customer-success agent prototype that brings Spring backend discipline to LLM workflows.</p>
+    </div>
+  </div>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="stats__grid stagger-children">
+        <div class="stats__card glass"><span class="stats__value">7</span><span class="stats__label">Agent-system building blocks</span></div>
+        <div class="stats__card glass"><span class="stats__value">MCP</span><span class="stats__label">Business-system integration</span></div>
+        <div class="stats__card glass"><span class="stats__value">RAG</span><span class="stats__label">Grounded policy answers</span></div>
+        <div class="stats__card glass"><span class="stats__value">HITL</span><span class="stats__label">Human approval controls</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--narrow fade-in">
+      <h2 class="section-heading">The Goal</h2>
+      <p class="lead-text">Customer-success requests are rarely one API call. The agent needs accurate policy context, controlled access to customer data, session isolation, and a safe way to escalate risky decisions.</p>
+      <p>IECSA (Intelligent Enterprise Customer Success Agent) is a hands-on Spring AI prototype exploring that full path: an LLM can reason over a request, retrieve grounded context, call the right business tools, and hand off decisions that require approval. It is deliberately presented as a prototype—not a production AI deployment.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow fade-in">
+      <h2 class="section-heading">Architecture</h2>
+      <div class="architecture" role="img" aria-label="User request flows through Spring Boot and ChatClient to the Gemini model; it can use local tools, MCP CRM tools, RAG, skills and scoped memory before returning a response or a human approval request.">
+        <span>Request</span><b>→</b><span>Spring Boot + ChatClient</span><b>→</b><span>Gemini</span><b>→</b><span>Tools / MCP / RAG / Skills / Memory</span><b>→</b><span>Response or approval</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--narrow fade-in">
+      <h2 class="section-heading">What I Built</h2>
+      <ul class="feature-list">
+        <li><strong>Agentic tool loop:</strong> Java <code>@Tool</code> methods and Spring AI <code>ChatClient</code> for customer-account and workflow actions.</li>
+        <li><strong>MCP integration:</strong> a local JSON-RPC CRM server, batched customer lookup to avoid N+1 calls, and propagated identity context for row-level access control.</li>
+        <li><strong>Grounding:</strong> an in-memory vector store with local ONNX embeddings and <code>QuestionAnswerAdvisor</code> to retrieve policy context before answering.</li>
+        <li><strong>Memory and orchestration:</strong> windowed per-session memory, asynchronous long-term fact extraction, and supervisor-worker delegation with isolated worker contexts.</li>
+        <li><strong>Safety and readiness:</strong> human-in-the-loop approval flow, prompt-injection filtering, request lifecycle handling, rate-limit planning, and LLM-as-a-judge evaluations.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow fade-in">
+      <h2 class="section-heading">Stack</h2>
+      <div class="stack-list">
+        <span>Java 21</span><span>Spring Boot 3.3</span><span>Spring AI</span><span>Google Gemini</span><span>MCP</span><span>RAG + Vector Store</span><span>ONNX Embeddings</span><span>JPA / H2</span><span>JUnit</span>
+      </div>
+      <p class="note">The work demonstrates architecture and implementation depth for AI-platform roles. It does not claim production traffic, SLAs, or model training.</p>
+    </div>
+  </section>
+
+  <section class="section" style="text-align: center;">
+    <div class="container container--narrow fade-in">
+      <h2 style="margin-bottom: var(--space-md);">Building AI systems with backend rigor</h2>
+      <a href="/contact" class="btn btn--primary">Get in Touch →</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .project-hero { position: relative; padding: calc(80px + var(--space-4xl)) 0 var(--space-3xl); overflow: hidden; text-align: center; }
+  .project-hero__gradient { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 20% 30%, rgba(124, 58, 237, .24), transparent 70%), radial-gradient(ellipse 65% 50% at 80% 25%, rgba(14, 165, 233, .18), transparent 70%); }
+  .project-hero__content { position: relative; z-index: 1; }
+  .project-hero__badge-wrap { display: flex; align-items: center; justify-content: center; gap: var(--space-md); margin-bottom: var(--space-md); }
+  .project-hero__date { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .project-hero__title { font-size: var(--text-4xl); margin-bottom: var(--space-md); }
+  .project-hero__subtitle { color: var(--text-muted); font-size: var(--text-lg); line-height: 1.6; margin: 0 auto; max-width: 680px; }
+  .section-heading { font-size: var(--text-2xl); margin-bottom: var(--space-lg); }
+  .lead-text { color: var(--text-primary); font-size: var(--text-lg); font-weight: 500; line-height: 1.7; }
+  .stats__grid { display: grid; gap: var(--space-md); grid-template-columns: repeat(2, 1fr); }
+  .stats__card { display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-lg); text-align: center; }
+  .stats__value { color: var(--accent-violet); font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 900; line-height: 1; }
+  .stats__label { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; text-transform: uppercase; }
+  .architecture { align-items: center; background: var(--bg-cream); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); display: flex; flex-wrap: wrap; gap: var(--space-sm); justify-content: center; padding: var(--space-xl); text-align: center; }
+  .architecture span { background: white; border: 2px solid var(--accent-violet); border-radius: var(--radius-md); font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 700; padding: .6rem .75rem; }
+  .architecture b { color: var(--accent-violet); font-size: 1.3rem; }
+  .feature-list { list-style: none; margin-top: var(--space-lg); }
+  .feature-list li { line-height: 1.7; margin-bottom: var(--space-md); padding-left: var(--space-xl); position: relative; }
+  .feature-list li::before { color: var(--accent-violet); content: '✓'; font-weight: 900; left: 0; position: absolute; }
+  code { background: var(--bg-cream-dark); border-radius: 4px; font-family: var(--font-mono); font-size: .9em; padding: .1em .3em; }
+  .stack-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .stack-list span { background: white; border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-full); color: var(--text-secondary); font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 700; padding: .45rem .8rem; }
+  .note { color: var(--text-muted); font-size: var(--text-sm); margin-top: var(--space-lg); }
+  @media (min-width: 768px) { .stats__grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 560px) { .project-hero__badge-wrap { flex-direction: column; gap: var(--space-xs); } .architecture { align-items: stretch; flex-direction: column; } .architecture b { transform: rotate(90deg); } }
+</style>
