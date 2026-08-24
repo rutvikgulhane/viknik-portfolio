@@ -69,17 +69,16 @@ import '../styles/global.css';
           </article>
           <article class="proof-card proof-card--dark">
             <span>THE ENGINEERING UNDERNEATH</span>
-            <h3>Safe enough for real money.</h3>
             <p>Spring Boot systems for concurrency-safe inventory, allocation, fulfillment, and production support—deployed on Railway so I could ship quickly and focus on the product.</p>
           </article>
           <article class="proof-card proof-card--coral">
             <span>THE MOMENT THAT CHANGED THE BAR</span>
-            <h3>₹3.76 lakh vanished once.</h3>
+            <h3>₹3.76 lakh (~$4.5K) vanished once.</h3>
             <p>One production mistake made the responsibility very real: other people’s money and trust were involved. The caution that followed later became confidence.</p>
           </article>
           <article class="proof-card proof-card--soft">
             <span>THE RESULT</span>
-            <h3>₹9 crore in booked goods.</h3>
+            <h3>₹9 crore (~$1.1M) in booked goods.</h3>
             <p>The app supported two expo seasons across multiple cities, handling roughly $1.1M of wholesale bookings.</p>
           </article>
         </div>
@@ -154,7 +153,7 @@ import '../styles/global.css';
   .proof-card p + p { margin-top: var(--space-md); }
   .proof-card--dark { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-cream); }
   .proof-card--dark > span { color: var(--accent-amber); }
-  .proof-card--dark p { color: color-mix(in srgb, var(--bg-cream) 80%, transparent); }
+  .proof-card--dark p { margin-top: var(--space-md); color: color-mix(in srgb, var(--bg-cream) 80%, transparent); }
   .proof-card--coral { background: color-mix(in srgb, var(--accent-coral) 80%, var(--bg-cream)); }
   .proof-card--coral > span { color: var(--text-primary); }
   .proof-card--soft { background: color-mix(in srgb, var(--accent-sky) 20%, var(--bg-cream)); }
