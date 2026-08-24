@@ -3,13 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
 ---
 
-<BaseLayout title="Engineering Challenges — Rutvik Gulhane | viknik.tech" description="12 production problems I solved across EPFO and SpotBook: concurrency, locking, stock validation, government-scale APIs, and more.">
+<BaseLayout title="Engineering Challenges — Rutvik Gulhane | viknik.tech" description="Production engineering notes from SpotBook and collaborative work on EPFO: the constraints, fixes, and user impact behind real systems.">
 
   <div class="eng-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
     <div class="eng-hero__content container">
-      <h1 class="eng-hero__title fade-in">12 production problems I solved across EPFO and SpotBook.</h1>
-      <p class="eng-hero__subtitle fade-in">Real bugs. Real stakes. Real fixes. No theoretical LeetCode — every problem here happened on a live system processing real money.</p>
+      <h1 class="eng-hero__title fade-in">Production engineering, explained through the problem it had to protect people from.</h1>
+      <p class="eng-hero__subtitle fade-in">These are field notes from SpotBook and collaborative work on EPFO. Each one starts with the operational failure, follows the engineering decision, and ends with what changed for the person using the system.</p>
+      <div class="engineering-reading-map fade-in" aria-label="How to read the engineering notes">
+        <div><span>01</span><strong>The moment it failed</strong><small>What a user or team actually experienced.</small></div>
+        <b aria-hidden="true">→</b>
+        <div><span>02</span><strong>The constraint underneath</strong><small>Race condition, domain rule, platform limit, or data shape.</small></div>
+        <b aria-hidden="true">→</b>
+        <div><span>03</span><strong>The decision</strong><small>The implementation and the behaviour it protected.</small></div>
+      </div>
     </div>
   </div>
 
@@ -286,6 +293,59 @@ import '../styles/global.css';
   .eng-hero__content {
     position: relative;
     z-index: 1;
+  }
+
+  .engineering-reading-map {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    max-width: 850px;
+    margin: var(--space-xl) auto 0;
+    padding: var(--space-md);
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--bg-cream) 86%, transparent);
+    text-align: left;
+  }
+
+  .engineering-reading-map div {
+    display: grid;
+    gap: 0.2rem;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-cream);
+  }
+
+  .engineering-reading-map span {
+    color: var(--accent-violet);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+  }
+
+  .engineering-reading-map strong {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+  }
+
+  .engineering-reading-map small {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+  }
+
+  .engineering-reading-map > b {
+    align-self: center;
+    justify-self: center;
+    color: var(--accent-violet);
+  }
+
+  @media (min-width: 768px) {
+    .engineering-reading-map {
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+    }
   }
 
   /* Problem Cards */

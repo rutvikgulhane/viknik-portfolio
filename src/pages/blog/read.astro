@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/global.css';
+---
+
+<BaseLayout title="Field Note — Rutvik Gulhane | viknik.tech" description="A field note from Rutvik Gulhane.">
+  <main class="note-page section">
+    <article class="container container--narrow" data-note-root aria-live="polite">
+      <p class="note-page__meta">Loading field note…</p>
+    </article>
+  </main>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-note-root]');
+  const slug = new URLSearchParams(window.location.search).get('slug');
+
+  const renderError = (message: string) => {
+    if (!root) return;
+    root.replaceChildren();
+    const heading = document.createElement('h1');
+    heading.textContent = 'This field note is not available.';
+    const text = document.createElement('p');
+    text.textContent = message;
+    const link = document.createElement('a');
+    link.href = '/blog';
+    link.className = 'btn btn--outline';
+    link.textContent = 'Back to field notes →';
+    root.append(heading, text, link);
+  };
+
+  const appendPortableText = (body: Array<{ _type?: string; style?: string; children?: Array<{ text?: string }> }>) => {
+    if (!root) return;
+    body.forEach((block) => {
+      if (block._type !== 'block') return;
+      const text = block.children?.map((child) => child.text || '').join('') || '';
+      if (!text.trim()) return;
+      const tag = block.style === 'h2' ? 'h2' : block.style === 'h3' ? 'h3' : block.style === 'blockquote' ? 'blockquote' : 'p';
+      const element = document.createElement(tag);
+      element.textContent = text;
+      root.append(element);
+    });
+  };
+
+  if (!slug) {
+    renderError('Choose a published note from the blog index.');
+  } else if (root) {
+    const query = '*[_type == "post" && slug.current == $slug][0]{title, excerpt, publishedAt, body}';
+    const endpoint = `https://mz56et1n.apicdn.sanity.io/v2025-02-19/data/query/production?query=${encodeURIComponent(query)}&$slug=${encodeURIComponent(JSON.stringify(slug))}`;
+    fetch(endpoint)
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error('Sanity request failed')))
+      .then(({ result }) => {
+        if (!result?.title) {
+          renderError('It may still be a draft, or it may have been moved.');
+          return;
+        }
+        document.title = `${result.title} — Rutvik Gulhane`;
+        root.replaceChildren();
+        const meta = document.createElement('p');
+        meta.className = 'note-page__meta';
+        meta.textContent = result.publishedAt ? new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' }).format(new Date(result.publishedAt)) : 'FIELD NOTE';
+        const heading = document.createElement('h1');
+        heading.textContent = result.title;
+        root.append(meta, heading);
+        if (result.excerpt) {
+          const excerpt = document.createElement('p');
+          excerpt.className = 'note-page__excerpt';
+          excerpt.textContent = result.excerpt;
+          root.append(excerpt);
+        }
+        appendPortableText(result.body || []);
+      })
+      .catch(() => renderError('The published notes service is unavailable right now.'));
+  }
+</script>
+
+<style>
+  .note-page { min-height: 70vh; }
+  .note-page h1 { margin-bottom: var(--space-lg); font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl)); line-height: 1.05; }
+  .note-page h2 { margin: var(--space-3xl) 0 var(--space-md); font-size: var(--text-2xl); }
+  .note-page h3 { margin: var(--space-2xl) 0 var(--space-md); font-size: var(--text-xl); }
+  .note-page p { margin-bottom: var(--space-lg); font-size: var(--text-lg); line-height: 1.8; }
+  .note-page__meta { color: var(--accent-violet); font-family: var(--font-mono); font-size: var(--text-xs) !important; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+  .note-page__excerpt { color: var(--text-muted); font-family: var(--font-display); font-size: var(--text-xl) !important; line-height: 1.5 !important; }
+  .note-page blockquote { margin: var(--space-2xl) 0; padding: var(--space-xl); border-left: 4px solid var(--accent-coral); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; background: var(--bg-cream-dark); font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; line-height: 1.45; }
+</style>

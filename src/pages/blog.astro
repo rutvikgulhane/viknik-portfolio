@@ -1,256 +1,221 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
-
-const posts = [
-  {
-    title: "How SELECT ... FOR UPDATE Protected ₹9 Crore (~$1.1M) in SpotBook Orders",
-    teaser: "When two salespeople fight for the last unit of stock in a crowded expo hall, optimistic locking fails. Here's how pessimistic locking and idempotent order creation eliminated all concurrency failures under 50+ simultaneous sessions.",
-    date: "Aug 2026",
-    tag: "Backend · Concurrency",
-    slug: "#concurrency",
-    color: "var(--accent-coral)",
-    isLive: true
-  },
-  {
-    title: "The Triple Race Condition That Showed Zero Stock (When We Had Plenty)",
-    teaser: "RTK Query reporting isLoading: false before query dispatch, stale product data persisting across product switches, and component rendering before data fetch. Three async bugs. One false-zero inventory display. Three sequential fix iterations.",
-    date: "Aug 2026",
-    tag: "Frontend · React",
-    slug: "#race-condition",
-    color: "var(--accent-violet)",
-    isLive: true
-  },
-  {
-    title: "30+ Commits to Get Nginx + Docker + Railway Working",
-    teaser: "The combinatorial explosion of PaaS quirks × SPA routing × reverse proxy × CORS × TLS × private networking × dynamic ports. There is no 'one-shot' guide that covers all of these simultaneously.",
-    date: "Aug 2026",
-    tag: "DevOps · Deployment",
-    slug: "#deployment",
-    color: "var(--accent-teal)",
-    isLive: true
-  },
-  {
-    title: "Surgical Order Editing with Delta-Based Stock Validation",
-    teaser: "Why replacing whole order arrays breaks stock math. How identity-based diffing (SKU ID for loose, prepackId + colorLabel for sets) + EDITING_RESERVED transitional status preserves order identity during in-place edits.",
-    date: "Aug 2026",
-    tag: "System Design · Inventory",
-    slug: "#delta-validation",
-    color: "var(--accent-rose)",
-    isLive: true
-  },
-  {
-    title: "From JSONB to Normalised Schema: A Catalog Migration Story",
-    teaser: "The initial JSONB-based catalog became unmanageable as the apparel domain model matured. How we migrated products → variants → SKUs → sku_prices with Flyway, replacing brittle jsonb_path_query() with efficient SQL joins.",
-    date: "Coming soon",
-    tag: "Database · PostgreSQL",
-    slug: "#",
-    color: "var(--accent-amber)",
-    isLive: false
-  },
-  {
-    title: "Spring Modulith: Making Module Boundaries Actually Enforceable",
-    teaser: "Modulith verification tests failing as the codebase grew. Cross-module violations, shared exceptions, package drift — and how a kernel module with @NamedInterface fixed everything.",
-    date: "Coming soon",
-    tag: "Architecture · Spring",
-    slug: "#",
-    color: "var(--accent-sky)",
-    isLive: false
-  },
-  {
-    title: "Ghost Drafts, Orphaned Records, and the Order State Machine",
-    teaser: "When users abandon order entry mid-flow, draft orders accumulate and pollute dashboards. 6 reverts across the order service lifecycle — each teaching a different constraint about state transitions.",
-    date: "Coming soon",
-    tag: "Data Integrity",
-    slug: "#",
-    color: "var(--accent-indigo)",
-    isLive: false
-  },
-  {
-    title: "The GTM Retrospective: Why Great Code Doesn't Guarantee Product Success",
-    teaser: "Facebook ads collected garbage leads. Traditional wholesalers trust relationships, not forms. What building SpotBook taught me about distribution in non-tech industries.",
-    date: "Coming soon",
-    tag: "Product · Lessons",
-    slug: "#",
-    color: "var(--accent-pink)",
-    isLive: false
-  }
-];
 ---
 
-<BaseLayout title="Blog — Engineering Deep Dives | viknik.tech" description="Technical deep dives into real production problems: concurrency bugs, race conditions, deployment gauntlets, and system design decisions from building SpotBook and EPFO systems.">
-
-  <div class="blog-hero">
-    <div class="hero__gradient" aria-hidden="true"></div>
+<BaseLayout title="Field Notes — Rutvik Gulhane | viknik.tech" description="One field note from building and supporting SpotBook: the production problems, engineering decisions, and lessons worth keeping.">
+  <div class="blog-hero" id="blog-hero">
+    <canvas class="pixel-field" aria-hidden="true"></canvas>
     <div class="blog-hero__content container">
-      <h1 class="blog-hero__title fade-in">Engineering Deep Dives</h1>
-      <p class="blog-hero__subtitle fade-in">Real production problems. Real fixes. No theoretical LeetCode — every post here comes from a system processing real money.</p>
+      <span class="blog-hero__eyebrow">Field notes from real systems</span>
+      <h1 class="blog-hero__title">ENGINEERING<br />WITH EMPATHY</h1>
+      <p class="blog-hero__subtitle">The difficult parts should live underneath the interface. These are the notes from building them.</p>
+      <p class="blog-hero__hint">Move your cursor through the field.</p>
     </div>
   </div>
 
-  <section class="section">
-    <div class="container">
-      <div class="grid grid--2 fade-in">
-        {posts.map((post, idx) => (
-          <div class={`blog-card ${!post.isLive ? 'blog-card--upcoming' : ''}`} style={`--card-accent: ${post.color}`}>
-            <div class="blog-card__header">
-              <span class="chapter-badge" style={`color: ${post.color}; border-color: ${post.color}`}>
-                #{String(idx + 1).padStart(2, '0')}
-              </span>
-              <span class="blog-card__platform">{post.tag} · {post.date}</span>
-            </div>
-            <h3 class="blog-card__title">{post.title}</h3>
-            <p class="blog-card__teaser">{post.teaser}</p>
-            {post.isLive ? (
-              <a href={`/engineering${post.slug}`} class="blog-card__link">Read Deep Dive →</a>
-            ) : (
-              <span class="blog-card__link blog-card__link--upcoming">Coming Soon</span>
-            )}
-          </div>
-        ))}
-      </div>
+  <main>
+    <article class="field-note section">
+      <div class="container container--narrow">
+        <header class="field-note__header">
+          <span class="field-note__meta">FIELD NOTE 01 · AUG 2026</span>
+          <h2>12 things production taught me while building SpotBook.</h2>
+          <p class="field-note__lede">This is not twelve lessons dressed up as content. It is one short record of the engineering problems that mattered when real orders, stock, and people were on the other side of the screen.</p>
+        </header>
 
-      <div class="blog-note fade-in">
-        <p>These deep dives are extracted from production engineering on <a href="/projects/spotbook">SpotBook</a>, including its <a href="/projects/expoapp">initial production deployment</a>. Each one represents a real problem solved under real business pressure — not a side project exercise.</p>
-        <p>For the condensed version, see <a href="/engineering">10 Production Problems I Solved →</a></p>
-      </div>
-    </div>
-  </section>
+        <div class="field-note__map" aria-label="The engineering themes in this field note">
+          <div><span>Keep the order safe</span><strong>Locks, delta validation, draft persistence.</strong></div>
+          <div><span>Keep the interface honest</span><strong>Loading states, image handling, useful feedback.</strong></div>
+          <div><span>Keep the system standing</span><strong>Deployment, connectivity, tenant boundaries, auditability.</strong></div>
+        </div>
 
+        <div class="field-note__body">
+          <p>The first lesson came from two sales agents trying to book the same last unit. One order went through; the other failed and took a large draft down with it. The technical answer was locking, validation, and safer draft persistence. The product answer was simpler: a person should not lose their work because another person happened to tap at the same moment.</p>
+          <p>The same pattern repeated everywhere. Inventory could be correct in the database but look empty while the screen fetched. A product photo could exist but fail because it arrived as HEIC. A domain could work on venue Wi-Fi but fail on mobile data an hour before an expo. Each bug had a technical cause, but every fix began by asking what failure the person on the other end was experiencing.</p>
+          <p>SpotBook also taught me that systems have to grow without becoming less trustworthy. Multi-tenant boundaries, apparel size matrices, QR ordering, receipts, and unreliable connectivity were not independent checkboxes. They were one operational workflow seen from different angles.</p>
+          <blockquote>Production engineering is not making a system look complicated. It is taking responsibility for the complexity so the person using it can keep moving.</blockquote>
+          <p>There is an honest non-engineering lesson too: a working product and a working business are different achievements. The software held up at the expo. Distribution in a relationship-driven industry required a different engine. I learned both lessons by doing the work, not by reading about it.</p>
+        </div>
+
+        <details class="field-note__index">
+          <summary>The full notebook behind this short note</summary>
+          <ul>
+            <li>The vanishing cart and concurrent stock booking</li>
+            <li>Surgical order edits through identity-based deltas</li>
+            <li>Loading gates, HEIC uploads, and honest interface states</li>
+            <li>Expo-floor DNS, receipts, and unreliable connectivity</li>
+            <li>Tenant isolation, apparel size matrices, and state integrity</li>
+            <li>The GTM lesson: good engineering still needs distribution</li>
+          </ul>
+        </details>
+
+        <footer class="field-note__footer">
+          <p>Want the uncompressed version? The engineering notebook keeps each problem, root cause, and decision intact.</p>
+          <a href="/engineering" class="btn btn--primary">Read the engineering notes →</a>
+        </footer>
+      </div>
+    </article>
+
+    <section class="next-note section section--alt">
+      <div class="container container--narrow">
+        <span class="field-note__meta">NEXT NOTE</span>
+        <h2>One good article at a time.</h2>
+        <p>Future writing will appear here when there is something worth explaining properly: a workflow, an incident, a decision, or a lesson that survived contact with reality.</p>
+      </div>
+    </section>
+
+    <section class="sanity-notes section" data-sanity-posts hidden>
+      <div class="container container--narrow">
+        <span class="field-note__meta">Published from Sanity</span>
+        <div class="sanity-notes__list" data-sanity-post-list></div>
+      </div>
+    </section>
+  </main>
 </BaseLayout>
 
+<script>
+  const hero = document.querySelector('#blog-hero');
+  const canvas = hero?.querySelector('.pixel-field');
+
+  if (hero instanceof HTMLElement && canvas instanceof HTMLCanvasElement) {
+    const context = canvas.getContext('2d');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const particles: Array<{ x: number; y: number; life: number; maxLife: number; seed: number }> = [];
+    let width = 0;
+    let height = 0;
+    let lastPointer = 0;
+    let activePointer: { x: number; y: number; seed: number } | null = null;
+
+    const resize = () => {
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      width = hero.clientWidth;
+      height = hero.clientHeight;
+      canvas.width = Math.max(1, Math.floor(width * pixelRatio));
+      canvas.height = Math.max(1, Math.floor(height * pixelRatio));
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      context?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+
+    const drawCluster = (x: number, y: number, strength: number, seed: number) => {
+      if (!context) return;
+      const cell = 9;
+      const radius = 50 * strength;
+      const columns = Math.ceil(radius / cell);
+      context.fillStyle = '#1f1630';
+
+      for (let row = -columns; row <= columns; row += 1) {
+        for (let column = -columns; column <= columns; column += 1) {
+          const distance = Math.hypot(column, row);
+          if (distance > columns) continue;
+          const noise = Math.sin((column + seed) * 12.9898 + (row - seed) * 78.233) * 43758.5453;
+          const random = noise - Math.floor(noise);
+          const opacity = (1 - distance / (columns + 0.4)) * strength;
+          if (random > opacity * 0.86) continue;
+          context.globalAlpha = Math.min(0.94, opacity + 0.12);
+          context.fillRect(Math.round(x / cell + column) * cell, Math.round(y / cell + row) * cell, cell - 1, cell - 1);
+        }
+      }
+      context.globalAlpha = 1;
+    };
+
+    const paint = () => {
+      if (!context) return;
+      const now = performance.now();
+      context.clearRect(0, 0, width, height);
+      particles.forEach((particle) => {
+        particle.life -= 1;
+        drawCluster(particle.x, particle.y, particle.life / particle.maxLife, particle.seed + now / 130);
+      });
+      for (let index = particles.length - 1; index >= 0; index -= 1) {
+        if (particles[index].life <= 0) particles.splice(index, 1);
+      }
+      if (activePointer) drawCluster(activePointer.x, activePointer.y, 1, activePointer.seed + now / 90);
+      requestAnimationFrame(paint);
+    };
+
+    const addTrail = (event: PointerEvent) => {
+      if (reducedMotion) return;
+      const bounds = hero.getBoundingClientRect();
+      const x = event.clientX - bounds.left;
+      const y = event.clientY - bounds.top;
+      const now = performance.now();
+      activePointer = { x, y, seed: now / 200 };
+      if (now - lastPointer > 32) {
+        particles.push({ x, y, life: 30, maxLife: 30, seed: now / 200 });
+        if (particles.length > 24) particles.shift();
+        lastPointer = now;
+      }
+    };
+
+    hero.addEventListener('pointermove', addTrail);
+    hero.addEventListener('pointerleave', () => { activePointer = null; });
+    window.addEventListener('resize', resize);
+    resize();
+
+    if (reducedMotion) drawCluster(width * 0.56, height * 0.52, 0.72, 4);
+    else paint();
+  }
+
+  const postsSection = document.querySelector<HTMLElement>('[data-sanity-posts]');
+  const postsList = document.querySelector<HTMLElement>('[data-sanity-post-list]');
+  const sanityQuery = '*[_type == "post" && defined(slug.current) && defined(publishedAt)] | order(publishedAt desc){title, "slug": slug.current, excerpt, publishedAt, tags}';
+
+  if (postsSection && postsList) {
+    const endpoint = `https://mz56et1n.apicdn.sanity.io/v2025-02-19/data/query/production?query=${encodeURIComponent(sanityQuery)}`;
+    fetch(endpoint)
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error('Sanity request failed')))
+      .then(({ result }) => {
+        if (!Array.isArray(result) || result.length === 0) return;
+        result.forEach((post) => {
+          const article = document.createElement('article');
+          article.className = 'sanity-note';
+          const title = document.createElement('h2');
+          title.textContent = post.title || 'Untitled note';
+          const excerpt = document.createElement('p');
+          excerpt.textContent = post.excerpt || 'Read the field note.';
+          const link = document.createElement('a');
+          link.className = 'btn btn--outline';
+          link.href = `/blog/read?slug=${encodeURIComponent(post.slug)}`;
+          link.textContent = 'Read note →';
+          article.append(title, excerpt, link);
+          postsList.append(article);
+        });
+        postsSection.hidden = false;
+      })
+      .catch(() => undefined);
+  }
+</script>
+
 <style>
-  .blog-hero {
-    position: relative;
-    padding: calc(55px + var(--space-xl)) 0 var(--space-lg);
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .blog-hero .hero__gradient {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(20, 184, 166, 0.2), transparent 70%),
-      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(245, 158, 11, 0.15), transparent 70%);
-    animation: gradientShift 12s ease-in-out infinite alternate;
-  }
-
-  .blog-hero__content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .blog-hero__title {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--space-md);
-  }
-
-  .blog-hero__subtitle {
-    font-size: var(--text-lg);
-    color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .blog-card {
-    background: var(--bg-cream-dark);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
-    border: 1px solid var(--bg-cream-darker);
-    display: flex;
-    flex-direction: column;
-    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
-  }
-
-  .blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--card-accent);
-  }
-
-  .blog-card--upcoming {
-    opacity: 0.6;
-  }
-
-  .blog-card--upcoming:hover {
-    transform: none;
-    box-shadow: none;
-    opacity: 0.7;
-  }
-
-  .blog-card__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-md);
-  }
-
-  .blog-card__platform {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-  }
-
-  .blog-card__title {
-    font-size: var(--text-xl);
-    margin-bottom: var(--space-sm);
-    color: var(--text-primary);
-  }
-
-  .blog-card__teaser {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    flex: 1;
-    margin-bottom: var(--space-lg);
-    line-height: 1.6;
-  }
-
-  .blog-card__link {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-  }
-
-  .blog-card__link:hover {
-    color: var(--card-accent, var(--accent-coral));
-  }
-
-  .blog-card__link--upcoming {
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  .blog-note {
-    margin-top: var(--space-3xl);
-    padding: var(--space-xl);
-    background: var(--bg-cream-dark);
-    border-radius: var(--radius-lg);
-    border-left: 3px solid var(--accent-teal);
-    text-align: center;
-  }
-
-  .blog-note p {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    margin-bottom: var(--space-xs);
-  }
-
-  .blog-note p:last-child {
-    margin-bottom: 0;
-  }
-
-  .blog-note a {
-    color: var(--accent-coral);
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .blog-note a:hover {
-    text-decoration: underline;
-  }
+  .blog-hero { position: relative; min-height: min(620px, 72vh); display: grid; align-items: end; overflow: hidden; border-bottom: 1px solid var(--bg-cream-darker); background: radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--accent-sky) 12%, var(--bg-cream)), transparent 34%), radial-gradient(circle at 82% 76%, color-mix(in srgb, var(--accent-violet) 10%, var(--bg-cream)), transparent 38%), var(--bg-cream); color: var(--text-primary); }
+  .pixel-field { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .blog-hero__content { position: relative; z-index: 1; padding-top: clamp(7rem, 17vw, 13rem); padding-bottom: clamp(3rem, 7vw, 5rem); }
+  .blog-hero__eyebrow, .field-note__meta { display: block; margin-bottom: var(--space-md); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+  .blog-hero__title { margin-bottom: var(--space-xl); font-family: var(--font-mono); font-size: clamp(3.25rem, 10.5vw, 10rem); font-weight: 900; letter-spacing: -0.09em; line-height: 0.82; text-transform: uppercase; }
+  .blog-hero__subtitle { max-width: 760px; margin: 0; font-family: var(--font-display); font-size: clamp(var(--text-xl), 3vw, var(--text-3xl)); line-height: 1.08; }
+  .blog-hero__hint { margin: var(--space-lg) 0 0; font-family: var(--font-mono); font-size: var(--text-xs); opacity: 0.7; }
+  .field-note__header { max-width: 760px; margin-bottom: var(--space-3xl); }
+  .field-note__header h2, .next-note h2 { margin-bottom: var(--space-lg); font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); line-height: 1.05; }
+  .field-note__lede { color: var(--text-muted); font-size: var(--text-lg); line-height: 1.7; }
+  .field-note__map { display: grid; gap: 1px; margin-bottom: var(--space-3xl); overflow: hidden; border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-darker); }
+  .field-note__map div { display: grid; gap: var(--space-sm); padding: var(--space-lg); background: var(--bg-cream); }
+  .field-note__map span { color: var(--accent-violet); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+  .field-note__map strong { font-family: var(--font-display); font-size: var(--text-base); line-height: 1.4; }
+  .field-note__body { font-size: var(--text-lg); line-height: 1.8; }
+  .field-note__body p { margin-bottom: var(--space-xl); }
+  .field-note__body blockquote { margin: var(--space-2xl) 0; padding: var(--space-xl); border-left: 4px solid var(--accent-coral); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; background: var(--bg-cream-dark); color: var(--text-primary); font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; line-height: 1.45; }
+  .field-note__index { margin-top: var(--space-2xl); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-dark); }
+  .field-note__index summary { padding: var(--space-lg); cursor: pointer; color: var(--text-primary); font-family: var(--font-display); font-weight: 700; }
+  .field-note__index ul { margin: 0; padding: 0 var(--space-xl) var(--space-lg) calc(var(--space-xl) + 1rem); color: var(--text-muted); font-size: var(--text-sm); line-height: 1.8; }
+  .field-note__footer { display: grid; gap: var(--space-lg); margin-top: var(--space-3xl); padding-top: var(--space-xl); border-top: 1px solid var(--bg-cream-darker); }
+  .field-note__footer p, .next-note p { max-width: 640px; margin: 0; color: var(--text-muted); font-size: var(--text-base); line-height: 1.7; }
+  .field-note__footer .btn { justify-self: start; }
+  .next-note { border-top: 1px solid var(--bg-cream-darker); }
+  .sanity-notes__list { display: grid; gap: var(--space-lg); }
+  .sanity-note { padding: var(--space-xl); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-dark); }
+  .sanity-note h2 { margin-bottom: var(--space-sm); font-size: var(--text-xl); }
+  .sanity-note p { margin-bottom: var(--space-lg); color: var(--text-muted); line-height: 1.7; }
+  @media (min-width: 768px) { .field-note__map { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .blog-hero { min-height: 580px; } .blog-hero__content { padding-bottom: var(--space-2xl); } .blog-hero__title { letter-spacing: -0.08em; } .blog-hero__hint { display: none; } }
 </style>

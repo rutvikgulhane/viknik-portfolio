@@ -39,8 +39,8 @@ import '../../styles/global.css';
           <span class="stats__label">Live Expo Operations</span>
         </div>
         <div class="stats__card glass">
-          <span class="stats__value">6</span>
-          <span class="stats__label">Domain Modules</span>
+          <span class="stats__value">~10 Min</span>
+          <span class="stats__label">Sales-Agent Onboarding</span>
         </div>
       </div>
     </div>
@@ -53,6 +53,7 @@ import '../../styles/global.css';
         <h2 class="section-heading">From Production Deployment to Platform</h2>
         <p class="lead-text">SpotBook began with a real client deployment: a mobile-first production order-management system built in approximately 15 days for P10 Denim / MG Sales ahead of a trade expo.</p>
         <p>That deployment handled QR/product workflows, real-time inventory and order operations, and expo-floor support. Across two expo seasons it supported more than ₹9 Cr in wholesale bookings. Later SpotBook work extended the product into the multi-tenant architecture and domain capabilities documented below.</p>
+        <p>Railway was part of that product decision from the beginning. It kept deployment straightforward, so the engineering time could go into the ordering experience, concurrency safety, and the production problems users would actually feel.</p>
         <p>This distinction matters: the first deployment proved the production workflow; the later platform engineering added the broader modular architecture, tenant isolation, and wholesale-domain depth.</p>
         <div style="margin-top: var(--space-xl);">
           <a href="#initial-deployment" class="btn btn--outline">See the Initial Deployment Details →</a>
@@ -73,11 +74,31 @@ import '../../styles/global.css';
           Before the system, sales reps wrote order items manually on paper slips. During peak hours, two reps could unknowingly sell the same limited stock to different retailers, creating post-expo cancellations, distributor disputes, and no reliable real-time reporting for the manufacturer.
         </p>
         <p>
-          The 15-day build turned that workflow into a mobile-first PWA designed for noisy expo floors and 5-inch phone screens.
+          The 15-day build turned that workflow into a mobile-first PWA designed for noisy expo floors and 5-inch phone screens. A sales agent could learn the complete ordering flow in roughly ten minutes.
         </p>
+        <div class="problem-flow" aria-label="SpotBook initial deployment problem and outcome">
+          <div class="problem-flow__step">
+            <span class="problem-flow__label">Before</span>
+            <strong>Paper slips</strong>
+            <span>Fast to write. Hard to reconcile later.</span>
+          </div>
+          <span class="problem-flow__arrow" aria-hidden="true">→</span>
+          <div class="problem-flow__step problem-flow__step--risk">
+            <span class="problem-flow__label">During peak hours</span>
+            <strong>The same stock could be promised twice.</strong>
+            <span>Disputes and cancellations were discovered after the expo.</span>
+          </div>
+          <span class="problem-flow__arrow" aria-hidden="true">→</span>
+          <div class="problem-flow__step problem-flow__step--outcome">
+            <span class="problem-flow__label">With SpotBook</span>
+            <strong>Scan → choose set → book safely</strong>
+            <span>Stock was validated before the promise was made.</span>
+          </div>
+        </div>
         <ul class="feature-list">
           <li><strong>Role-based access:</strong> admin dashboard, sales-agent interface, distributor/customer flows, and manufacturer-level controls.</li>
           <li><strong>QR-led product lookup:</strong> staff could scan sample tags and immediately view product variants, stock levels, and order options.</li>
+          <li><strong>Short path to an order:</strong> the interface followed how sales agents already worked, keeping the number of decisions and taps between scanning a product and booking it deliberately small.</li>
           <li><strong>Concurrency-safe checkout:</strong> DB-level pessimistic locking and stock validation prevented overbooking during simultaneous live orders.</li>
           <li><strong>Automated receipts:</strong> PDF/text receipts were generated and delivered through WhatsApp after order placement.</li>
           <li><strong>Live reporting:</strong> dashboards exposed revenue, order volume, inventory movement, and top-selling designs during expo days.</li>
@@ -123,13 +144,49 @@ import '../../styles/global.css';
     </div>
   </section>
 
-  <!-- The Human Story Behind the Architecture -->
+  <!-- Product Philosophy Behind the Architecture -->
   <section class="section">
     <div class="container container--narrow">
       <div class="fade-in">
-        <h2 class="section-heading">Why SpotBook Exists</h2>
+        <h2 class="section-heading">Built for Hands, Not Manuals</h2>
         <p class="lead-text">
-          The initial SpotBook deployment proved the workflow for one manufacturer. During those 15 days at the expo, I sat across the table from 5 other manufacturers — and every conversation revealed the same pattern.
+          The people doing the work should be able to do the work. The system can carry the complicated part.
+        </p>
+        <div class="workflow-map" aria-label="How SpotBook separates user work from system complexity">
+          <div class="workflow-map__column">
+            <span class="workflow-map__label">Who was doing the work</span>
+            <strong>Sales agent</strong>
+            <span>Busy expo floor, one hand on a phone.</span>
+            <strong>Operations manager</strong>
+            <span>Planning demand across products and distributors.</span>
+            <strong>Warehouse team</strong>
+            <span>Packing what needs to go out next.</span>
+          </div>
+          <div class="workflow-map__column workflow-map__column--task">
+            <span class="workflow-map__label">What they needed to do</span>
+            <strong>Book an order</strong>
+            <span>without a form getting in the way.</span>
+            <strong>Make an allocation decision</strong>
+            <span>without rebuilding the spreadsheet in their head.</span>
+            <strong>Find and move stock</strong>
+            <span>without decoding a wall of numbers.</span>
+          </div>
+          <div class="workflow-map__column workflow-map__column--system">
+            <span class="workflow-map__label">What SpotBook carried underneath</span>
+            <strong>Inventory validation</strong>
+            <span>Concurrency, reservations, order state.</span>
+            <strong>Demand grouping</strong>
+            <span>Product, distributor, retailer, credit context.</span>
+            <strong>Inventory modelling</strong>
+            <span>SKU states, physical stock, future capacity.</span>
+          </div>
+        </div>
+        <p>
+          SpotBook&rsquo;s users were not people with time for training manuals. The aim was to make the next action feel natural and keep the system&rsquo;s burden off their screen. In practice, a new sales agent could learn the complete ordering flow in roughly ten minutes.
+        </p>
+        <h3 class="section-subheading">Different people, different mental models</h3>
+        <p>
+          The initial deployment proved the workflow for one manufacturer. During those 15 days at the expo, I sat across the table from five other manufacturers—and every conversation revealed the same pattern.
         </p>
         <blockquote class="spotbook-quote">
           "Business owners described what they <em>wanted</em>. Their salespeople and inventory managers described what they <em>actually needed</em>. Those were two very different products."
@@ -138,9 +195,149 @@ import '../../styles/global.css';
           Warehouse staff didn't care about dashboards — they needed to know <strong>exactly how many pieces of Waist 32 × Dark Blue were left</strong> before promising them to a retailer. Salespeople didn't want a CRM — they wanted a POS that worked on a 5-inch phone in a noisy hall. Distributors didn't want login credentials — they wanted to browse a catalog via QR code without downloading anything.
         </p>
         <p>
-          That's what shaped the zone architecture below. Every boundary exists because a real person on the expo floor had a different mental model of the same data.
+          That's what shaped the zone architecture below. Every boundary exists because a real person on the expo floor had a different mental model of the same data. A feature was successful only when it helped that person reach the intended outcome—not merely when the code worked.
         </p>
       </div>
+    </div>
+  </section>
+
+  <!-- Product Decisions: real workflow proof before the technical architecture -->
+  <section class="section section--alt" id="product-decisions">
+    <div class="container">
+      <div class="section-header section-header--left">
+        <span class="section-eyebrow">Product Decisions</span>
+        <h2 class="section-heading">The choices beneath the screens</h2>
+        <p class="section-description">
+          SpotBook was not designed around a feature checklist. It was designed around the moment a sales agent,
+          manager, or warehouse operator needed to move quickly without carrying the system&rsquo;s complexity in their head.
+        </p>
+      </div>
+
+      <div class="decision-cases">
+        <article class="decision-case">
+          <div class="decision-media">
+            <img
+              src="/media/spotbook-proof/pos-modal-inventory.jpg"
+              alt="SpotBook mobile product-selection modal showing set, colour, stock availability, and plus-minus quantity controls"
+              loading="lazy"
+            />
+          </div>
+          <div class="decision-copy">
+            <span class="decision-eyebrow">For sales agents on the expo floor</span>
+            <h3>QR-to-cart without turning the order into a form.</h3>
+            <div class="qr-flow" aria-label="QR-to-cart ordering sequence">
+              <span>Scan QR</span><b aria-hidden="true">→</b>
+              <span>Focused modal</span><b aria-hidden="true">→</b>
+              <span>Choose colour + set</span><b aria-hidden="true">→</b>
+              <span>Set quantity</span><b aria-hidden="true">→</b>
+              <span>Add</span>
+            </div>
+            <p>
+              The competition was not another application. It was writing an order on paper: fast, familiar, and
+              nearly frictionless. After a QR scan, I kept the agent in one focused modal instead of sending them
+              through a catalogue or a stack of fields.
+            </p>
+            <p>
+              They choose a colour, choose a set, tap thumb-friendly <strong>+</strong> and <strong>&minus;</strong>
+              controls, see availability, and add it. The hard part&mdash;inventory validation and safe checkout&mdash;stays
+              underneath the interaction.
+            </p>
+          </div>
+        </article>
+
+        <article class="decision-case decision-case--reverse">
+          <div class="decision-media decision-media--comparison">
+            <figure>
+              <img
+                src="/media/spotbook-proof/order-fulfillment-orders.jpg"
+                alt="SpotBook order-based fulfilment screen listing orders and their shipping status"
+                loading="lazy"
+              />
+              <figcaption>Start with an order</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="/media/spotbook-proof/batch-fulfillment-products.jpg"
+                alt="SpotBook product-based fulfilment screen grouping demanded products and their pending orders"
+                loading="lazy"
+              />
+              <figcaption>Start with a product</figcaption>
+            </figure>
+          </div>
+          <div class="decision-copy">
+            <span class="decision-eyebrow">For operations and warehouse teams</span>
+            <h3>Two dispatch views, because people do not think in one shape.</h3>
+            <p>
+              Some fulfilment starts with an order: what should this distributor receive? Other work starts with a
+              product: who is waiting for these pieces? Before SpotBook, that second question meant sorting through
+              spreadsheets and rebuilding the grouping mentally.
+            </p>
+            <div class="fulfillment-map" aria-label="Order-based and product-based fulfillment and planning views">
+              <div class="fulfillment-map__path">
+                <span class="fulfillment-map__label">Start with an order</span>
+                <strong>What does this distributor need?</strong>
+                <span class="fulfillment-map__result">Order-based fulfilment</span>
+              </div>
+              <div class="fulfillment-map__divider" aria-hidden="true">or</div>
+              <div class="fulfillment-map__path fulfillment-map__path--product">
+                <span class="fulfillment-map__label">Start with a product</span>
+                <strong>Who wants it, how much, and who should receive it first?</strong>
+                <span class="fulfillment-map__result">Product-based planning + fulfilment</span>
+              </div>
+            </div>
+            <aside class="magic-button-callout">
+              <span class="decision-eyebrow">The question that exposed the workflow</span>
+              <h4>&ldquo;If you had one magic button, what stress would it remove?&rdquo;</h4>
+              <div class="magic-button-callout__flow">
+                <span>Product demand</span><b aria-hidden="true">→</b>
+                <span>Distributor demand</span><b aria-hidden="true">→</b>
+                <span>Retailer orders</span><b aria-hidden="true">→</b>
+                <span>Pre-segregated packing</span>
+              </div>
+              <p>That question made the teams laugh&mdash;then it opened the conversation. They wanted to pack for retailers first, group those packs under each distributor, and let the distributor hand them on directly. The feature came from that operational pain, not a feature checklist.</p>
+            </aside>
+            <p>
+              In an indent-based business, product-based grouping was also a planning surface before manufacturing:
+              managers could compare demand, reserve inventory for later fulfilment, and weigh quantity against a
+              distributor&rsquo;s known credit history. The same underlying work could meet the operator from either mental
+              model instead of asking them to translate their work into the software&rsquo;s preferred shape.
+            </p>
+          </div>
+        </article>
+
+        <article class="decision-case">
+          <div class="decision-media">
+            <img
+              src="/media/spotbook-proof/inventory-edit-mode.jpg"
+              alt="SpotBook inventory edit view with size-level stock states, locked edit mode, and stock transfer controls"
+              loading="lazy"
+            />
+          </div>
+          <div class="decision-copy">
+            <span class="decision-eyebrow">For the people responsible for stock</span>
+            <h3>Inventory should say what it means at a glance.</h3>
+            <p>
+              Apparel inventory is not one number. Operators need to distinguish ready stock, booked stock, and what
+              is actually available to promise. The wider model also separated physical stock from future production
+              capacity&mdash;cloth and capacity that could become a promised product.
+            </p>
+            <p>
+              I used clear labels, visual states, size-level detail, and direct set-based actions so a dense inventory
+              screen remained usable. A set update could move every size together; the interface did not make someone
+              repeat the same action SKU by SKU.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <aside class="walkthrough-placeholder" aria-label="SpotBook walkthrough coming soon">
+        <span class="section-eyebrow">Walkthrough in progress</span>
+        <h3>A proper walkthrough is loading.</h3>
+        <p>The screenshots exist. The engineer is still arguing with the edit timeline.</p>
+        <p class="walkthrough-placeholder__detail">
+          Until then: real screens, real workflows, and the decisions behind them. The full voice-over demo is next.
+        </p>
+      </aside>
     </div>
   </section>
 
@@ -152,6 +349,22 @@ import '../../styles/global.css';
         <p class="lead-text">
           Instead of jumping to microservices overhead for a 2-person team, SpotBook was built as a <strong>Modular Monolith</strong> with strict zone boundaries (Zones 0–7). Cross-module imports are restricted to explicit <code>api/</code> packages, keeping internals encapsulated — while preserving a clean future microservices migration path.
         </p>
+
+        <div class="architecture-map" aria-label="SpotBook architecture orientation map">
+          <div class="architecture-map__node architecture-map__node--identity">Identity</div>
+          <span class="architecture-map__arrow" aria-hidden="true">→</span>
+          <div class="architecture-map__node">Catalog</div>
+          <span class="architecture-map__arrow" aria-hidden="true">→</span>
+          <div class="architecture-map__node">Inventory</div>
+          <span class="architecture-map__arrow" aria-hidden="true">→</span>
+          <div class="architecture-map__node">Expo + Sales</div>
+          <span class="architecture-map__arrow" aria-hidden="true">→</span>
+          <div class="architecture-map__node architecture-map__node--fulfillment">Fulfillment</div>
+          <div class="architecture-map__support">
+            <span><strong>Control Plane</strong> oversees tenants and backoffice.</span>
+            <span><strong>Platform</strong> carries events, auditing, and notifications.</span>
+          </div>
+        </div>
 
         <div class="arch-box glass">
           <h3>Zone Boundaries (0 – 7)</h3>
@@ -234,6 +447,10 @@ import '../../styles/global.css';
           <div class="lesson-card">
             <h4>Pragmatism > Purity</h4>
             <p>Modular monolith over microservices for a 2-person team wasn't compromise — it was the correct architecture for the team size, velocity constraints, and deployment complexity we had. The migration path to microservices is preserved in the zone contracts.</p>
+          </div>
+          <div class="lesson-card">
+            <h4>Complexity Stays Underneath</h4>
+            <p>Concurrency, inventory locks, retries, and state transitions are engineering concerns. The sales agent should still see one obvious path from scanning a product to booking an order.</p>
           </div>
           <div class="lesson-card">
             <h4>Engineering ≠ Product</h4>
@@ -399,6 +616,62 @@ import '../../styles/global.css';
     font-weight: 900;
   }
 
+  .problem-flow {
+    display: grid;
+    gap: var(--space-sm);
+    margin: var(--space-xl) 0;
+    padding: var(--space-md);
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    background: var(--bg-cream);
+  }
+
+  .problem-flow__step {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--accent-sky) 7%, var(--bg-cream));
+  }
+
+  .problem-flow__step--risk {
+    background: color-mix(in srgb, var(--accent-coral) 9%, var(--bg-cream));
+  }
+
+  .problem-flow__step--outcome {
+    background: color-mix(in srgb, var(--accent-violet) 8%, var(--bg-cream));
+  }
+
+  .problem-flow__label {
+    color: var(--accent-violet);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .problem-flow__step strong {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    line-height: 1.3;
+  }
+
+  .problem-flow__step span:last-child {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+
+  .problem-flow__arrow {
+    align-self: center;
+    justify-self: center;
+    color: var(--accent-violet);
+    font-size: var(--text-xl);
+    font-weight: 800;
+  }
+
   .gallery-grid {
     gap: var(--space-2xl);
   }
@@ -444,6 +717,381 @@ import '../../styles/global.css';
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
   }
 
+  .section-subheading {
+    font-size: var(--text-xl);
+    margin: var(--space-2xl) 0 var(--space-md);
+  }
+
+  .product-principle {
+    margin: var(--space-xl) 0;
+    padding: var(--space-xl);
+    border: 1px solid color-mix(in srgb, var(--accent-violet) 28%, var(--bg-cream-darker));
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--accent-violet) 8%, var(--bg-cream)),
+      color-mix(in srgb, var(--accent-sky) 7%, var(--bg-cream)));
+  }
+
+  .product-principle__label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    color: var(--accent-violet);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .product-principle p {
+    margin: 0;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  /* Diagrammatic product messaging */
+  .workflow-map {
+    display: grid;
+    gap: 1px;
+    margin: var(--space-xl) 0;
+    overflow: hidden;
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    background: var(--bg-cream-darker);
+  }
+
+  .workflow-map__column {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    background: var(--bg-cream);
+  }
+
+  .workflow-map__column--task {
+    background: color-mix(in srgb, var(--accent-sky) 6%, var(--bg-cream));
+  }
+
+  .workflow-map__column--system {
+    background: color-mix(in srgb, var(--accent-violet) 7%, var(--bg-cream));
+  }
+
+  .workflow-map__label,
+  .fulfillment-map__label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    color: var(--accent-violet);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .workflow-map__column strong {
+    margin-top: var(--space-sm);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+  }
+
+  .workflow-map__column span:not(.workflow-map__label) {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .fulfillment-map {
+    display: grid;
+    gap: var(--space-md);
+    margin: var(--space-xl) 0;
+    padding: var(--space-md);
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    background: var(--bg-cream);
+  }
+
+  .fulfillment-map__path {
+    display: grid;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--accent-sky) 7%, var(--bg-cream));
+  }
+
+  .fulfillment-map__path--product {
+    background: color-mix(in srgb, var(--accent-violet) 8%, var(--bg-cream));
+  }
+
+  .fulfillment-map__path strong {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    line-height: 1.35;
+  }
+
+  .fulfillment-map__result {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+  }
+
+  .fulfillment-map__divider {
+    align-self: center;
+    justify-self: center;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: 999px;
+    background: var(--bg-cream);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  @media (min-width: 768px) {
+    .workflow-map {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .fulfillment-map {
+      grid-template-columns: 1fr auto 1fr;
+      align-items: stretch;
+    }
+  }
+
+  /* Product decisions */
+  .section-header--left {
+    max-width: 760px;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .section-header--left .section-heading {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-header--left .section-description {
+    max-width: 680px;
+  }
+
+  .decision-cases {
+    display: grid;
+    gap: var(--space-3xl);
+  }
+
+  .decision-case {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .decision-media {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-lg);
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--accent-sky) 18%, transparent), transparent 42%),
+      linear-gradient(145deg, var(--bg-cream), var(--bg-cream-dark));
+  }
+
+  .decision-media img {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    max-height: 680px;
+    height: auto;
+    object-fit: contain;
+    border-radius: calc(var(--radius-lg) - 2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .decision-media--comparison {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: clamp(6px, 1.2vw, var(--space-md));
+    padding: clamp(6px, 1.2vw, var(--space-md));
+  }
+
+  .decision-media--comparison figure {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .decision-media--comparison img {
+    width: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: var(--radius-md);
+  }
+
+  .decision-media--comparison figcaption {
+    margin-top: var(--space-sm);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: clamp(0.57rem, 1.8vw, var(--text-xs));
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .decision-copy {
+    max-width: 620px;
+  }
+
+  .decision-eyebrow {
+    display: block;
+    margin-bottom: var(--space-sm);
+    color: var(--accent-violet);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .decision-copy h3 {
+    margin-bottom: var(--space-md);
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .decision-copy p {
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  .decision-copy p:last-child {
+    margin-bottom: 0;
+  }
+
+  .decision-copy strong {
+    color: var(--text-primary);
+  }
+
+  .qr-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: var(--space-lg) 0;
+  }
+
+  .qr-flow span {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: 999px;
+    background: var(--bg-cream);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .qr-flow b {
+    color: var(--accent-violet);
+  }
+
+  .magic-button-callout {
+    margin: var(--space-xl) 0;
+    padding: var(--space-lg);
+    border-left: 4px solid var(--accent-amber);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    background: color-mix(in srgb, var(--accent-amber) 9%, var(--bg-cream));
+  }
+
+  .magic-button-callout h4 {
+    margin-bottom: var(--space-md);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: 1.35;
+  }
+
+  .magic-button-callout p {
+    margin: var(--space-md) 0 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+  }
+
+  .magic-button-callout__flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .magic-button-callout__flow span {
+    padding: 0.4rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-cream);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+  }
+
+  .magic-button-callout__flow b {
+    color: var(--accent-amber);
+  }
+
+  .walkthrough-placeholder {
+    margin-top: var(--space-3xl);
+    padding: var(--space-2xl);
+    border: 2px dashed color-mix(in srgb, var(--accent-violet) 42%, var(--bg-cream-darker));
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--accent-violet) 8%, var(--bg-cream)),
+      color-mix(in srgb, var(--accent-sky) 9%, var(--bg-cream)));
+  }
+
+  .walkthrough-placeholder h3 {
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-xl);
+  }
+
+  .walkthrough-placeholder p {
+    max-width: 650px;
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+    font-size: var(--text-lg);
+  }
+
+  .walkthrough-placeholder__detail {
+    color: var(--text-muted) !important;
+    font-size: var(--text-base) !important;
+  }
+
+  @media (min-width: 768px) {
+    .decision-case {
+      grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+      gap: clamp(var(--space-2xl), 7vw, var(--space-4xl));
+    }
+
+    .decision-case--reverse .decision-media {
+      order: 2;
+    }
+
+    .decision-case--reverse .decision-copy {
+      order: 1;
+      justify-self: end;
+    }
+
+    .problem-flow {
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+    }
+  }
+
   /* Architecture */
   .arch-box, .arch-detail {
     padding: var(--space-2xl);
@@ -473,6 +1121,55 @@ import '../../styles/global.css';
     margin-bottom: var(--space-md);
     font-size: var(--text-sm);
     line-height: 1.6;
+  }
+
+  .architecture-map {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: var(--space-xl) 0;
+    padding: var(--space-lg);
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    background: var(--bg-cream);
+  }
+
+  .architecture-map__node {
+    padding: 0.55rem 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--accent-sky) 25%, var(--bg-cream-darker));
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--accent-sky) 7%, var(--bg-cream));
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .architecture-map__node--identity,
+  .architecture-map__node--fulfillment {
+    background: color-mix(in srgb, var(--accent-violet) 8%, var(--bg-cream));
+  }
+
+  .architecture-map__arrow {
+    color: var(--accent-violet);
+    font-weight: 800;
+  }
+
+  .architecture-map__support {
+    display: grid;
+    width: 100%;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+    padding-top: var(--space-md);
+    border-top: 1px dashed var(--bg-cream-darker);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .architecture-map__support strong {
+    color: var(--text-primary);
   }
 
   /* Capabilities */
@@ -514,7 +1211,7 @@ import '../../styles/global.css';
 
   @media (min-width: 768px) {
     .lesson-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 

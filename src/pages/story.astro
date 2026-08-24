@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/global.css';
 ---
 
-<BaseLayout title="My Story — Rutvik Gulhane | viknik.tech" description="From C-DAC/EPFO through recovery to co-founding SpotBook and shipping its first production deployment in 15 days. The full engineering journey.">
+<BaseLayout title="My Story — Rutvik Gulhane | viknik.tech" description="From collaborative government-scale engineering at EPFO to building SpotBook: the work, constraints, and lessons that shaped Rutvik Gulhane.">
 
   <div class="story-hero">
     <div class="hero__gradient" aria-hidden="true"></div>
@@ -12,6 +12,13 @@ import '../styles/global.css';
         <img src="/stickers/the_full_story.svg" alt="The Full Story" class="hero-story-badge" />
       </div>
       <p class="story-hero__subtitle">C-DAC / EPFO → Accident & Recovery → SpotBook → 15-Day Build → ₹9 Crore (~$1.1M) → Platform Architecture → Lessons</p>
+      <div class="story-throughline" aria-label="The story in three stages">
+        <div><span>Foundation</span><strong>Collaborative government-scale engineering</strong></div>
+        <b aria-hidden="true">→</b>
+        <div><span>Discovery</span><strong>Listen to the teams who carry the workflow</strong></div>
+        <b aria-hidden="true">→</b>
+        <div><span>Ownership</span><strong>Ship, support, learn, and build again</strong></div>
+      </div>
     </div>
   </div>
 
@@ -24,13 +31,17 @@ import '../styles/global.css';
       </div>
       <h2 class="chapter__title fade-in">The Foundation Nobody Sees</h2>
       <div class="chapter__body fade-in">
-        <p>Two years building backend systems for one of India's largest government digital platforms.</p>
+        <p>Two years contributing to backend systems for one of India&rsquo;s largest government digital platforms.</p>
         <p>EPFO's UAN portal — India's national social security system, equivalent to Social Security in the US. Millions of citizens. Real PF withdrawals. <strong>10M+ transactions every month.</strong> The kind of system where a slow query doesn't cause a spinner — it causes a helpline to light up.</p>
         <div class="stat-callout" style="--callout-color: var(--accent-teal);">
           <span class="stat-callout__value">10M+</span>
           <span class="stat-callout__label">transactions / month at EPFO</span>
         </div>
-        <p>I built and optimized REST APIs for claim workflows at national scale. Implemented concurrent-safe transaction management — when 100k+ people hit the same endpoint, "it works on my machine" is a joke nobody laughs at.</p>
+        <div class="collaboration-map">
+          <div><span>Shared platform context</span><strong>EPFO UAN Portal</strong><small>Government-scale claim workflows maintained by a larger team.</small></div>
+          <div><span>My direct contributions</span><strong>Form 19 / Form 31, REST APIs, Aadhaar eSign, SQL work</strong><small>Delivered within a collaborative system, not as sole ownership of the platform.</small></div>
+        </div>
+        <p>I contributed to claim workflows, REST APIs, Aadhaar-based eSign integration, and database work within that team environment. It taught me what production constraints feel like when reliability matters to millions of people.</p>
         <p>What it built inside me: strong SQL, multithreading, and query optimization instincts. The kind you can't learn from a tutorial — they come from environments where a bad index costs you an SLA breach, not a code review comment.</p>
         <blockquote class="chapter__quote">
           "Two years of solid, high-concurrency government engineering. Building systems at national scale laid the technical foundation for everything that came next."
@@ -156,6 +167,13 @@ import '../styles/global.css';
         <p>During those 15 days building SpotBook's initial production deployment, I consulted with other manufacturers at the expo. Fabric wholesalers, garment makers, different segments. Every conversation revealed the same pattern: <strong>they all had similar operational pain points.</strong></p>
         <p>As Co-Founder & Full-Stack Developer, I evolved SpotBook into a prototype multi-tenant Modular Monolith (Spring Boot 3 + Java 21) designed specifically for wholesale apparel size matrices, prepacks, and inventory locks.</p>
         <p>I worked closely with <strong>team members</strong> on the floor — salespeople, inventory managers, and dispatch leads. Business owners describe what they want. Team members describe what they actually need.</p>
+        <div class="discovery-map">
+          <div><span>The Funny Question</span><strong>&ldquo;If you had one magic button, what would it do?&rdquo;</strong></div>
+          <b aria-hidden="true">→</b>
+          <div><span>What surfaced</span><strong>Demand planning, allocation, and retailer-ready dispatch.</strong></div>
+          <b aria-hidden="true">→</b>
+          <div><span>The product choice</span><strong>Build the hierarchy that mattered; defer the rest.</strong></div>
+        </div>
         <div style="text-align: center; margin-top: var(--space-xl);">
           <a href="/projects/spotbook" class="btn btn--outline">SpotBook Architecture →</a>
         </div>
@@ -239,6 +257,86 @@ import '../styles/global.css';
     color: var(--text-muted);
     letter-spacing: 0.02em;
     margin-top: var(--space-xs);
+  }
+
+  .story-throughline,
+  .collaboration-map,
+  .discovery-map {
+    display: grid;
+    gap: var(--space-sm);
+    margin: var(--space-xl) auto 0;
+    padding: var(--space-md);
+    border: 1px solid var(--bg-cream-darker);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--bg-cream) 86%, transparent);
+  }
+
+  .story-throughline {
+    max-width: 900px;
+    text-align: left;
+  }
+
+  .story-throughline div,
+  .collaboration-map div,
+  .discovery-map div {
+    display: grid;
+    gap: 0.3rem;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-cream);
+  }
+
+  .story-throughline span,
+  .collaboration-map span,
+  .discovery-map span {
+    color: var(--accent-violet);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .story-throughline strong,
+  .collaboration-map strong,
+  .discovery-map strong {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    line-height: 1.35;
+  }
+
+  .collaboration-map small {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+  }
+
+  .story-throughline > b,
+  .discovery-map > b {
+    align-self: center;
+    justify-self: center;
+    color: var(--accent-violet);
+  }
+
+  .collaboration-map {
+    grid-template-columns: 1fr;
+  }
+
+  .discovery-map {
+    margin: var(--space-xl) 0;
+  }
+
+  @media (min-width: 768px) {
+    .story-throughline,
+    .discovery-map {
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+    }
+
+    .collaboration-map {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   /* ===== Chapters ===== */
