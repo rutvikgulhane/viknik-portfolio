@@ -11,6 +11,7 @@ import '../styles/global.css';
       <h1 class="blog-hero__title">ENGINEERING<br />WITH EMPATHY</h1>
       <p class="blog-hero__subtitle">The difficult parts should live underneath the interface. These are the notes from building them.</p>
       <p class="blog-hero__hint">Move your cursor through the field.</p>
+      <p class="blog-hero__credit">Interactive hero inspired by <a href="https://www.sanity.io/engineering" target="_blank" rel="noreferrer">Sanity Engineering</a> · Field notes powered by Sanity.</p>
     </div>
   </div>
 
@@ -195,6 +196,9 @@ import '../styles/global.css';
   .blog-hero__title { margin-bottom: var(--space-xl); font-family: var(--font-mono); font-size: clamp(3.25rem, 10.5vw, 10rem); font-weight: 900; letter-spacing: -0.09em; line-height: 0.82; text-transform: uppercase; }
   .blog-hero__subtitle { max-width: 760px; margin: 0; font-family: var(--font-display); font-size: clamp(var(--text-xl), 3vw, var(--text-3xl)); line-height: 1.08; }
   .blog-hero__hint { margin: var(--space-lg) 0 0; font-family: var(--font-mono); font-size: var(--text-xs); opacity: 0.7; }
+  .blog-hero__credit { margin: var(--space-sm) 0 0; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.02em; }
+  .blog-hero__credit a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 55%, transparent); text-underline-offset: 0.18em; }
+  .blog-hero__credit a:hover { color: var(--accent-violet); }
   .field-note__header { max-width: 760px; margin-bottom: var(--space-3xl); }
   .field-note__header h2, .next-note h2 { margin-bottom: var(--space-lg); font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); line-height: 1.05; }
   .field-note__lede { color: var(--text-muted); font-size: var(--text-lg); line-height: 1.7; }
@@ -217,5 +221,5 @@ import '../styles/global.css';
   .sanity-note h2 { margin-bottom: var(--space-sm); font-size: var(--text-xl); }
   .sanity-note p { margin-bottom: var(--space-lg); color: var(--text-muted); line-height: 1.7; }
   @media (min-width: 768px) { .field-note__map { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 640px) { .blog-hero { min-height: 580px; } .blog-hero__content { padding-bottom: var(--space-2xl); } .blog-hero__title { letter-spacing: -0.08em; } .blog-hero__hint { display: none; } }
+  @media (max-width: 640px) { .blog-hero { min-height: 580px; } .blog-hero__content { padding-bottom: var(--space-2xl); } .blog-hero__title { letter-spacing: -0.08em; } .blog-hero__hint { display: none; } .blog-hero__credit { margin-top: var(--space-md); } }
 </style>
