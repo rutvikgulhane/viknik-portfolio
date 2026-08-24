@@ -86,12 +86,6 @@ const currentPath = Astro.url.pathname;
               </a>
             </li>
             <li>
-              <a href="/engineering" class={`nav__item-link ${currentPath === '/engineering' ? 'is-active' : ''}`}>
-                <span class="nav-sticker-icon" style="--icon-accent: var(--accent-amber);">⚡</span>
-                <span class="nav__item-text">ENGINEERING</span>
-              </a>
-            </li>
-            <li>
               <a href="/blog" class={`nav__item-link ${currentPath === '/blog' ? 'is-active' : ''}`}>
                 <span class="nav-sticker-icon" style="--icon-accent: var(--accent-teal);">✍️</span>
                 <span class="nav__item-text">BLOG</span>
@@ -120,10 +114,6 @@ const currentPath = Astro.url.pathname;
         <a href="/projects/spotbook" class={`mobile-dock-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
           <span class="dock-icon" style="--dock-accent: var(--accent-violet);">🚀</span>
           <span class="dock-label">PROJECTS</span>
-        </a>
-        <a href="/engineering" class={`mobile-dock-link ${currentPath === '/engineering' ? 'is-active' : ''}`}>
-          <span class="dock-icon" style="--dock-accent: var(--accent-amber);">⚡</span>
-          <span class="dock-label">ENG</span>
         </a>
         <a href="/blog" class={`mobile-dock-link ${currentPath === '/blog' ? 'is-active' : ''}`}>
           <span class="dock-icon" style="--dock-accent: var(--accent-teal);">✍️</span>
