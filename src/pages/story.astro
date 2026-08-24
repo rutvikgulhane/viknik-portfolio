@@ -317,6 +317,7 @@ import '../styles/global.css';
     align-self: center;
     justify-self: center;
     color: var(--accent-violet);
+    transition: transform var(--transition-fast);
   }
 
   .collaboration-map {
@@ -337,6 +338,11 @@ import '../styles/global.css';
     .collaboration-map {
       grid-template-columns: repeat(2, 1fr);
     }
+  }
+
+  @media (max-width: 767px) {
+    .story-throughline > b,
+    .discovery-map > b { transform: rotate(90deg); }
   }
 
   /* ===== Chapters ===== */

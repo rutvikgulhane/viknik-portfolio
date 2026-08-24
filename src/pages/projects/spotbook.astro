@@ -670,6 +670,7 @@ import '../../styles/global.css';
     color: var(--accent-violet);
     font-size: var(--text-xl);
     font-weight: 800;
+    transition: transform var(--transition-fast);
   }
 
   .gallery-grid {
@@ -997,7 +998,9 @@ import '../../styles/global.css';
   }
 
   .qr-flow b {
+    display: inline-block;
     color: var(--accent-violet);
+    transition: transform var(--transition-fast);
   }
 
   .magic-button-callout {
@@ -1041,7 +1044,9 @@ import '../../styles/global.css';
   }
 
   .magic-button-callout__flow b {
+    display: inline-block;
     color: var(--accent-amber);
+    transition: transform var(--transition-fast);
   }
 
   .walkthrough-placeholder {
@@ -1153,8 +1158,26 @@ import '../../styles/global.css';
   }
 
   .architecture-map__arrow {
+    display: inline-block;
     color: var(--accent-violet);
     font-weight: 800;
+    transition: transform var(--transition-fast);
+  }
+
+  @media (max-width: 767px) {
+    .problem-flow__arrow,
+    .qr-flow b,
+    .magic-button-callout__flow b,
+    .architecture-map__arrow { transform: rotate(90deg); }
+
+    .qr-flow,
+    .magic-button-callout__flow { flex-direction: column; align-items: flex-start; }
+
+    .qr-flow b,
+    .magic-button-callout__flow b { align-self: center; }
+
+    .architecture-map { flex-direction: column; align-items: stretch; }
+    .architecture-map__arrow { align-self: center; }
   }
 
   .architecture-map__support {

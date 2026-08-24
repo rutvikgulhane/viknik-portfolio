@@ -339,6 +339,7 @@ import '../styles/global.css';
     align-self: center;
     justify-self: center;
     color: var(--accent-violet);
+    transition: transform var(--transition-fast);
   }
 
   @media (min-width: 768px) {
@@ -346,6 +347,10 @@ import '../styles/global.css';
       grid-template-columns: 1fr auto 1fr auto 1fr;
       align-items: stretch;
     }
+  }
+
+  @media (max-width: 767px) {
+    .engineering-reading-map > b { transform: rotate(90deg); }
   }
 
   /* Problem Cards */
