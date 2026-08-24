@@ -74,6 +74,12 @@ const currentPath = Astro.url.pathname;
               </a>
             </li>
             <li>
+              <a href="/why-rutvik" class={`nav__item-link ${currentPath === '/why-rutvik' ? 'is-active' : ''}`}>
+                <span class="nav-sticker-icon" style="--icon-accent: var(--accent-pink);">✦</span>
+                <span class="nav__item-text">WHY RUTVIK?</span>
+              </a>
+            </li>
+            <li>
               <a href="/projects/spotbook" class={`nav__item-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
                 <span class="nav-sticker-icon" style="--icon-accent: var(--accent-violet);">🚀</span>
                 <span class="nav__item-text">PROJECTS</span>
@@ -106,6 +112,10 @@ const currentPath = Astro.url.pathname;
         <a href="/story" class={`mobile-dock-link ${currentPath === '/story' ? 'is-active' : ''}`}>
           <span class="dock-icon" style="--dock-accent: var(--accent-coral);">📖</span>
           <span class="dock-label">STORY</span>
+        </a>
+        <a href="/why-rutvik" class={`mobile-dock-link ${currentPath === '/why-rutvik' ? 'is-active' : ''}`}>
+          <span class="dock-icon" style="--dock-accent: var(--accent-pink);">✦</span>
+          <span class="dock-label">WHY ME</span>
         </a>
         <a href="/projects/spotbook" class={`mobile-dock-link ${currentPath.startsWith('/projects') ? 'is-active' : ''}`}>
           <span class="dock-icon" style="--dock-accent: var(--accent-violet);">🚀</span>
