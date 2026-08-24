@@ -16,46 +16,24 @@ import '../styles/global.css';
   </div>
 
   <main>
-    <article class="field-note section">
-      <div class="container container--narrow">
-        <header class="field-note__header">
-          <span class="field-note__meta">FIELD NOTE 01 · AUG 2026</span>
-          <h2>12 things production taught me while building SpotBook.</h2>
-          <p class="field-note__lede">This is not twelve lessons dressed up as content. It is one short record of the engineering problems that mattered when real orders, stock, and people were on the other side of the screen.</p>
-        </header>
+    <section class="field-notes section">
+      <div class="container">
+        <article class="field-note-card">
+          <div class="field-note-card__copy">
+            <span class="field-note__meta">FIELD NOTE 01 · AUG 2026</span>
+            <h2>12 things production taught me while building SpotBook.</h2>
+            <p>This is not twelve lessons dressed up as content. It is a record of the engineering problems that mattered when real orders, stock, and people were on the other side of the screen.</p>
+            <a href="/engineering" class="btn btn--primary">Open the engineering notebook →</a>
+          </div>
 
-        <div class="field-note__map" aria-label="The engineering themes in this field note">
-          <div><span>Keep the order safe</span><strong>Locks, delta validation, draft persistence.</strong></div>
-          <div><span>Keep the interface honest</span><strong>Loading states, image handling, useful feedback.</strong></div>
-          <div><span>Keep the system standing</span><strong>Deployment, connectivity, tenant boundaries, auditability.</strong></div>
-        </div>
-
-        <div class="field-note__body">
-          <p>The first lesson came from two sales agents trying to book the same last unit. One order went through; the other failed and took a large draft down with it. The technical answer was locking, validation, and safer draft persistence. The product answer was simpler: a person should not lose their work because another person happened to tap at the same moment.</p>
-          <p>The same pattern repeated everywhere. Inventory could be correct in the database but look empty while the screen fetched. A product photo could exist but fail because it arrived as HEIC. A domain could work on venue Wi-Fi but fail on mobile data an hour before an expo. Each bug had a technical cause, but every fix began by asking what failure the person on the other end was experiencing.</p>
-          <p>SpotBook also taught me that systems have to grow without becoming less trustworthy. Multi-tenant boundaries, apparel size matrices, QR ordering, receipts, and unreliable connectivity were not independent checkboxes. They were one operational workflow seen from different angles.</p>
-          <blockquote>Production engineering is not making a system look complicated. It is taking responsibility for the complexity so the person using it can keep moving.</blockquote>
-          <p>There is an honest non-engineering lesson too: a working product and a working business are different achievements. The software held up at the expo. Distribution in a relationship-driven industry required a different engine. I learned both lessons by doing the work, not by reading about it.</p>
-        </div>
-
-        <details class="field-note__index">
-          <summary>The full notebook behind this short note</summary>
-          <ul>
-            <li>The vanishing cart and concurrent stock booking</li>
-            <li>Surgical order edits through identity-based deltas</li>
-            <li>Loading gates, HEIC uploads, and honest interface states</li>
-            <li>Expo-floor DNS, receipts, and unreliable connectivity</li>
-            <li>Tenant isolation, apparel size matrices, and state integrity</li>
-            <li>The GTM lesson: good engineering still needs distribution</li>
-          </ul>
-        </details>
-
-        <footer class="field-note__footer">
-          <p>Want the uncompressed version? The engineering notebook keeps each problem, root cause, and decision intact.</p>
-          <a href="/engineering" class="btn btn--primary">Read the engineering notes →</a>
-        </footer>
+          <div class="field-note-card__themes" aria-label="The engineering themes in this field note">
+            <div><span>Keep the order safe</span><strong>Locks, delta validation, draft persistence.</strong></div>
+            <div><span>Keep the interface honest</span><strong>Loading states, image handling, useful feedback.</strong></div>
+            <div><span>Keep the system standing</span><strong>Deployment, connectivity, tenant boundaries, auditability.</strong></div>
+          </div>
+        </article>
       </div>
-    </article>
+    </section>
 
     <section class="sanity-notes section" data-sanity-posts hidden>
       <div class="container container--narrow">
@@ -199,27 +177,20 @@ import '../styles/global.css';
   .blog-hero__credit { margin: var(--space-sm) 0 0; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.02em; }
   .blog-hero__credit a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 55%, transparent); text-underline-offset: 0.18em; }
   .blog-hero__credit a:hover { color: var(--accent-violet); }
-  .field-note__header { max-width: 760px; margin-bottom: var(--space-3xl); }
-  .field-note__header h2, .next-note h2 { margin-bottom: var(--space-lg); font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); line-height: 1.05; }
-  .field-note__lede { color: var(--text-muted); font-size: var(--text-lg); line-height: 1.7; }
-  .field-note__map { display: grid; gap: 1px; margin-bottom: var(--space-3xl); overflow: hidden; border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-darker); }
-  .field-note__map div { display: grid; gap: var(--space-sm); padding: var(--space-lg); background: var(--bg-cream); }
-  .field-note__map span { color: var(--accent-violet); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
-  .field-note__map strong { font-family: var(--font-display); font-size: var(--text-base); line-height: 1.4; }
-  .field-note__body { font-size: var(--text-lg); line-height: 1.8; }
-  .field-note__body p { margin-bottom: var(--space-xl); }
-  .field-note__body blockquote { margin: var(--space-2xl) 0; padding: var(--space-xl); border-left: 4px solid var(--accent-coral); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; background: var(--bg-cream-dark); color: var(--text-primary); font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; line-height: 1.45; }
-  .field-note__index { margin-top: var(--space-2xl); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-dark); }
-  .field-note__index summary { padding: var(--space-lg); cursor: pointer; color: var(--text-primary); font-family: var(--font-display); font-weight: 700; }
-  .field-note__index ul { margin: 0; padding: 0 var(--space-xl) var(--space-lg) calc(var(--space-xl) + 1rem); color: var(--text-muted); font-size: var(--text-sm); line-height: 1.8; }
-  .field-note__footer { display: grid; gap: var(--space-lg); margin-top: var(--space-3xl); padding-top: var(--space-xl); border-top: 1px solid var(--bg-cream-darker); }
-  .field-note__footer p, .next-note p { max-width: 640px; margin: 0; color: var(--text-muted); font-size: var(--text-base); line-height: 1.7; }
-  .field-note__footer .btn { justify-self: start; }
+  .field-note-card { display: grid; gap: var(--space-xl); padding: clamp(var(--space-xl), 4vw, var(--space-3xl)); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-xl); background: var(--bg-cream-dark); box-shadow: var(--shadow-sm); }
+  .field-note-card__copy { display: grid; align-content: start; justify-items: start; }
+  .field-note-card__copy h2, .next-note h2 { margin-bottom: var(--space-lg); font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); line-height: 1.05; }
+  .field-note-card__copy p { max-width: 620px; margin: 0 0 var(--space-xl); color: var(--text-muted); font-size: var(--text-lg); line-height: 1.7; }
+  .field-note-card__themes { display: grid; gap: 1px; overflow: hidden; border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-darker); }
+  .field-note-card__themes div { display: grid; gap: var(--space-sm); min-height: 142px; padding: var(--space-lg); background: var(--bg-cream); }
+  .field-note-card__themes span { color: var(--accent-violet); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+  .field-note-card__themes strong { font-family: var(--font-display); font-size: var(--text-base); line-height: 1.4; }
+  .next-note p { max-width: 640px; margin: 0; color: var(--text-muted); font-size: var(--text-base); line-height: 1.7; }
   .next-note { border-top: 1px solid var(--bg-cream-darker); }
   .sanity-notes__list { display: grid; gap: var(--space-lg); }
   .sanity-note { padding: var(--space-xl); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-dark); }
   .sanity-note h2 { margin-bottom: var(--space-sm); font-size: var(--text-xl); }
   .sanity-note p { margin-bottom: var(--space-lg); color: var(--text-muted); line-height: 1.7; }
-  @media (min-width: 768px) { .field-note__map { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 768px) { .field-note-card { grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr); align-items: stretch; } }
   @media (max-width: 640px) { .blog-hero { min-height: 580px; } .blog-hero__content { padding-bottom: var(--space-2xl); } .blog-hero__title { letter-spacing: -0.08em; } .blog-hero__hint { display: none; } .blog-hero__credit { margin-top: var(--space-md); } }
 </style>

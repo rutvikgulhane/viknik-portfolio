@@ -1,6 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions';
-
 interface Props {
   title: string;
   description?: string;
@@ -50,9 +48,6 @@ const currentPath = Astro.url.pathname;
       rel="stylesheet"
     />
 
-    <!-- View Transitions for Smooth Page Switching -->
-    <ClientRouter />
-
     <title>{title}</title>
   </head>
   <body>
@@ -62,7 +57,7 @@ const currentPath = Astro.url.pathname;
       <nav class="nav" id="main-nav">
         <div class="nav__inner container">
           <a href="/" class="nav__logo" aria-label="Rutvik on a Tech Picnik Home">
-            <img src="/stickers/logo_picnik.svg" alt="Rutvik on a Tech Picnik" class="nav__logo-img" height="140" transition:name="nav-logo" />
+            <img src="/stickers/logo_picnik.svg" alt="Rutvik on a Tech Picnik" class="nav__logo-img" height="140" />
           </a>
 
           <!-- Desktop Sticker Nav Links -->
@@ -98,6 +93,19 @@ const currentPath = Astro.url.pathname;
               </a>
             </li>
           </ul>
+
+          <details class="landscape-menu">
+            <summary aria-label="Open site navigation">
+              <span>MENU</span><span aria-hidden="true">☰</span>
+            </summary>
+            <div class="landscape-menu__panel">
+              <a href="/story">Story</a>
+              <a href="/why-rutvik">Why me</a>
+              <a href="/projects/spotbook">Projects</a>
+              <a href="/blog">Blog</a>
+              <a href="/contact">Contact</a>
+            </div>
+          </details>
         </div>
       </nav>
 
@@ -126,7 +134,7 @@ const currentPath = Astro.url.pathname;
       </nav>
     </slot>
 
-    <main transition:animate="fade">
+    <main>
       <slot />
     </main>
 
@@ -363,6 +371,10 @@ const currentPath = Astro.url.pathname;
     }
   }
 
+  .landscape-menu {
+    display: none;
+  }
+
   /* ===== Sticker Icon Only Nav Items ===== */
   .nav__item-link {
     display: inline-flex;
@@ -441,6 +453,112 @@ const currentPath = Astro.url.pathname;
   @media (min-width: 768px) {
     .mobile-bottom-dock {
       display: none;
+    }
+  }
+
+  /* A floating dock consumes too much of a short landscape viewport. */
+  @media (orientation: landscape) and (max-height: 640px) {
+    .mobile-bottom-dock {
+      display: none;
+    }
+
+    .nav {
+      padding: max(2px, env(safe-area-inset-top)) 0 0;
+    }
+
+    .nav__inner {
+      position: relative;
+      justify-content: center;
+      min-height: 42px;
+    }
+
+    .nav__logo {
+      margin: 0;
+    }
+
+    .nav__logo-img {
+      height: 58px;
+      max-width: 138px;
+      margin: -10px 0 -16px;
+    }
+
+    .nav__links {
+      display: none !important;
+    }
+
+    .landscape-menu {
+      position: absolute;
+      right: var(--space-sm);
+      display: block;
+      z-index: 2;
+    }
+
+    .landscape-menu summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 2px solid rgba(26, 26, 46, 0.52);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.62);
+      box-shadow: 0 2px 5px rgba(26, 26, 46, 0.08);
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 800;
+      list-style: none;
+    }
+
+    .landscape-menu summary span:first-child {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .landscape-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .landscape-menu__panel {
+      position: absolute;
+      top: calc(100% + 0.55rem);
+      right: 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      width: min(430px, calc(100vw - 24px));
+      padding: 0.35rem;
+      border: 1px solid rgba(26, 26, 46, 0.16);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 248, 240, 0.98);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .landscape-menu__panel a {
+      padding: 0.48rem 0.25rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: clamp(0.53rem, 1.7vw, 0.68rem);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .landscape-menu__panel a:hover,
+    .landscape-menu__panel a:focus-visible {
+      background: color-mix(in srgb, var(--accent-violet) 12%, var(--bg-cream));
+      outline: none;
     }
   }
 
