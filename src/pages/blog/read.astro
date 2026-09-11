@@ -178,6 +178,78 @@ import '../../styles/global.css';
     parent.append(figure);
   };
 
+  let mermaidLoader: Promise<typeof import('mermaid').default> | undefined;
+
+  const getMermaid = () => {
+    mermaidLoader ||= import('mermaid').then(({default: mermaid}) => {
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: 'base',
+        flowchart: {htmlLabels: false},
+        themeVariables: {
+          background: '#fffaf3',
+          primaryColor: '#e7f4ff',
+          primaryTextColor: '#1f2140',
+          primaryBorderColor: '#1f2140',
+          lineColor: '#635bba',
+          secondaryColor: '#fff0dc',
+          tertiaryColor: '#f7f0ff',
+          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+        },
+      });
+      return mermaid;
+    });
+    return mermaidLoader;
+  };
+
+  let diagramCount = 0;
+
+  const appendMermaidDiagram = (parent: HTMLElement, block: PortableBlock) => {
+    const definition = typeof block.definition === 'string' ? block.definition.trim() : '';
+    if (!definition) return;
+
+    const figure = document.createElement('figure');
+    figure.className = 'note-diagram';
+    const title = typeof block.title === 'string' ? block.title : 'Diagram';
+    const canvas = document.createElement('div');
+    canvas.className = 'note-diagram__canvas';
+    canvas.setAttribute('role', 'img');
+    canvas.setAttribute('aria-label', title);
+    const loading = document.createElement('p');
+    loading.className = 'note-diagram__status';
+    loading.textContent = 'Rendering diagram…';
+    canvas.append(loading);
+    figure.append(canvas);
+
+    const captionText = typeof block.caption === 'string' ? block.caption : '';
+    if (captionText) {
+      const caption = document.createElement('figcaption');
+      caption.textContent = captionText;
+      figure.append(caption);
+    }
+    parent.append(figure);
+
+    void getMermaid()
+      .then(async (mermaid) => {
+        const {svg} = await mermaid.render(`note-diagram-${++diagramCount}`, definition);
+        const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml');
+        const diagram = parsed.documentElement;
+        if (diagram.localName !== 'svg' || diagram.namespaceURI !== 'http://www.w3.org/2000/svg') {
+          throw new Error('Mermaid did not return an SVG.');
+        }
+        canvas.replaceChildren(document.importNode(diagram, true));
+      })
+      .catch(() => {
+        canvas.replaceChildren();
+        const status = document.createElement('p');
+        status.className = 'note-diagram__status';
+        status.textContent = 'This diagram is unavailable right now. The explanation in the article is still complete.';
+        canvas.append(status);
+        canvas.setAttribute('aria-label', `${title}. The diagram is unavailable; read the surrounding explanation.`);
+      });
+  };
+
   const appendTable = (parent: HTMLElement, block: PortableBlock) => {
     const rows = Array.isArray(block.rows) ? block.rows as Array<{cells?: Array<{value?: PortableBlock[]}>}> : [];
     if (!rows.length) return;
@@ -255,6 +327,7 @@ import '../../styles/global.css';
       listStack = [];
       if (block._type === 'image') appendImage(parent, block);
       else if (block._type === 'codeBlock') appendCodeBlock(parent, block);
+      else if (block._type === 'mermaidDiagram') appendMermaidDiagram(parent, block);
       else if (block._type === 'callout') {
         const callout = document.createElement('aside');
         const tone = typeof block.tone === 'string' && ['note', 'insight', 'warning'].includes(block.tone) ? block.tone : 'note';
@@ -330,6 +403,11 @@ import '../../styles/global.css';
   .note-code figcaption { margin: 0; padding: var(--space-sm) var(--space-lg); border-bottom: 1px solid rgba(255, 255, 255, 0.14); color: var(--text-light); }
   .note-code pre { margin: 0; padding: var(--space-xl); overflow-x: auto; color: var(--text-light); font-family: var(--font-mono); font-size: var(--text-sm); line-height: 1.7; tab-size: 2; }
   .note-code code { font: inherit; white-space: pre; }
+  .note-diagram { margin: var(--space-2xl) 0; padding: var(--space-lg); border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); background: var(--bg-cream-dark); box-shadow: var(--shadow-sm); }
+  .note-diagram__canvas { display: grid; place-items: center; min-height: 7rem; margin: 0; padding: var(--space-lg); overflow-x: auto; border-radius: var(--radius-md); background: var(--bg-cream); }
+  .note-diagram__canvas svg { display: block; width: 100%; height: auto; }
+  .note-diagram figcaption { margin: var(--space-sm) var(--space-sm) 0; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1.6; }
+  .note-diagram__status { margin: 0 !important; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-sm) !important; line-height: 1.6 !important; text-align: center; }
   .note-callout { margin: var(--space-2xl) 0; padding: var(--space-xl); border: 1px solid var(--bg-cream-darker); border-left: 4px solid var(--accent-sky); border-radius: var(--radius-lg); background: var(--bg-cream-dark); }
   .note-callout--insight { border-left-color: var(--accent-emerald); }
   .note-callout--warning { border-left-color: var(--accent-amber); }
@@ -347,5 +425,7 @@ import '../../styles/global.css';
     .note-page p, .note-page li { font-size: var(--text-base); }
     .note-page blockquote { padding: var(--space-lg); font-size: var(--text-lg); }
     .note-code pre { padding: var(--space-lg); }
+    .note-diagram { padding: var(--space-md); }
+    .note-diagram__canvas { padding: var(--space-md); }
   }
 </style>
