@@ -12,6 +12,33 @@ import '../../styles/global.css';
 </BaseLayout>
 
 <script>
+  type MarkDefinition = {
+    _key?: string;
+    _type?: string;
+    href?: string;
+    openInNewTab?: boolean;
+  };
+
+  type PortableSpan = {
+    _type?: string;
+    text?: string;
+    marks?: string[];
+  };
+
+  type TextBlock = {
+    _type: 'block';
+    style?: string;
+    listItem?: 'bullet' | 'number';
+    level?: number;
+    children?: PortableSpan[];
+    markDefs?: MarkDefinition[];
+  };
+
+  type PortableBlock = TextBlock | {
+    _type?: string;
+    [key: string]: unknown;
+  };
+
   const root = document.querySelector<HTMLElement>('[data-note-root]');
   const slug = new URLSearchParams(window.location.search).get('slug');
 
@@ -29,23 +56,230 @@ import '../../styles/global.css';
     root.append(heading, text, link);
   };
 
-  const appendPortableText = (body: Array<{ _type?: string; style?: string; children?: Array<{ text?: string }> }>) => {
-    if (!root) return;
-    body.forEach((block) => {
-      if (block._type !== 'block') return;
-      const text = block.children?.map((child) => child.text || '').join('') || '';
-      if (!text.trim()) return;
-      const tag = block.style === 'h2' ? 'h2' : block.style === 'h3' ? 'h3' : block.style === 'blockquote' ? 'blockquote' : 'p';
-      const element = document.createElement(tag);
-      element.textContent = text;
-      root.append(element);
+  const safeHref = (value: unknown) => {
+    if (typeof value !== 'string' || !value.trim()) return null;
+    if (value.startsWith('/') || value.startsWith('#') || value.startsWith('./') || value.startsWith('../')) return value;
+    try {
+      const parsed = new URL(value);
+      return ['http:', 'https:', 'mailto:'].includes(parsed.protocol) ? parsed.href : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const appendSpans = (parent: HTMLElement, block: TextBlock) => {
+    const definitions = new Map((block.markDefs || []).map((definition) => [definition._key, definition]));
+
+    (block.children || []).forEach((span) => {
+      let node: Node = document.createTextNode(span.text || '');
+
+      (span.marks || []).forEach((mark) => {
+        let wrapper: HTMLElement | null = null;
+        if (mark === 'strong') wrapper = document.createElement('strong');
+        else if (mark === 'em') wrapper = document.createElement('em');
+        else if (mark === 'underline') wrapper = document.createElement('u');
+        else if (mark === 'strike-through') wrapper = document.createElement('s');
+        else if (mark === 'code') wrapper = document.createElement('code');
+        else {
+          const definition = definitions.get(mark);
+          const href = safeHref(definition?.href);
+          if (definition?._type === 'link' && href) {
+            const link = document.createElement('a');
+            link.href = href;
+            if (definition.openInNewTab && !href.startsWith('/') && !href.startsWith('#')) {
+              link.target = '_blank';
+              link.rel = 'noopener noreferrer';
+            }
+            wrapper = link;
+          }
+        }
+
+        if (wrapper) {
+          wrapper.append(node);
+          node = wrapper;
+        }
+      });
+
+      parent.append(node);
+    });
+  };
+
+  const createTextElement = (block: TextBlock) => {
+    const tag = block.style === 'h2'
+      ? 'h2'
+      : block.style === 'h3'
+        ? 'h3'
+        : block.style === 'h4'
+          ? 'h4'
+          : block.style === 'blockquote'
+            ? 'blockquote'
+            : 'p';
+    const element = document.createElement(tag);
+    appendSpans(element, block);
+    return element;
+  };
+
+  const appendImage = (parent: HTMLElement, block: PortableBlock) => {
+    const asset = block.asset as {url?: string; metadata?: {dimensions?: {width?: number; height?: number}}} | undefined;
+    const src = safeHref(asset?.url);
+    if (!src) return;
+
+    const figure = document.createElement('figure');
+    figure.className = 'note-media';
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = typeof block.alt === 'string' ? block.alt : '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    const dimensions = asset?.metadata?.dimensions;
+    if (dimensions?.width) image.width = dimensions.width;
+    if (dimensions?.height) image.height = dimensions.height;
+    figure.append(image);
+
+    const captionText = typeof block.caption === 'string' ? block.caption : '';
+    const creditText = typeof block.credit === 'string' ? block.credit : '';
+    const creditHref = safeHref(block.creditUrl);
+    if (captionText || creditText) {
+      const caption = document.createElement('figcaption');
+      if (captionText) caption.append(document.createTextNode(captionText));
+      if (captionText && creditText) caption.append(document.createTextNode(' '));
+      if (creditText && creditHref) {
+        const credit = document.createElement('a');
+        credit.href = creditHref;
+        credit.target = '_blank';
+        credit.rel = 'noopener noreferrer';
+        credit.textContent = creditText;
+        caption.append(credit);
+      } else if (creditText) {
+        caption.append(document.createTextNode(creditText));
+      }
+      figure.append(caption);
+    }
+    parent.append(figure);
+  };
+
+  const appendCodeBlock = (parent: HTMLElement, block: PortableBlock) => {
+    if (typeof block.code !== 'string') return;
+    const figure = document.createElement('figure');
+    figure.className = 'note-code';
+    const filename = typeof block.filename === 'string' ? block.filename : '';
+    const language = typeof block.language === 'string' ? block.language : 'text';
+    if (filename || language !== 'text') {
+      const label = document.createElement('figcaption');
+      label.textContent = filename || language;
+      figure.append(label);
+    }
+    const pre = document.createElement('pre');
+    const code = document.createElement('code');
+    code.className = `language-${language.replace(/[^a-z0-9-]/gi, '') || 'text'}`;
+    code.textContent = block.code;
+    pre.append(code);
+    figure.append(pre);
+    parent.append(figure);
+  };
+
+  const appendTable = (parent: HTMLElement, block: PortableBlock) => {
+    const rows = Array.isArray(block.rows) ? block.rows as Array<{cells?: Array<{value?: PortableBlock[]}>}> : [];
+    if (!rows.length) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'note-table-wrap';
+    const table = document.createElement('table');
+    const captionText = typeof block.caption === 'string' ? block.caption : '';
+    if (captionText) {
+      const caption = document.createElement('caption');
+      caption.textContent = captionText;
+      table.append(caption);
+    }
+
+    const requestedHeaderRows = typeof block.headerRows === 'number' ? block.headerRows : 0;
+    const headerRows = Math.max(0, Math.min(requestedHeaderRows, rows.length));
+    const head = headerRows ? document.createElement('thead') : null;
+    const body = document.createElement('tbody');
+
+    rows.forEach((row, rowIndex) => {
+      const tableRow = document.createElement('tr');
+      (row.cells || []).forEach((cell) => {
+        const cellElement = document.createElement(rowIndex < headerRows ? 'th' : 'td');
+        appendPortableText(cellElement, cell.value || []);
+        tableRow.append(cellElement);
+      });
+      (rowIndex < headerRows && head ? head : body).append(tableRow);
+    });
+
+    if (head) table.append(head);
+    table.append(body);
+    wrapper.append(table);
+    parent.append(wrapper);
+  };
+
+  const appendPortableText = (parent: HTMLElement, blocks: PortableBlock[]) => {
+    type ListState = {level: number; type: 'bullet' | 'number'; list: HTMLUListElement | HTMLOListElement; lastItem?: HTMLLIElement};
+    let listStack: ListState[] = [];
+
+    blocks.forEach((block) => {
+      if (block._type === 'block') {
+        const textBlock = block as TextBlock;
+        const hasText = (textBlock.children || []).some((child) => (child.text || '').length > 0);
+        if (!hasText) return;
+
+        if (textBlock.listItem) {
+          const type = textBlock.listItem;
+          const requestedLevel = Math.max(1, textBlock.level || 1);
+          const level = listStack.length ? Math.min(requestedLevel, listStack[listStack.length - 1].level + 1) : 1;
+
+          while (listStack.length && listStack[listStack.length - 1].level > level) listStack.pop();
+
+          let current = listStack[listStack.length - 1];
+          if (!current || current.level < level || current.type !== type) {
+            if (current?.level === level && current.type !== type) listStack.pop();
+            const parentState = listStack[listStack.length - 1];
+            const list = document.createElement(type === 'number' ? 'ol' : 'ul');
+            (parentState?.lastItem || parent).append(list);
+            current = {level, type, list};
+            listStack.push(current);
+          }
+
+          const item = document.createElement('li');
+          appendSpans(item, textBlock);
+          current.list.append(item);
+          current.lastItem = item;
+          return;
+        }
+
+        listStack = [];
+        parent.append(createTextElement(textBlock));
+        return;
+      }
+
+      listStack = [];
+      if (block._type === 'image') appendImage(parent, block);
+      else if (block._type === 'codeBlock') appendCodeBlock(parent, block);
+      else if (block._type === 'callout') {
+        const callout = document.createElement('aside');
+        const tone = typeof block.tone === 'string' && ['note', 'insight', 'warning'].includes(block.tone) ? block.tone : 'note';
+        callout.className = `note-callout note-callout--${tone}`;
+        if (typeof block.title === 'string' && block.title) {
+          const title = document.createElement('strong');
+          title.className = 'note-callout__title';
+          title.textContent = block.title;
+          callout.append(title);
+        }
+        appendPortableText(callout, Array.isArray(block.content) ? block.content as PortableBlock[] : []);
+        parent.append(callout);
+      } else if (block._type === 'table') appendTable(parent, block);
+      else if (block._type === 'divider') {
+        const divider = document.createElement('hr');
+        divider.className = 'note-divider';
+        parent.append(divider);
+      }
     });
   };
 
   if (!slug) {
     renderError('Choose a published note from the blog index.');
   } else if (root) {
-    const query = '*[_type == "post" && slug.current == $slug][0]{title, excerpt, publishedAt, body}';
+    const query = '*[_type == "post" && slug.current == $slug][0]{title, excerpt, publishedAt, body[]{..., _type == "image" => {..., asset->{url, metadata{dimensions}}}}}';
     const endpoint = `https://mz56et1n.apicdn.sanity.io/v2025-02-19/data/query/production?query=${encodeURIComponent(query)}&$slug=${encodeURIComponent(JSON.stringify(slug))}`;
     fetch(endpoint)
       .then((response) => response.ok ? response.json() : Promise.reject(new Error('Sanity request failed')))
@@ -68,7 +302,7 @@ import '../../styles/global.css';
           excerpt.textContent = result.excerpt;
           root.append(excerpt);
         }
-        appendPortableText(result.body || []);
+        appendPortableText(root, result.body || []);
       })
       .catch(() => renderError('The published notes service is unavailable right now.'));
   }
@@ -79,8 +313,39 @@ import '../../styles/global.css';
   .note-page h1 { margin-bottom: var(--space-lg); font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl)); line-height: 1.05; }
   .note-page h2 { margin: var(--space-3xl) 0 var(--space-md); font-size: var(--text-2xl); }
   .note-page h3 { margin: var(--space-2xl) 0 var(--space-md); font-size: var(--text-xl); }
+  .note-page h4 { margin: var(--space-xl) 0 var(--space-sm); font-size: var(--text-lg); }
   .note-page p { margin-bottom: var(--space-lg); font-size: var(--text-lg); line-height: 1.8; }
+  .note-page a { color: var(--accent-indigo); font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+  .note-page ul, .note-page ol { margin: 0 0 var(--space-xl); padding-left: 1.5rem; }
+  .note-page li { margin-bottom: var(--space-sm); padding-left: var(--space-xs); font-size: var(--text-lg); line-height: 1.7; }
+  .note-page li > ul, .note-page li > ol { margin-top: var(--space-sm); margin-bottom: var(--space-sm); }
+  .note-page :not(pre) > code { padding: 0.14em 0.38em; border-radius: var(--radius-sm); background: var(--bg-cream-darker); font-family: var(--font-mono); font-size: 0.88em; }
   .note-page__meta { color: var(--accent-violet); font-family: var(--font-mono); font-size: var(--text-xs) !important; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
   .note-page__excerpt { color: var(--text-muted); font-family: var(--font-display); font-size: var(--text-xl) !important; line-height: 1.5 !important; }
   .note-page blockquote { margin: var(--space-2xl) 0; padding: var(--space-xl); border-left: 4px solid var(--accent-coral); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; background: var(--bg-cream-dark); font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; line-height: 1.45; }
+  .note-media { margin: var(--space-3xl) 0; }
+  .note-media img { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .note-media figcaption, .note-code figcaption { margin-top: var(--space-sm); color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1.6; }
+  .note-code { margin: var(--space-2xl) 0; overflow: hidden; border-radius: var(--radius-lg); background: var(--text-primary); box-shadow: var(--shadow-md); }
+  .note-code figcaption { margin: 0; padding: var(--space-sm) var(--space-lg); border-bottom: 1px solid rgba(255, 255, 255, 0.14); color: var(--text-light); }
+  .note-code pre { margin: 0; padding: var(--space-xl); overflow-x: auto; color: var(--text-light); font-family: var(--font-mono); font-size: var(--text-sm); line-height: 1.7; tab-size: 2; }
+  .note-code code { font: inherit; white-space: pre; }
+  .note-callout { margin: var(--space-2xl) 0; padding: var(--space-xl); border: 1px solid var(--bg-cream-darker); border-left: 4px solid var(--accent-sky); border-radius: var(--radius-lg); background: var(--bg-cream-dark); }
+  .note-callout--insight { border-left-color: var(--accent-emerald); }
+  .note-callout--warning { border-left-color: var(--accent-amber); }
+  .note-callout__title { display: block; margin-bottom: var(--space-sm); font-family: var(--font-display); font-size: var(--text-lg); }
+  .note-callout > :last-child { margin-bottom: 0; }
+  .note-table-wrap { margin: var(--space-2xl) 0; overflow-x: auto; border: 1px solid var(--bg-cream-darker); border-radius: var(--radius-lg); }
+  .note-table-wrap table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .note-table-wrap caption { padding: var(--space-md) var(--space-lg); color: var(--text-muted); font-family: var(--font-display); font-weight: 700; text-align: left; }
+  .note-table-wrap th, .note-table-wrap td { padding: var(--space-md); border-top: 1px solid var(--bg-cream-darker); border-right: 1px solid var(--bg-cream-darker); text-align: left; vertical-align: top; }
+  .note-table-wrap th { background: var(--bg-cream-dark); font-family: var(--font-display); }
+  .note-table-wrap th:last-child, .note-table-wrap td:last-child { border-right: 0; }
+  .note-table-wrap p { margin: 0; font-size: var(--text-base); line-height: 1.6; }
+  .note-divider { width: min(180px, 40%); margin: var(--space-3xl) auto; border: 0; border-top: 3px solid var(--accent-coral); }
+  @media (max-width: 640px) {
+    .note-page p, .note-page li { font-size: var(--text-base); }
+    .note-page blockquote { padding: var(--space-lg); font-size: var(--text-lg); }
+    .note-code pre { padding: var(--space-lg); }
+  }
 </style>
